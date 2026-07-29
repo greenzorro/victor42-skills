@@ -1,10 +1,10 @@
 /*
  * File: main.js
  * Project: victor42-skills
- * Description: Catalog page — load skills.json and render skill cards
+ * Description: Catalog page — load data.json and render skill cards
  */
 
-const DATA_URL = './skills.json?v=20260729';
+const DATA_URL = './data.json?v=20260729';
 const SITE_DATE_MODIFIED = '2026-07-29';
 
 document.addEventListener('DOMContentLoaded', function() {

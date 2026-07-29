@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate static skill detail pages and sitemap.xml from skills.json."""
+"""Generate static skill detail pages and sitemap.xml from data.json."""
 
 from __future__ import annotations
 
@@ -10,13 +10,13 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS_PATH = ROOT / "skills.json"
+DATA_PATH = ROOT / "data.json"
 ASSET_VERSION = "20260729"
 SITE_NAME = "Victor42 · Agent Skills"
 
 
 def load_data() -> dict:
-    return json.loads(SKILLS_PATH.read_text(encoding="utf-8"))
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
 def pick(obj: dict, lang: str) -> str:
@@ -281,7 +281,7 @@ def main() -> None:
     data = load_data()
     skills = data["skills"]
     if not skills:
-        raise SystemExit("skills.json: skills array is empty")
+        raise SystemExit("data.json: skills array is empty")
 
     for skill in skills:
         slug = skill["slug"]

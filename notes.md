@@ -17,7 +17,7 @@
 - **HTML5**：目录页壳、SEO meta、JSON-LD；落地页为预渲染静态 HTML
 - **CSS3**：响应式双列卡片、CSS 变量主题、`:focus-visible`
 - **JavaScript (ES6)**：目录页 `fetch` 加载数据并渲染；落地页负责复制安装指令、主题/语言
-- **JSON**：`skills.json` 为唯一内容源（文案双语；数组顺序 = 展示顺序）
+- **JSON**：`data.json` 为唯一内容源（文案双语；数组顺序 = 展示顺序）
 - **LocalStorage**：主题 `theme`、语言 `language`
 - **Python**：`scripts/generate_site.py` 生成 `{slug}/index.html` 与 `sitemap.xml`
 
@@ -26,7 +26,7 @@
 ```
 victor42-skills/
 ├── index.html              # 目录页壳、SEO、主题 FOUC、GA
-├── skills.json             # 标题 / 简介 / skill 列表（中英）
+├── data.json               # 标题 / 简介 / skill 列表（中英）
 ├── {slug}/index.html       # 落地页（脚本生成，勿手改）
 ├── assets/
 │   ├── shared.js           # 主题、语言、页脚、复制
@@ -35,7 +35,7 @@ victor42-skills/
 │   ├── style.css
 │   └── analytics.js
 ├── scripts/
-│   └── generate_site.py    # 从 skills.json 生成落地页 + sitemap
+│   └── generate_site.py    # 从 data.json 生成落地页 + sitemap
 ├── sitemap.xml             # 脚本生成
 ├── robots.txt
 ├── notes.md                # 本备忘录
@@ -49,9 +49,9 @@ victor42-skills/
 
 ### 3.1 目录页
 
-- `fetch('./skills.json?v=…')` → 渲染回链「← 小玩意」、标题、简介、skill 卡片、页脚
+- `fetch('./data.json?v=…')` → 渲染回链「← 小玩意」、标题、简介、skill 卡片、页脚
 - 卡片链到 `./{slug}/`；顺序即 `skills` 数组顺序
-- 壳层 UI 文案在 `shared.js` 的 `UI_TEXT`；内容文案在 `skills.json`
+- 壳层 UI 文案在 `shared.js` 的 `UI_TEXT`；内容文案在 `data.json`
 
 ### 3.2 落地页（脚本生成）
 
@@ -74,7 +74,7 @@ victor42-skills/
 ## 4. 新增 / 更新 skill
 
 1. 维护 skill 源码，打 zip 上传 R2：`skills/{slug}.zip`
-2. 在 `skills.json` 追加或更新条目（调顺序即调门户顺序）
+2. 在 `data.json` 追加或更新条目（调顺序即调门户顺序）
 3. 运行 `python3 scripts/generate_site.py`
 4. 部署（推送后 Cloudflare Pages 发布）
 
