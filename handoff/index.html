@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handoff 交接 - Victor42 · Agent Skills</title>
+
+    <meta name="description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+    <meta name="author" content="Victor42">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://skills.victor42.work/handoff/">
+
+    <meta name="skill:slug" content="handoff">
+    <meta name="skill:download-url" content="https://cloud.victor42.work/skills/handoff.zip">
+    <meta name="skill:install-dir" content="handoff">
+
+    <link rel="alternate" type="application/zip" href="https://cloud.victor42.work/skills/handoff.zip" title="Handoff skill package">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Handoff 交接 - Victor42 · Agent Skills">
+    <meta property="og:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+    <meta property="og:url" content="https://skills.victor42.work/handoff/">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Handoff 交接">
+    <meta name="twitter:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+
+    <meta name="theme-color" content="#2A9D8F">
+    <link rel="icon" type="image/x-icon" href="https://victor42.work/assets/images/favicon.ico">
+
+    <script src="../assets/analytics.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Handoff",
+  "alternateName": "Handoff 交接",
+  "description": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs to continue.",
+  "url": "https://skills.victor42.work/handoff/",
+  "downloadUrl": "https://cloud.victor42.work/skills/handoff.zip",
+  "codeRepository": "https://github.com/greenzorro/victor42-skills",
+  "programmingLanguage": "Markdown",
+  "author": {
+    "@type": "Person",
+    "name": "Victor42",
+    "url": "https://victor42.work/"
+  },
+  "dateModified": "2026-07-29"
+}
+    </script>
+
+    <link rel="stylesheet" href="../assets/style.css?v=20260729">
+
+    <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        if (urlTheme === 'dark' || urlTheme === 'light') {
+            localStorage.setItem('theme', urlTheme);
+        }
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+
+    <script type="application/json" id="site-data">{"origin": "https://skills.victor42.work", "cdnBase": "https://cloud.victor42.work/skills", "parentSite": "https://victor42.work/", "parentLabel": {"zh": "小玩意", "en": "Gadgets"}, "github": "https://github.com/greenzorro/victor42-skills"}</script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换深色模式" type="button">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+    </button>
+
+    <button class="lang-toggle" id="lang-toggle" aria-label="切换语言" type="button">
+        <span class="lang-icon" aria-hidden="true">🌐</span>
+        <span class="lang-text">EN</span>
+    </button>
+
+    <div class="container">
+        <header class="skill-detail-header">
+            <a class="back-link" href="../">← Victor42 · Agent Skills</a>
+            <div class="detail-emoji" aria-hidden="true">🔀</div>
+            <h1 class="detail-title" data-lang="zh">Handoff 交接</h1>
+            <h1 class="detail-title" data-lang="en" hidden>Handoff</h1>
+            <p class="detail-summary" data-lang="zh">多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。</p>
+            <p class="detail-summary" data-lang="en" hidden>Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs to continue.</p>
+        </header>
+
+        <section class="panel">
+            <h2 data-lang="zh">触发词</h2>
+            <h2 data-lang="en" hidden>Triggers</h2>
+            <ul class="tag-list" data-lang="zh">
+    <li>交接</li>
+    <li>handoff</li>
+    <li>换 Agent</li>
+    <li>切换 Claude/GPT/Cursor</li>
+            </ul>
+            <ul class="tag-list" data-lang="en" hidden>
+    <li>handoff</li>
+    <li>switch agent</li>
+    <li>transfer task</li>
+    <li>change AI tool</li>
+            </ul>
+        </section>
+
+        <section class="panel capabilities-panel" data-lang="zh">
+            <h2>能力</h2>
+    <section class="capability-block">
+      <h3>它做什么</h3>
+      <ul>
+        <li>在你换 Cursor / Claude / GPT 等工具时，生成一份临时交接包</li>
+        <li>核心只回答一个问题：下一棒 Agent 要继续推进，还缺什么？</li>
+        <li>默认只写 notes.md；脚本、结构化数据、长日志才单独成文件</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>交接包包含什么</h3>
+      <ul>
+        <li>Goal：当前要完成什么、完成标准</li>
+        <li>Progress：已完成 / 进行中 / 未开始</li>
+        <li>Next steps：下一棒该立刻做的事</li>
+        <li>关键路径、决策与约束：仅保留继续推进所必需的</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>何时触发</h3>
+      <ul>
+        <li>你明确说「交接」「handoff」「换 Agent」「我要换工具继续」</li>
+        <li>多轮任务中途要换工具，又不想丢上下文</li>
+      </ul>
+    </section>
+        </section>
+        <section class="panel capabilities-panel" data-lang="en" hidden>
+            <h2>Capabilities</h2>
+    <section class="capability-block">
+      <h3>What it does</h3>
+      <ul>
+        <li>Builds a temporary handoff package when you switch AI tools mid-task</li>
+        <li>Answers one question: what does the next agent need to keep going?</li>
+        <li>Defaults to notes.md only; scripts, structured data, and long logs get separate files</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>What&#x27;s in the package</h3>
+      <ul>
+        <li>Goal: what to finish and the success criteria</li>
+        <li>Progress: done / in progress / not started</li>
+        <li>Next steps: what the next agent should do immediately</li>
+        <li>Key paths, decisions, and constraints — only what is required to continue</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>When it triggers</h3>
+      <ul>
+        <li>You explicitly ask for a handoff / agent switch / tool transfer</li>
+        <li>A multi-turn task needs to survive switching AI tools</li>
+      </ul>
+    </section>
+        </section>
+
+        <section class="panel install-block">
+            <h2 id="install-title">给 AI 的安装指令</h2>
+            <p class="copy-hint">
+                <span data-lang="zh">把下面这段发给你的 Agent，或</span>
+                <span data-lang="en" hidden>Send the block below to your agent, or </span>
+                <button type="button" class="copy-link" id="copy-btn">
+                    <span data-lang="zh">复制安装指令</span>
+                    <span data-lang="en" hidden>copy the install prompt</span>
+                </button>
+                <span data-lang="zh">。</span>
+                <span data-lang="en" hidden>.</span>
+            </p>
+            <div id="install-zh" data-lang="zh">
+                <pre>请帮我安装 Victor42 的 Handoff 交接 skill：
+1. 下载 https://cloud.victor42.work/skills/handoff.zip
+2. 解压到你当前环境的 skills 目录下，文件夹名为 handoff
+3. 确认其中存在 SKILL.md 后告诉我安装完成</pre>
+            </div>
+            <div id="install-en" data-lang="en" hidden>
+                <pre>Please install Victor42&#x27;s Handoff skill:
+1. Download https://cloud.victor42.work/skills/handoff.zip
+2. Extract into your current environment&#x27;s skills directory as a folder named handoff
+3. Confirm SKILL.md exists, then tell me installation is complete</pre>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p id="footer-text"></p>
+        </footer>
+    </div>
+
+    <script src="../assets/shared.js?v=20260729"></script>
+    <script src="../assets/skill.js?v=20260729"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Victor42 · Agent Skills</title>
+
+    <meta name="description" content="Victor42 自研 AI Agent 能力包。分享链接，让你的 Agent 下载并安装 skill。">
+    <meta name="author" content="Victor42">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://skills.victor42.work/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Victor42 · Agent Skills">
+    <meta property="og:description" content="Victor42 自研 AI Agent 能力包。分享链接，让你的 Agent 下载并安装 skill。">
+    <meta property="og:url" content="https://skills.victor42.work/">
+    <meta property="og:site_name" content="Victor42 · Agent Skills">
+    <meta property="og:locale" content="zh_CN">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Victor42 · Agent Skills">
+    <meta name="twitter:description" content="Victor42 自研 AI Agent 能力包。分享链接，让你的 Agent 下载并安装 skill。">
+
+    <meta name="theme-color" content="#2A9D8F">
+    <link rel="icon" type="image/x-icon" href="https://victor42.work/assets/images/favicon.ico">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+    <script src="./assets/analytics.js"></script>
+
+    <script type="application/ld+json" id="structured-data">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Victor42 · Agent Skills",
+      "url": "https://skills.victor42.work/",
+      "description": "Victor42 自研 AI Agent 能力包",
+      "author": { "@type": "Person", "name": "Victor42", "url": "https://victor42.work/" },
+      "dateModified": "2026-07-29"
+    }
+    </script>
+
+    <link rel="stylesheet" href="./assets/style.css?v=20260729">
+
+    <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        if (urlTheme === 'dark' || urlTheme === 'light') {
+            localStorage.setItem('theme', urlTheme);
+        }
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换深色模式" type="button">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+    </button>
+
+    <button class="lang-toggle" id="lang-toggle" aria-label="切换语言" type="button">
+        <span class="lang-icon" aria-hidden="true">🌐</span>
+        <span class="lang-text">EN</span>
+    </button>
+
+    <div class="container">
+        <div class="loading" id="loading">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p id="loading-text">正在加载...</p>
+        </div>
+
+        <div class="error" id="error" style="display: none;" role="alert">
+            <h2 id="error-title">😕 加载失败</h2>
+            <p id="error-message">无法加载数据，请检查网络连接或稍后重试。</p>
+        </div>
+
+        <main id="content" style="display: none;">
+            <header class="site-header">
+                <a id="parent-link" class="parent-link" href="https://victor42.work/" target="_blank" rel="noopener noreferrer">← 小玩意</a>
+                <h1 class="site-title" id="site-title">Victor42 · Agent Skills</h1>
+            </header>
+
+            <section class="hero-card">
+                <p id="description"></p>
+            </section>
+
+            <div class="skills-grid" id="skills-grid"></div>
+
+            <footer class="footer">
+                <p id="footer-text"></p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="./assets/shared.js?v=20260729"></script>
+    <script src="./assets/main.js?v=20260729"></script>
+</body>
+</html>

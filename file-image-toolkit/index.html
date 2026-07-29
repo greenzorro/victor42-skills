@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件图像工具包 - Victor42 · Agent Skills</title>
+
+    <meta name="description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、文件夹扁平化等批量文件操作。">
+    <meta name="author" content="Victor42">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://skills.victor42.work/file-image-toolkit/">
+
+    <meta name="skill:slug" content="file-image-toolkit">
+    <meta name="skill:download-url" content="https://cloud.victor42.work/skills/file-image-toolkit.zip">
+    <meta name="skill:install-dir" content="file-image-toolkit">
+
+    <link rel="alternate" type="application/zip" href="https://cloud.victor42.work/skills/file-image-toolkit.zip" title="File-Image Toolkit skill package">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="文件图像工具包 - Victor42 · Agent Skills">
+    <meta property="og:description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、文件夹扁平化等批量文件操作。">
+    <meta property="og:url" content="https://skills.victor42.work/file-image-toolkit/">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="文件图像工具包">
+    <meta name="twitter:description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、文件夹扁平化等批量文件操作。">
+
+    <meta name="theme-color" content="#2A9D8F">
+    <link rel="icon" type="image/x-icon" href="https://victor42.work/assets/images/favicon.ico">
+
+    <script src="../assets/analytics.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "File-Image Toolkit",
+  "alternateName": "文件图像工具包",
+  "description": "CLI toolkit for format conversion, resize, dedup, GIF compose, audio/video convert, and bulk file operations.",
+  "url": "https://skills.victor42.work/file-image-toolkit/",
+  "downloadUrl": "https://cloud.victor42.work/skills/file-image-toolkit.zip",
+  "codeRepository": "https://github.com/greenzorro/victor42-skills",
+  "programmingLanguage": "Markdown",
+  "author": {
+    "@type": "Person",
+    "name": "Victor42",
+    "url": "https://victor42.work/"
+  },
+  "dateModified": "2026-07-29"
+}
+    </script>
+
+    <link rel="stylesheet" href="../assets/style.css?v=20260729">
+
+    <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        if (urlTheme === 'dark' || urlTheme === 'light') {
+            localStorage.setItem('theme', urlTheme);
+        }
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+
+    <script type="application/json" id="site-data">{"origin": "https://skills.victor42.work", "cdnBase": "https://cloud.victor42.work/skills", "parentSite": "https://victor42.work/", "parentLabel": {"zh": "小玩意", "en": "Gadgets"}, "github": "https://github.com/greenzorro/victor42-skills"}</script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换深色模式" type="button">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+    </button>
+
+    <button class="lang-toggle" id="lang-toggle" aria-label="切换语言" type="button">
+        <span class="lang-icon" aria-hidden="true">🌐</span>
+        <span class="lang-text">EN</span>
+    </button>
+
+    <div class="container">
+        <header class="skill-detail-header">
+            <a class="back-link" href="../">← Victor42 · Agent Skills</a>
+            <div class="detail-emoji" aria-hidden="true">🖼️</div>
+            <h1 class="detail-title" data-lang="zh">文件图像工具包</h1>
+            <h1 class="detail-title" data-lang="en" hidden>File-Image Toolkit</h1>
+            <p class="detail-summary" data-lang="zh">CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、文件夹扁平化等批量文件操作。</p>
+            <p class="detail-summary" data-lang="en" hidden>CLI toolkit for format conversion, resize, dedup, GIF compose, audio/video convert, and bulk file operations.</p>
+        </header>
+
+        <section class="panel">
+            <h2 data-lang="zh">触发词</h2>
+            <h2 data-lang="en" hidden>Triggers</h2>
+            <ul class="tag-list" data-lang="zh">
+    <li>图片转换</li>
+    <li>批量重命名</li>
+    <li>图片去重</li>
+    <li>GIF</li>
+    <li>视频转换</li>
+    <li>文件夹扁平化</li>
+            </ul>
+            <ul class="tag-list" data-lang="en" hidden>
+    <li>image convert</li>
+    <li>resize</li>
+    <li>dedup</li>
+    <li>gif</li>
+    <li>video convert</li>
+    <li>bulk files</li>
+            </ul>
+        </section>
+
+        <section class="panel capabilities-panel" data-lang="zh">
+            <h2>能力</h2>
+    <section class="capability-block">
+      <h3>图片</h3>
+      <ul>
+        <li>格式互转：jpg / png / webp / avif / gif / bmp / tiff</li>
+        <li>Resize：指定宽高，裁剪或填充</li>
+        <li>缩放：设定最大边长，保持比例</li>
+        <li>裁头像：自动检测人脸，输出圆形或方形</li>
+        <li>去重：感知哈希识别相似图</li>
+        <li>GIF：多帧合成 / GIF 拆成帧序列</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>音视频</h3>
+      <ul>
+        <li>音频互转：mp3 / wav / flac / aac / ogg / m4a / opus</li>
+        <li>视频互转：mp4 / avi / mov / mkv / webm 等</li>
+        <li>从视频提取音轨</li>
+        <li>多张图片合成视频，支持交叉淡入淡出</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>文件管理</h3>
+      <ul>
+        <li>嵌套文件夹一键扁平化</li>
+        <li>按 CSV 批量重命名</li>
+        <li>支持单文件与整文件夹批量处理</li>
+      </ul>
+    </section>
+        </section>
+        <section class="panel capabilities-panel" data-lang="en" hidden>
+            <h2>Capabilities</h2>
+    <section class="capability-block">
+      <h3>Images</h3>
+      <ul>
+        <li>Convert among jpg / png / webp / avif / gif / bmp / tiff</li>
+        <li>Resize with crop or pad modes</li>
+        <li>Scale by max edge while keeping aspect ratio</li>
+        <li>Avatar crop with face detection (circle or square)</li>
+        <li>Dedup via perceptual hash</li>
+        <li>Compose GIF from frames / explode GIF to frames</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Audio &amp; video</h3>
+      <ul>
+        <li>Convert audio: mp3 / wav / flac / aac / ogg / m4a / opus</li>
+        <li>Convert video: mp4 / avi / mov / mkv / webm, and more</li>
+        <li>Extract audio tracks from video</li>
+        <li>Images → video with optional crossfade</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Files</h3>
+      <ul>
+        <li>Flatten nested folders in one pass</li>
+        <li>Batch rename from CSV</li>
+        <li>Works on single files or whole folders</li>
+      </ul>
+    </section>
+        </section>
+
+        <section class="panel install-block">
+            <h2 id="install-title">给 AI 的安装指令</h2>
+            <p class="copy-hint">
+                <span data-lang="zh">把下面这段发给你的 Agent，或</span>
+                <span data-lang="en" hidden>Send the block below to your agent, or </span>
+                <button type="button" class="copy-link" id="copy-btn">
+                    <span data-lang="zh">复制安装指令</span>
+                    <span data-lang="en" hidden>copy the install prompt</span>
+                </button>
+                <span data-lang="zh">。</span>
+                <span data-lang="en" hidden>.</span>
+            </p>
+            <div id="install-zh" data-lang="zh">
+                <pre>请帮我安装 Victor42 的 文件图像工具包 skill：
+1. 下载 https://cloud.victor42.work/skills/file-image-toolkit.zip
+2. 解压到你当前环境的 skills 目录下，文件夹名为 file-image-toolkit
+3. 确认其中存在 SKILL.md 后告诉我安装完成</pre>
+            </div>
+            <div id="install-en" data-lang="en" hidden>
+                <pre>Please install Victor42&#x27;s File-Image Toolkit skill:
+1. Download https://cloud.victor42.work/skills/file-image-toolkit.zip
+2. Extract into your current environment&#x27;s skills directory as a folder named file-image-toolkit
+3. Confirm SKILL.md exists, then tell me installation is complete</pre>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p id="footer-text"></p>
+        </footer>
+    </div>
+
+    <script src="../assets/shared.js?v=20260729"></script>
+    <script src="../assets/skill.js?v=20260729"></script>
+</body>
+</html>
