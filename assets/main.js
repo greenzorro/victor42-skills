@@ -4,8 +4,9 @@
  * Description: Catalog page — load data.json and render skill cards
  */
 
-const DATA_URL = './data.json?v=20260729';
-const SITE_DATE_MODIFIED = '2026-07-29';
+const DATA_URL = './data.json?v=20260730';
+const SITE_DATE_MODIFIED = '2026-07-30';
+const OG_IMAGE_URL = 'https://skills.victor42.work/assets/og-image.png';
 
 document.addEventListener('DOMContentLoaded', function() {
     SkillsShared.initShell();
@@ -107,13 +108,13 @@ function updateStructuredData(data) {
             '@type': 'ListItem',
             position: index + 1,
             item: {
-                '@type': 'SoftwareSourceCode',
+                '@type': 'SoftwareApplication',
                 name: SkillsShared.getText(skill.name),
                 description: SkillsShared.getText(skill.summary),
                 url: `${data.site.origin}/${skill.slug}/`,
                 codeRepository: data.site.github,
                 downloadUrl: `${data.site.cdnBase}/${skill.zipFile}`,
-                programmingLanguage: 'Markdown'
+                applicationCategory: 'DeveloperApplication'
             }
         };
     });
@@ -124,10 +125,20 @@ function updateStructuredData(data) {
         name: SkillsShared.getText(data.title),
         url: `${data.site.origin}/`,
         description: SkillsShared.getText(data.description),
+        image: OG_IMAGE_URL,
         author: {
             '@type': 'Person',
             name: 'Victor42',
             url: data.site.parentSite
+        },
+        publisher: {
+            '@type': 'Person',
+            name: 'Victor42',
+            url: data.site.parentSite,
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://victor42.work/assets/images/favicon.ico'
+            }
         },
         inLanguage: SkillsShared.getLanguage() === 'zh' ? 'zh-CN' : 'en',
         dateModified: SITE_DATE_MODIFIED,

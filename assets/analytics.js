@@ -1,3 +1,9 @@
+/*
+ * File: analytics.js
+ * Project: victor42-skills
+ * Description: GA4 — page views, route tracking, language change
+ */
+
 (function () {
     'use strict';
 
@@ -15,10 +21,52 @@
         window.dataLayer.push(arguments);
     };
     window.gtag('js', new Date());
-    window.gtag('config', measurementId);
+    window.gtag('config', measurementId, {
+        send_page_view: false
+    });
 
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
+
+    function trackPageView() {
+        const path = window.location.pathname + window.location.search;
+        window.gtag('event', 'page_view', {
+            page_path: path,
+            page_title: document.title
+        });
+    }
+
+    function trackLanguage(lang) {
+        window.gtag('event', 'language_change', {
+            event_category: 'engagement',
+            event_label: lang
+        });
+    }
+
+    function observeLanguageToggle() {
+        const toggle = document.getElementById('lang-toggle');
+        if (!toggle || toggle.dataset.gaBound === '1') return;
+        toggle.dataset.gaBound = '1';
+        toggle.addEventListener('click', function () {
+            window.setTimeout(function () {
+                trackPageView();
+                const stored = localStorage.getItem('language');
+                if (stored) trackLanguage(stored);
+            }, 60);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            trackPageView();
+            observeLanguageToggle();
+        });
+    } else {
+        trackPageView();
+        observeLanguageToggle();
+    }
+
+    window.SkillsAnalytics = { trackPageView, trackLanguage };
 })();

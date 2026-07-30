@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Generate static skill detail pages and sitemap.xml from data.json."""
+"""Generate skill detail pages, sitemap.xml from data.json.
+
+Each detail page is a self-contained static HTML with full SEO metadata:
+canonical, hreflang (zh-CN / en / x-default), Open Graph + Twitter Card
+images (summary_large_image), and SoftwareApplication structured data.
+OG images are produced by generate_og_images.py.
+"""
 
 from __future__ import annotations
 
@@ -11,7 +17,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data.json"
-ASSET_VERSION = "20260729"
+ASSET_VERSION = "20260730"
 SITE_NAME = "Victor42 · Agent Skills"
 
 
@@ -21,6 +27,22 @@ def load_data() -> dict:
 
 def pick(obj: dict, lang: str) -> str:
     return obj.get(lang) or obj.get("zh") or ""
+
+
+def hreflang_for(url: str) -> str:
+    """Emit self-referencing hreflang for a single bilingual URL.
+
+    Since this is one URL with JS-based language switching (not separate
+    zh/ and en/ URLs), we point both alternates back to the same URL and
+    signal the two locales. This tells Google the page is bilingual rather
+    than a duplicate of itself.
+    """
+    safe = escape(url)
+    return "\n    ".join([
+        f'<link rel="alternate" hreflang="zh-CN" href="{safe}">',
+        f'<link rel="alternate" hreflang="en" href="{safe}">',
+        '<link rel="alternate" hreflang="x-default" href="{url}">'.format(url=safe),
+    ])
 
 
 def build_install_prompt(skill: dict, site: dict, lang: str) -> str:
@@ -93,18 +115,22 @@ def render_skill_page(skill: dict, data: dict) -> str:
     updated = skill["updated"]
     emoji = html.escape(skill["emoji"])
     page_title = f"{name_zh} - {SITE_NAME}"
+    og_image_url = f"{origin}/assets/og-{slug}.png"
+    hreflang_tags = hreflang_for(page_url)
 
     json_ld = {
         "@context": "https://schema.org",
-        "@type": "SoftwareSourceCode",
+        "@type": "SoftwareApplication",
         "name": name_en,
         "alternateName": name_zh,
         "description": summary_en,
         "url": page_url,
         "downloadUrl": zip_url,
         "codeRepository": site["github"],
-        "programmingLanguage": "Markdown",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Cross-platform (AI agent runtime)",
         "author": {"@type": "Person", "name": "Victor42", "url": site["parentSite"]},
+        "image": og_image_url,
         "dateModified": updated,
     }
 
@@ -122,6 +148,8 @@ def render_skill_page(skill: dict, data: dict) -> str:
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{html.escape(page_url)}">
 
+    {hreflang_tags}
+
     <meta name="skill:slug" content="{html.escape(slug)}">
     <meta name="skill:download-url" content="{html.escape(zip_url)}">
     <meta name="skill:install-dir" content="{html.escape(install_dir)}">
@@ -132,10 +160,18 @@ def render_skill_page(skill: dict, data: dict) -> str:
     <meta property="og:title" content="{html.escape(page_title)}">
     <meta property="og:description" content="{html.escape(summary_zh)}">
     <meta property="og:url" content="{html.escape(page_url)}">
+    <meta property="og:site_name" content="{SITE_NAME}">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="{html.escape(og_image_url)}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{html.escape(name_zh)} skill cover">
 
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{html.escape(name_zh)}">
     <meta name="twitter:description" content="{html.escape(summary_zh)}">
+    <meta name="twitter:image" content="{html.escape(og_image_url)}">
 
     <meta name="theme-color" content="#2A9D8F">
     <link rel="icon" type="image/x-icon" href="https://victor42.work/assets/images/favicon.ico">
