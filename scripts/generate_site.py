@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate skill detail pages, sitemap.xml from data.json.
+"""Generate skill detail pages and sitemap.xml from data.json.
 
-Each detail page is a self-contained static HTML with full SEO metadata:
-canonical, hreflang (zh-CN / en / x-default), Open Graph + Twitter Card
-images (summary_large_image), and SoftwareApplication structured data.
-OG images are produced by generate_og_images.py.
+Each detail page is static HTML with SEO metadata (canonical, hreflang,
+Open Graph / Twitter Card, SoftwareApplication JSON-LD) and an install
+prompt from build_install_prompt(): skills CLI first, R2 zip as fallback.
+OG images come from generate_og_images.py.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data.json"
-ASSET_VERSION = "20260730"
+ASSET_VERSION = "20260811"
 SITE_NAME = "Victor42 · Agent Skills"
 
 
@@ -27,6 +27,15 @@ def load_data() -> dict:
 
 def pick(obj: dict, lang: str) -> str:
     return obj.get(lang) or obj.get("zh") or ""
+
+
+def github_repo_shorthand(site: dict) -> str:
+    """https://github.com/owner/repo → owner/repo"""
+    url = site["github"].rstrip("/")
+    marker = "github.com/"
+    if marker in url:
+        return url.split(marker, 1)[1]
+    return url
 
 
 def hreflang_for(url: str) -> str:
@@ -47,22 +56,29 @@ def hreflang_for(url: str) -> str:
 
 def build_install_prompt(skill: dict, site: dict, lang: str) -> str:
     name = pick(skill["name"], lang)
+    slug = skill["slug"]
+    repo = github_repo_shorthand(site)
+    cli = f"npx skills add {repo} --skill {slug} -g"
     zip_url = f"{site['cdnBase'].rstrip('/')}/{skill['zipFile']}"
     install_dir = skill["installDir"]
 
     if lang == "zh":
         return (
             f"请帮我安装 Victor42 的 {name} skill：\n"
-            f"1. 下载 {zip_url}\n"
-            f"2. 解压到你当前环境的 skills 目录下，文件夹名为 {install_dir}\n"
-            f"3. 确认其中存在 SKILL.md 后告诉我安装完成"
+            f"1. 在终端运行：{cli}\n"
+            f"2. 若没有 Node，可改为下载 {zip_url}，"
+            f"解压到当前环境的 skills 目录（文件夹名 {install_dir}），"
+            f"确认其中存在 SKILL.md\n"
+            f"3. 完成后告诉我"
         )
 
     return (
         f"Please install Victor42's {name} skill:\n"
-        f"1. Download {zip_url}\n"
-        f"2. Extract into your current environment's skills directory as a folder named {install_dir}\n"
-        f"3. Confirm SKILL.md exists, then tell me installation is complete"
+        f"1. Run in your terminal: {cli}\n"
+        f"2. If you don't have Node, download {zip_url}, "
+        f"extract into your agent's skills directory as {install_dir}, "
+        f"and confirm SKILL.md exists\n"
+        f"3. Tell me when it's done"
     )
 
 
@@ -151,6 +167,7 @@ def render_skill_page(skill: dict, data: dict) -> str:
     {hreflang_tags}
 
     <meta name="skill:slug" content="{html.escape(slug)}">
+    <meta name="skill:cli-install" content="{html.escape(f'npx skills add {github_repo_shorthand(site)} --skill {slug} -g')}">
     <meta name="skill:download-url" content="{html.escape(zip_url)}">
     <meta name="skill:install-dir" content="{html.escape(install_dir)}">
 
@@ -245,14 +262,12 @@ def render_skill_page(skill: dict, data: dict) -> str:
         <section class="panel install-block">
             <h2 id="install-title">给 AI 的安装指令</h2>
             <p class="copy-hint">
-                <span data-lang="zh">把下面这段发给你的 Agent，或</span>
-                <span data-lang="en" hidden>Send the block below to your agent, or </span>
                 <button type="button" class="copy-link" id="copy-btn">
                     <span data-lang="zh">复制安装指令</span>
-                    <span data-lang="en" hidden>copy the install prompt</span>
+                    <span data-lang="en" hidden>Copy the install prompt</span>
                 </button>
-                <span data-lang="zh">。</span>
-                <span data-lang="en" hidden>.</span>
+                <span data-lang="zh">发给 AI。</span>
+                <span data-lang="en" hidden> and send it to your AI.</span>
             </p>
             <div id="install-zh" data-lang="zh">
                 <pre>{install_zh}</pre>

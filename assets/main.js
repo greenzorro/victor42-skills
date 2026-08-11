@@ -4,7 +4,7 @@
  * Description: Catalog page — load data.json and render skill cards
  */
 
-const DATA_URL = './data.json?v=20260730';
+const DATA_URL = './data.json?v=20260811';
 const SITE_DATE_MODIFIED = '2026-07-30';
 const OG_IMAGE_URL = 'https://skills.victor42.work/assets/og-image.png';
 

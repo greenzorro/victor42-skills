@@ -4,8 +4,8 @@
     "en": "Victor42 · Agent Skills"
   },
   "description": {
-    "zh": "Victor42 自研的 AI Agent 能力包。每个 skill 是一组结构化指令，安装后你的 Agent 在特定场景下会自动调用。把链接丢给你的 AI，让它帮你下载安装。",
-    "en": "Capability packs for AI agents by Victor42. Each skill is a structured instruction set your agent loads for specific tasks. Share a link — let your agent download and install it."
+    "zh": "Victor42 自研的 AI Agent 能力包。每个 skill 是一组结构化指令，安装后你的 Agent 在特定场景下会自动调用。用 skills CLI 一键安装，或打开详情页复制命令。",
+    "en": "Capability packs for AI agents by Victor42. Each skill is a structured instruction set your agent loads for specific tasks. Install with the skills CLI, or copy the command from a detail page."
   },
   "site": {
     "origin": "https://skills.victor42.work",
@@ -99,7 +99,7 @@
       },
       "zipFile": "handoff.zip",
       "installDir": "handoff",
-      "updated": "2026-07-29"
+      "updated": "2026-08-11"
     },
     {
       "slug": "file-image-toolkit",
@@ -194,7 +194,7 @@
       },
       "zipFile": "file-image-toolkit.zip",
       "installDir": "file-image-toolkit",
-      "updated": "2026-07-29"
+      "updated": "2026-08-11"
     },
     {
       "slug": "poem-six-lens",
@@ -282,7 +282,7 @@
       },
       "zipFile": "poem-six-lens.zip",
       "installDir": "poem-six-lens",
-      "updated": "2026-07-29"
+      "updated": "2026-08-11"
     }
   ]
 }

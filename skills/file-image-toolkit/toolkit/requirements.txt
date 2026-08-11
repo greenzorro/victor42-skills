@@ -1,0 +1,9 @@
+# Toolkit 核心依赖
+# 推荐使用 uv 进行包管理
+
+# 图像处理
+Pillow>=12.0
+pillow-avif-plugin>=1.5
+imagehash>=4.3
+numpy>=2.0
+opencv-python>=4.10

@@ -4,20 +4,20 @@
 
 记录 `projects/victor42-skills`（线上 https://skills.victor42.work/）的结构与维护约定，供本人与 Agent 后续改站时对齐。
 
-**定位：** 小玩意创造营地下 Agent 类创造物的交付端点。`victor42.work` 首页仅放一张合集卡片指向本站。
+**定位：** 小玩意创造营地下 Agent 类创造物的交付端点。`victor42.work` 首页仅放一张合集卡片指向本站。本仓同时是 [skills CLI](https://github.com/vercel-labs/skills) 可安装的 skill 源。
 
 **约定：** 改功能或数据结构后，同步更新本文，使其持续描述当前实现。
 
 ## 2. 项目概述
 
-静态门户：JSON 驱动目录页；各 skill 落地页由脚本生成。支持中英切换与深/浅色主题。无构建步骤，适合 Cloudflare Pages。zip 包托管于 R2，本站只做发现与安装引导。
+静态门户 + 标准 skill 源：JSON 驱动目录页；各 skill 落地页由脚本生成；可安装内容在 `skills/<slug>/`。支持中英切换与深/浅色主题。无构建步骤，适合 Cloudflare Pages。
 
 ### 2.1 技术栈
 
 - **HTML5**：目录页壳、SEO meta（canonical / hreflang / OG / Twitter Card）、JSON-LD；落地页为预渲染静态 HTML
 - **CSS3**：响应式双列卡片、CSS 变量主题、`:focus-visible`
 - **JavaScript (ES6)**：目录页 `fetch` 加载数据并渲染；落地页负责复制安装指令、主题/语言；GA 路由追踪
-- **JSON**：`data.json` 为唯一内容源（文案双语；数组顺序 = 展示顺序）
+- **JSON**：`data.json` 为门户内容源（文案双语；数组顺序 = 展示顺序）
 - **LocalStorage**：主题 `theme`、语言 `language`
 - **Python**：`generate_site.py` 生成 `{slug}/index.html` 与 `sitemap.xml`；`generate_og_images.py` 生成 OG 分享图
 
@@ -25,6 +25,10 @@
 
 ```
 victor42-skills/
+├── skills/                 # skills CLI 源（SKILL.md + 附属文件）
+│   ├── handoff/
+│   ├── file-image-toolkit/
+│   └── poem-six-lens/
 ├── index.html              # 目录页壳、SEO、主题 FOUC、GA
 ├── data.json               # 标题 / 简介 / skill 列表（中英）
 ├── {slug}/index.html       # 落地页（脚本生成，勿手改）
@@ -46,59 +50,74 @@ victor42-skills/
 └── LICENSE                 # MIT
 ```
 
-**文件分发：** R2 桶 `cloud`，前缀 `skills/` → `https://cloud.victor42.work/skills/{slug}.zip`。
+### 2.3 分发合同
+
+| 通道 | 内容 | 说明 |
+|------|------|------|
+| **主** | GitHub `skills/<slug>/` | `npx skills add greenzorro/victor42-skills [--skill <slug>] -g` |
+| **备选** | R2 `cloud` / `skills/<slug>.zip` | `https://cloud.victor42.work/skills/{slug}.zip`；无 Node 时用 |
+
+公开仓 `skills/` 为**通用化副本**（可分享）；私人本机 Skills 目录可另有私有版，发版时再同步进仓。
+
+**Zip 形态：** 顶层目录名为 `<slug>/`（内含 `SKILL.md` 等），不含 `__MACOSX` / `.DS_Store` / `__pycache__` / `*.pyc`。CDN（`cloud.victor42.work`）对 zip 有缓存（常见 `max-age=14400`）；R2 对象更新后，边缘命中旧包会在 TTL 内自然失效。
 
 ## 3. 功能模块
 
 ### 3.1 目录页
 
 - `fetch('./data.json?v=…')` → 渲染回链「← 小玩意」、标题、简介、skill 卡片、页脚
-- 卡片链到 `./{slug}/`；顺序即 `skills` 数组顺序
+- 卡片链到 `./{slug}/`；顺序即 `data.json` 中 `skills` 数组顺序
 - 壳层 UI 文案在 `shared.js` 的 `UI_TEXT`；内容文案在 `data.json`
 
 ### 3.2 落地页（脚本生成）
 
-对人展示：触发词、能力分块、「给 AI 的安装指令」（内联文字链复制）。
+对人展示：触发词、能力分块、「给 AI 的安装指令」（文案为 **复制安装指令**发给 AI）。
 
 对 Agent（无需 JS）：
 
-- `meta name="skill:download-url"` / `skill:install-dir`（仅文件夹名，不写死绝对路径）
+- `meta name="skill:cli-install"` / `skill:download-url` / `skill:install-dir`
 - `<link rel="alternate" type="application/zip">`
 - JSON-LD `SoftwareApplication`（含 `downloadUrl` / `applicationCategory` / `image`）
 
-安装指令由 `build_install_prompt()` 用现有字段拼接（`name`、`cdnBase`+`zipFile`、`installDir`），无需额外配置。
+安装正文由 `build_install_prompt()` 生成：步骤 1 为 `npx skills add … --skill <slug> -g`；步骤 2 为无 Node 时的 zip 备选。
 
-### 3.3 SEO 措施
+### 3.3 SEO 与 OG 图
 
-- **OG / Twitter 图**：每页 `og:image` + `twitter:image`（`summary_large_image`）；图由 `scripts/generate_og_images.py` 生成于 `assets/og-image.png`（首页通用）与 `assets/og-<slug>.png`（每 skill 一张）。改了 brand 或 skill 名称后重跑该脚本。
-- **hreflang**：单 URL + JS 切语言场景，每页自指 `hreflang="zh-CN"` / `en` / `x-default` 三条，避免 Google 判重复内容。
-- **canonical / sitemap**：每页 canonical 指自身 URL；`sitemap.xml` 的 `lastmod` 用 `data.json` 中各 skill 的 `updated` 字段。
-- **GA 路由追踪**：`analytics.js` 在每页首次加载与语言切换后触发 `page_view`，并记 `language_change` 事件。
+- **OG / Twitter 图**：每页 `og:image` + `twitter:image`（`summary_large_image`）。`generate_og_images.py` 输出 `assets/og-image.png` 与 `assets/og-<slug>.png`。版式统一：青绿满幅渐变、左上 brand、大标题、副标题、两行说明（CLI 命令 + `Install with the skills CLI`）；无水印、无右上装饰圆。首页标题为「Agent Skills」；单 skill 页标题为中文名、副标题为英文名、命令带 `--skill <slug>`。
+- **hreflang**：单 URL + JS 切语言；每页自指 `zh-CN` / `en` / `x-default`。
+- **canonical / sitemap**：canonical 指自身；`sitemap.xml` 的 `lastmod` 用各 skill 的 `updated`。
+- **GA**：`analytics.js` 记 `page_view` 与 `language_change`。
 
 ### 3.4 语言与主题
 
 - 语言：`?lang=` > localStorage > 默认 `zh`；切换后 `replaceState` 写回 URL
 - 主题：`?theme=` > localStorage > `prefers-color-scheme`；head 内联脚本防 FOUC
-- 主色 `#2A9D8F`，与小玩意一致；页脚格式对齐 album：`Created by Victor42 & Vik | Code`
+- 主色 `#2A9D8F`，与小玩意一致；页脚：`Created by Victor42 & Vik | Code`
 
 ## 4. 新增 / 更新 skill
 
-1. 维护 skill 源码，打 zip 上传 R2：`skills/{slug}.zip`
-2. 在 `data.json` 追加或更新条目（调顺序即调门户顺序）
-3. 运行 `python3 scripts/generate_og_images.py`（刷新 OG 图）
-4. 运行 `python3 scripts/generate_site.py`（生成落地页 + sitemap）
-5. 部署（推送后 Cloudflare Pages 发布）
+1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）
+2. 在 `data.json` 追加或更新条目（数组顺序 = 门户顺序；刷新 `updated`）
+3. （可选）从 `skills/` 打 zip 并上传 R2，例如：
+   ```bash
+   zip -r handoff.zip handoff -x '*/.DS_Store' -x '*/__pycache__/*' -x '*.pyc'
+   wrangler r2 object put cloud/skills/handoff.zip --file=handoff.zip --content-type=application/zip --remote
+   ```
+4. `python3 scripts/generate_og_images.py`
+5. `python3 scripts/generate_site.py`
+6. 推送后 Cloudflare Pages 发布门户；已装用户可用 `npx skills update`
 
 ## 5. 与小玩意关系
 
 | 层 | 职责 |
 |----|------|
 | `victor42.work` | 发现：一张「Agent Skills」卡片 |
-| `skills.victor42.work` | 交付：目录 + per-skill 页 |
-| `cloud.victor42.work/skills/` | CDN：zip |
+| `skills.victor42.work` | 交付：目录 + per-skill 页 + 安装引导 |
+| GitHub `skills/` | 主分发：skills CLI |
+| `cloud.victor42.work/skills/` | 备选 CDN：zip |
 
-分享链接格式：`https://skills.victor42.work/{slug}/`
+分享链接：`https://skills.victor42.work/{slug}/`
 
 ## 6. 部署
 
-Cloudflare Pages 绑定 `greenzorro/victor42-skills`，自定义域名 `skills.victor42.work`。无构建步骤；推送前确保已运行 `generate_site.py`。
+Cloudflare Pages 绑定 `greenzorro/victor42-skills`，域名 `skills.victor42.work`。无构建步骤；推送前跑过 `generate_site.py`（及需要时的 `generate_og_images.py`）。

@@ -15,6 +15,7 @@
     <link rel="alternate" hreflang="x-default" href="https://skills.victor42.work/handoff/">
 
     <meta name="skill:slug" content="handoff">
+    <meta name="skill:cli-install" content="npx skills add greenzorro/victor42-skills --skill handoff -g">
     <meta name="skill:download-url" content="https://cloud.victor42.work/skills/handoff.zip">
     <meta name="skill:install-dir" content="handoff">
 
@@ -60,11 +61,11 @@
     "url": "https://victor42.work/"
   },
   "image": "https://skills.victor42.work/assets/og-handoff.png",
-  "dateModified": "2026-07-29"
+  "dateModified": "2026-08-11"
 }
     </script>
 
-    <link rel="stylesheet" href="../assets/style.css?v=20260730">
+    <link rel="stylesheet" href="../assets/style.css?v=20260811">
 
     <script>
     (function() {
@@ -179,26 +180,24 @@
         <section class="panel install-block">
             <h2 id="install-title">给 AI 的安装指令</h2>
             <p class="copy-hint">
-                <span data-lang="zh">把下面这段发给你的 Agent，或</span>
-                <span data-lang="en" hidden>Send the block below to your agent, or </span>
                 <button type="button" class="copy-link" id="copy-btn">
                     <span data-lang="zh">复制安装指令</span>
-                    <span data-lang="en" hidden>copy the install prompt</span>
+                    <span data-lang="en" hidden>Copy the install prompt</span>
                 </button>
-                <span data-lang="zh">。</span>
-                <span data-lang="en" hidden>.</span>
+                <span data-lang="zh">发给 AI。</span>
+                <span data-lang="en" hidden> and send it to your AI.</span>
             </p>
             <div id="install-zh" data-lang="zh">
                 <pre>请帮我安装 Victor42 的 Handoff 交接 skill：
-1. 下载 https://cloud.victor42.work/skills/handoff.zip
-2. 解压到你当前环境的 skills 目录下，文件夹名为 handoff
-3. 确认其中存在 SKILL.md 后告诉我安装完成</pre>
+1. 在终端运行：npx skills add greenzorro/victor42-skills --skill handoff -g
+2. 若没有 Node，可改为下载 https://cloud.victor42.work/skills/handoff.zip，解压到当前环境的 skills 目录（文件夹名 handoff），确认其中存在 SKILL.md
+3. 完成后告诉我</pre>
             </div>
             <div id="install-en" data-lang="en" hidden>
                 <pre>Please install Victor42&#x27;s Handoff skill:
-1. Download https://cloud.victor42.work/skills/handoff.zip
-2. Extract into your current environment&#x27;s skills directory as a folder named handoff
-3. Confirm SKILL.md exists, then tell me installation is complete</pre>
+1. Run in your terminal: npx skills add greenzorro/victor42-skills --skill handoff -g
+2. If you don&#x27;t have Node, download https://cloud.victor42.work/skills/handoff.zip, extract into your agent&#x27;s skills directory as handoff, and confirm SKILL.md exists
+3. Tell me when it&#x27;s done</pre>
             </div>
         </section>
 
@@ -207,7 +206,7 @@
         </footer>
     </div>
 
-    <script src="../assets/shared.js?v=20260730"></script>
-    <script src="../assets/skill.js?v=20260730"></script>
+    <script src="../assets/shared.js?v=20260811"></script>
+    <script src="../assets/skill.js?v=20260811"></script>
 </body>
 </html>

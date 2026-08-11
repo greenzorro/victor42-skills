@@ -3,9 +3,9 @@
 
 Outputs:
   assets/og-image.png          — generic brand card (for homepage + fallback)
-  assets/og-<slug>.png         — per-skill card (emoji + name overlaid)
+  assets/og-<slug>.png         — per-skill card (same layout; skill name + install)
 
-Design mirrors site style: primary #2A9D8F, soft bg #f5f5fa, hero gradient.
+Design mirrors site style: primary #2A9D8F full-bleed gradient, left-aligned type.
 """
 
 from __future__ import annotations
@@ -65,77 +65,54 @@ def _gradient(draw: ImageDraw.ImageDraw, x0: int, y0: int, x1: int, y1: int,
         draw.line([(x, y0), (x, y1 - 1)], fill=(r, g, b))
 
 
-def _draw_base(emoji: str | None, name_zh: str, name_en: str,
-               tagline_zh: str, tagline_en: str) -> Image.Image:
+def _draw_base(title: str, subtitle: str, line1: str, line2: str) -> Image.Image:
     img = Image.new("RGB", (W, H), BG)
     draw = ImageDraw.Draw(img)
 
-    # Hero gradient band across the top half
+    # Full-bleed primary gradient
     _gradient(draw, 0, 0, W, H, PRIMARY, PRIMARY_DARK)
-
-    # Subtle decorative circle (echo of portal hero card)
-    draw.ellipse([(W - 380, -120), (W + 120, 380)],
-                 fill=(255, 255, 255, 0), outline=None)
 
     # Brand mark — small label top-left
     brand_font = _font(26, bold=True)
     draw.text((80, 70), "VICTOR42 · AGENT SKILLS", font=brand_font, fill=WHITE)
 
-    if emoji and name_zh:
-        # Per-skill card
-        emoji_font = _font(150)
-        draw.text((80, 160), emoji, font=emoji_font, fill=WHITE)
+    title_font = _font(96, bold=True)
+    draw.text((80, 220), title, font=title_font, fill=WHITE)
 
-        name_font = _font(86, bold=True)
-        draw.text((80, 360), name_zh, font=name_font, fill=WHITE)
+    sub_font = _font(46)
+    draw.text((80, 350), subtitle, font=sub_font, fill=(220, 245, 240))
 
-        sub_font = _font(40)
-        draw.text((80, 470), name_en, font=sub_font, fill=(220, 245, 240))
-
-        # Tagline at the bottom on the soft bg strip
-        tag_font = _font(26)
-        draw.text((80, 555), tagline_zh, font=tag_font, fill=WHITE)
-    else:
-        # Generic homepage card
-        title_font = _font(96, bold=True)
-        draw.text((80, 220), "Agent Skills", font=title_font, fill=WHITE)
-
-        sub_font = _font(46)
-        draw.text((80, 350), "能力包 · Capability Packs", font=sub_font,
-                  fill=(220, 245, 240))
-
-        tag_font = _font(28)
-        draw.text((80, 440),
-                  "把链接丢给你的 AI，让它帮你下载安装",
-                  font=tag_font, fill=WHITE)
-        draw.text((80, 485),
-                  "Share a link — let your agent install it",
-                  font=tag_font, fill=(220, 245, 240))
-
-    # Bottom-right small url mark
-    url_font = _font(24)
-    draw.text((W - 340, H - 50), "skills.victor42.work",
-              font=url_font, fill=(255, 255, 255))
+    tag_font = _font(28)
+    draw.text((80, 440), line1, font=tag_font, fill=WHITE)
+    draw.text((80, 485), line2, font=tag_font, fill=(220, 245, 240))
 
     return img
 
 
 def main() -> None:
     # Generic brand image
-    generic = _draw_base(None, "", "", "", "")
+    generic = _draw_base(
+        "Agent Skills",
+        "能力包 · Capability Packs",
+        "npx skills add greenzorro/victor42-skills",
+        "Install with the skills CLI",
+    )
     generic_path = ASSETS_DIR / "og-image.png"
     generic.save(generic_path, "PNG", optimize=True)
     print(f"wrote {generic_path.relative_to(ROOT)}")
 
-    # Per-skill images
+    # Per-skill images — same layout as homepage
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     for skill in data["skills"]:
         slug = skill["slug"]
         name_zh = skill["name"].get("zh", "")
         name_en = skill["name"].get("en", "")
-        summary_zh = skill["summary"].get("zh", "")[:60]
-        summary_en = skill["summary"].get("en", "")[:70]
-        img = _draw_base(skill["emoji"], name_zh, name_en, summary_zh, summary_en)
+        img = _draw_base(
+            name_zh,
+            name_en,
+            f"npx skills add greenzorro/victor42-skills --skill {slug}",
+            "Install with the skills CLI",
+        )
         out = ASSETS_DIR / f"og-{slug}.png"
         img.save(out, "PNG", optimize=True)
         print(f"wrote {out.relative_to(ROOT)}")
