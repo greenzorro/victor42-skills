@@ -283,6 +283,89 @@
       "zipFile": "poem-six-lens.zip",
       "installDir": "poem-six-lens",
       "updated": "2026-08-11"
+    },
+    {
+      "slug": "cognition-shaper",
+      "emoji": "⚛️",
+      "name": {
+        "zh": "认知塑形",
+        "en": "Cognition Shaper"
+      },
+      "summary": {
+        "zh": "用短促的苏格拉底对话推动思考，同时在侧边维护一份持续生长、无损展开的认知框架。",
+        "en": "Build a living cognitive model beside concise Socratic dialogue, expanding ideas in place without losing confirmed detail."
+      },
+      "capabilities": {
+        "zh": [
+          {
+            "heading": "双表面共建",
+            "items": [
+              "聊天保持短促、具体，每轮最多推进一个因果问题",
+              "Living Surface 承载完整模型，随对话原位展开而不是记录流水账",
+              "适配原生侧边文档、本地 Markdown 与云端远程文档三类环境"
+            ]
+          },
+          {
+            "heading": "认知方法",
+            "items": [
+              "先锁定使用者、目标、场景与现实约束，再构建框架",
+              "从微观现象切入，向下寻找第一性原理底座并标记跨层因果",
+              "保留可证伪假设、反例、具体案例与所有已确认细节"
+            ]
+          },
+          {
+            "heading": "适用与边界",
+            "items": [
+              "适用：明确要求认知塑形或多轮共建持续生长的认知模型",
+              "不适用：普通解释、一次性分析、翻译或内容发布",
+              "云端默认使用 secret Gist；它仅未公开列出，并非私密存储，失败时回退为聊天全文"
+            ]
+          }
+        ],
+        "en": [
+          {
+            "heading": "Two coordinated surfaces",
+            "items": [
+              "Keeps chat concise and concrete, advancing at most one causal question per turn",
+              "Maintains the full model in a Living Surface that expands in place instead of becoming a transcript",
+              "Adapts to native side documents, local Markdown, and remote cloud documents"
+            ]
+          },
+          {
+            "heading": "Cognitive method",
+            "items": [
+              "Locks the user, goal, scene, and real constraints before building the framework",
+              "Enters through a micro-phenomenon, then finds first-principles bedrock and cross-layer causality",
+              "Preserves falsifiable hypotheses, counterexamples, concrete cases, and every confirmed detail"
+            ]
+          },
+          {
+            "heading": "Fit and boundaries",
+            "items": [
+              "Use for explicit Cognition Shaper requests or multi-turn co-building of a living cognitive model",
+              "Not for ordinary explanations, one-shot analysis, translation, or publishing",
+              "Cloud mode defaults to a secret Gist; it is unlisted, not private, with full-document chat fallback"
+            ]
+          }
+        ]
+      },
+      "triggers": {
+        "zh": [
+          "认知塑形",
+          "Cognition Shaper",
+          "认知框架共建",
+          "持续生长的认知模型"
+        ],
+        "en": [
+          "Cognition Shaper",
+          "living cognitive model",
+          "co-build a cognitive framework",
+          "Socratic model building"
+        ]
+      },
+      "zipFile": "cognition-shaper.zip",
+      "installDir": "cognition-shaper",
+      "updated": "2026-08-18"
     }
   ]
 }

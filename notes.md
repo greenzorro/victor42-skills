@@ -28,7 +28,8 @@ victor42-skills/
 ├── skills/                 # skills CLI 源（SKILL.md + 附属文件）
 │   ├── handoff/
 │   ├── file-image-toolkit/
-│   └── poem-six-lens/
+│   ├── poem-six-lens/
+│   └── cognition-shaper/
 ├── index.html              # 目录页壳、SEO、主题 FOUC、GA
 ├── data.json               # 标题 / 简介 / skill 列表（中英）
 ├── {slug}/index.html       # 落地页（脚本生成，勿手改）

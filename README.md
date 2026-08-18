@@ -14,7 +14,7 @@ npx skills add greenzorro/victor42-skills --skill handoff -g
 npx skills add greenzorro/victor42-skills -g
 ```
 
-Skills: `handoff`, `file-image-toolkit`, `poem-six-lens`. Requires [Node.js](https://nodejs.org/) for `npx`.
+Skills: `handoff`, `file-image-toolkit`, `poem-six-lens`, `cognition-shaper`. Requires [Node.js](https://nodejs.org/) for `npx`.
 
 Detail pages at `skills.victor42.work/<slug>/` also expose a copy-paste install prompt for an AI agent (CLI first; R2 zip as fallback when Node is unavailable).
 
