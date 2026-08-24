@@ -1,7 +1,5 @@
 # Victor42 · Agent Skills
 
-[![skills.sh](https://skills.sh/b/greenzorro/victor42-skills)](https://skills.sh/greenzorro/victor42-skills)
-
 Agent capability packs — https://skills.victor42.work/
 
 ## Install
