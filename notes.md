@@ -69,6 +69,7 @@ victor42-skills/
 - `fetch('./data.json?v=…')` → 渲染回链「← 小玩意」、标题、简介、skill 卡片、页脚
 - 卡片链到 `./{slug}/`；顺序即 `data.json` 中 `skills` 数组顺序
 - 壳层 UI 文案在 `shared.js` 的 `UI_TEXT`；内容文案在 `data.json`
+- `index.html` 内含目录内容的静态预渲染（简介、卡片网格、完整 ItemList JSON-LD），供无 JS 环境与搜索引擎抓取；JS 加载 `data.json` 后以相同结构重绘。增删 skill 或改文案时，`data.json` 与 `index.html` 的静态块需同步更新
 
 ### 3.2 落地页（脚本生成）
 
