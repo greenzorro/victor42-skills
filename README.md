@@ -22,6 +22,7 @@ Detail pages at `skills.victor42.work/<slug>/` also expose a copy-paste install 
 |------|------|
 | `skills/<name>/` | Skill sources for the [skills CLI](https://github.com/vercel-labs/skills) |
 | `data.json` + `scripts/` | Portal content and static page / OG generators |
+| `index.html` | Catalog page; embeds a static prerender of the catalog (synced with `data.json` by hand) so no-JS crawlers see full content |
 | `{slug}/index.html` | Generated detail pages (do not edit by hand) |
 
 Maintenance notes: [notes.md](./notes.md).
