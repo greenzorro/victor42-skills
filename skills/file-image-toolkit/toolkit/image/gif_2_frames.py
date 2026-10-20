@@ -1,6 +1,6 @@
 """
 File: gif_2_frames.py
-Project: routine
+Project: toolkit
 Created: 2024-11-05 06:39:43
 Author: Victor Cheng
 Email: hi@victor42.work

@@ -1,9 +1,15 @@
-# Toolkit 核心依赖
-# 推荐使用 uv 进行包管理
+# file-image-toolkit 依赖
+#
+# 安装：pip install -r requirements.txt
+#
+# 说明：本文件覆盖全部工具。仅使用图像类工具时，可省略最后一行
+#       opencv-python（约 40MB，只有 avatar_cropper.py 的人脸检测需要）。
 
-# 图像处理
+# 图像处理核心（convertor / resizer / scaler / dedup / frames_2_gif / gif_2_frames 必需）
 Pillow>=12.0
 pillow-avif-plugin>=1.5
 imagehash>=4.3
 numpy>=2.0
+
+# 仅 avatar_cropper.py（人脸检测）需要
 opencv-python>=4.10

@@ -1,10 +1,9 @@
 """
 File: image.py
-Project: routine
-Created: 2024-11-05 03:29:57
+Project: toolkit
 Author: Victor Cheng
 Email: hi@victor42.work
-Description:
+Description: 图像处理函数（裁剪、缩放、指纹、去重、GIF 转换）
 """
 
 import os

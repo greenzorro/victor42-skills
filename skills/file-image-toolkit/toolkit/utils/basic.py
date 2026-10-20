@@ -1,20 +1,17 @@
 """
 File: basic.py
-Project: routine
-Created: 2024-11-05 12:57:35
+Project: toolkit
 Author: Victor Cheng
 Email: hi@victor42.work
-Description: 
+Description: 文件处理、格式转换、参数获取等基础函数
 """
 
 import os
-import csv
 import shutil
 import subprocess
 import re
-from typing import Optional
 from PIL import Image
-import pillow_avif
+import pillow_avif  # 副作用导入：向 Pillow 注册 AVIF 编解码插件，勿删
 
 
 def get_source_files(source_path, allowed_extensions=None, recursive=False):
@@ -77,6 +74,40 @@ def sanitize_file_name_string(input_string):
     return result
 
 
+def plan_flattened_destinations(source_paths, dst_path, dst_extension=None):
+    """为扁平化输出生成无重名覆盖的确定性目标路径。"""
+    used_names = set()
+    plan = []
+
+    for source_path in source_paths:
+        filename = os.path.basename(source_path)
+        if dst_extension is not None:
+            stem = os.path.splitext(filename)[0]
+            filename = f"{stem}.{dst_extension.lower().lstrip('.')}"
+
+        stem, extension = os.path.splitext(filename)
+        candidate = filename
+        suffix = 2
+        while candidate.casefold() in used_names:
+            candidate = f"{stem}_{suffix}{extension}"
+            suffix += 1
+
+        used_names.add(candidate.casefold())
+        plan.append((source_path, os.path.join(dst_path, candidate)))
+
+    return plan
+
+
+def plan_folder_ungroup(src_path, dst_path):
+    """列出文件夹解组将执行的复制计划。"""
+    source_files = []
+    for root, dirs, files in os.walk(src_path):
+        dirs.sort()
+        for filename in sorted(files):
+            source_files.append(os.path.join(root, filename))
+    return plan_flattened_destinations(source_files, dst_path)
+
+
 def folder_ungroup(src_path, dst_path):
     """把文件里的文件夹拆开，取出全部文件
 
@@ -86,38 +117,19 @@ def folder_ungroup(src_path, dst_path):
     if not os.path.exists(dst_path):
         os.makedirs(dst_path)
 
-    for root, dirs, files in os.walk(src_path):
-        for file in files:
-            src_file_path = os.path.join(root, file)
-            dst_file_path = os.path.join(dst_path, file)
-            shutil.copy(src_file_path, dst_file_path)
+    for src_file_path, dst_file_path in plan_folder_ungroup(src_path, dst_path):
+        shutil.copy(src_file_path, dst_file_path)
 
 
-def rename_by_csv(csv_file, src_folder, dst_folder):
-    """批量根据CSV重命名文件
+def rename_by_name_list(name_list, src_folder, dst_folder):
+    """按名称列表批量重命名文件
 
-    :param str csv_file: 包含新文件名的CSV文件
+    :param list name_list: 新文件名列表（不含扩展名）
     :param str src_folder: 原始文件夹路径
     :param str dst_folder: 目标文件夹路径
     """
-    # 读取csv文件
-    with open(csv_file, 'r', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        name_column = None
-        for column in reader.fieldnames:
-            if 'name' in column.lower():
-                name_column = column
-                break
-        # 把对应列里每一行的值存到一个list里
-        name_list = [row[name_column] for row in reader]
-
     # 清理name_list中的非法字符
     name_list = [sanitize_file_name_string(name) for name in name_list]
-
-    # 判断文件数量与名称数量是否匹配
-    if len(os.listdir(src_folder)) != len(name_list):
-        print(f'There are {len(os.listdir(src_folder))} files and {len(name_list)} names. They do not match.')
-        return
 
     # 遍历原始文件存入list
     src_files = []
@@ -126,7 +138,14 @@ def rename_by_csv(csv_file, src_folder, dst_folder):
         if filename.startswith('.'):
             continue
         src_path = os.path.join(src_folder, filename)
+        if not os.path.isfile(src_path):
+            continue
         src_files.append(src_path)
+
+    # 判断文件数量与名称数量是否匹配
+    if len(src_files) != len(name_list):
+        print(f'There are {len(src_files)} files and {len(name_list)} names. They do not match.')
+        return
 
     # 按文件名数字顺序排列
     src_files.sort(key=lambda x: int(re.findall(r'\d+', os.path.splitext(os.path.basename(x))[0])[-1]))
@@ -150,8 +169,16 @@ def rename_by_csv(csv_file, src_folder, dst_folder):
 
 
 VIDEO_FORMATS = {'mp4', 'avi', 'wmv', 'mov', 'flv', 'm4a', 'mkv', 'webm', 'm4v'}
+
+
 AUDIO_FORMATS = {'mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'opus'}
-IMAGE_FORMATS = {'jpg', 'jpeg', 'png', 'bmp', 'gif', 'tiff', 'webp', 'avif'}
+
+
+IMAGE_FORMATS = {'jpg', 'jpeg', 'jfif', 'png', 'bmp', 'gif', 'tiff', 'webp', 'avif'}
+
+
+JPEG_FORMATS = {'jpg', 'jpeg', 'jfif'}
+
 
 VIDEO_CODEC_OPTIONS = {
     'mp4': ['-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-c:a', 'aac', '-b:a', '192k'],
@@ -163,6 +190,7 @@ VIDEO_CODEC_OPTIONS = {
     'flv': ['-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-c:a', 'aac', '-b:a', '160k'],
     'wmv': ['-c:v', 'wmv2', '-c:a', 'wmav2'],
 }
+
 
 AUDIO_CODEC_OPTIONS = {
     'mp3': ['-vn', '-c:a', 'libmp3lame', '-q:a', '2'],
@@ -198,8 +226,18 @@ def convert_format(src_path, dst_path, dst_format):
     dst_format = dst_format.lower().lstrip('.')
     
     try:
-        # 如果源格式和目标格式一样，直接复制文件
-        if src_format == dst_format:
+        # 音频/视频转换依赖系统 ffmpeg，缺失时给出可操作的提示
+        if (src_format in VIDEO_FORMATS or src_format in AUDIO_FORMATS) and not shutil.which('ffmpeg'):
+            raise RuntimeError(
+                "未找到 ffmpeg，音频/视频转换不可用。请先安装 ffmpeg 并加入 PATH："
+                "macOS `brew install ffmpeg` / Linux `sudo apt install ffmpeg`"
+            )
+        
+        # 相同格式，或 JPEG/JFIF 的等价扩展名之间转换时，直接复制文件，
+        # 避免仅为修改扩展名而重新编码、损失图像质量或元数据。
+        if src_format == dst_format or (
+            src_format in JPEG_FORMATS and dst_format in JPEG_FORMATS
+        ):
             shutil.copy(src_path, dst_path)
             print(f'{src_path} copied to {dst_path}')
             return
@@ -207,7 +245,7 @@ def convert_format(src_path, dst_path, dst_format):
         # 处理视频文件的转换
         if src_format in VIDEO_FORMATS:
             if dst_format == 'gif':
-                # 视频→GIF：使用调色板优化的一步法
+                # 视频→GIF：调色板优化一步法（比 -c:v gif 体积更小、色带更少）
                 result = subprocess.run([
                     'ffmpeg', '-i', src_path,
                     '-vf', 'fps=15,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse',
@@ -245,9 +283,9 @@ def convert_format(src_path, dst_path, dst_format):
             
             try:
                 with Image.open(src_path) as img:
-                    # JPEG 不支持 P/PA/LA/RGBA 等模式，需要统一转为 RGB
-                    # L 模式（灰度）可以保存为 JPEG，其他模式需要转换
-                    if img.mode not in ('RGB', 'L'):
+                    # 只有 JPEG/JFIF 不支持 alpha 或调色板模式；其他目标格式
+                    # 保留原始模式，避免 PNG/WebP/AVIF 等格式丢失透明通道。
+                    if dst_format in JPEG_FORMATS and img.mode not in ('RGB', 'L'):
                         img = img.convert('RGB')
                     img.save(dst_path)
             except Exception as img_e:

@@ -1,6 +1,6 @@
 """
 File: avatar_cropper.py
-Project: routine
+Project: toolkit
 Created: 2026-03-23
 Author: Victor Cheng
 Email: hi@victor42.work
@@ -19,7 +19,6 @@ from utils.basic import get_param_value, get_source_files
 from utils.path import get_platform, PATH_DOWNLOADS_FROM_WIN, PATH_DOWNLOADS
 
 # 导入额外需要的库（人脸检测需要）
-import numpy as np
 import cv2
 from PIL import Image, ImageDraw
 

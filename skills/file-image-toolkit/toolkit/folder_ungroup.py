@@ -1,6 +1,6 @@
 """
 File: folder_ungroup.py
-Project: routine
+Project: toolkit
 Created: 2026-01-23 06:00:26
 Author: Victor Cheng
 Email: hi@victor42.work
@@ -10,7 +10,7 @@ Description: 把文件里的文件夹拆开，取出全部文件
 import os
 import sys
 import argparse
-from utils.basic import get_param_value, folder_ungroup
+from utils.basic import get_param_value, folder_ungroup, plan_folder_ungroup
 from utils.path import platform_type, PATH_DOWNLOADS_FROM_WIN, PATH_DOWNLOADS
 
 
@@ -25,6 +25,11 @@ def main():
     parser.add_argument("--source", "-s", help="源文件夹路径")
     parser.add_argument(
         "--output", "-o", help="输出文件夹路径（默认：PATH_DOWNLOADS/Ungrouped）"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="演练模式：只列出将要复制的文件，不创建目录或写入文件",
     )
 
     # 解析参数
@@ -45,11 +50,20 @@ def main():
         default_output = os.path.join(PATH_DOWNLOADS, "Ungrouped")
     DST_FOLDER = get_param_value(args, "output", script_default=default_output)
 
-    # 确保目标目录存在
-    if not os.path.exists(DST_FOLDER):
+    if args.dry_run:
+        print("当前为 dry-run 演练模式，不会创建目录或写入文件")
+    elif not os.path.exists(DST_FOLDER):
         os.makedirs(DST_FOLDER)
 
     # 执行解组操作
+    if args.dry_run:
+        for src_file_path, dst_file_path in plan_folder_ungroup(
+            SRC_FOLDER, DST_FOLDER
+        ):
+            print(f"[dry-run] 将复制: {src_file_path} -> {dst_file_path}")
+        print(f"dry-run output folder:\n{DST_FOLDER}")
+        return
+
     folder_ungroup(SRC_FOLDER, DST_FOLDER)
     print(f"ungrouped to:\n{DST_FOLDER}")
 

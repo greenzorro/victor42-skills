@@ -86,6 +86,7 @@ victor42-skills/
 ### 3.3 SEO 与 OG 图
 
 - **OG / Twitter 图**：每页 `og:image` + `twitter:image`（`summary_large_image`）。`generate_og_images.py` 输出 `assets/og-image.png` 与 `assets/og-<slug>.png`。版式统一：青绿满幅渐变、左上 brand、大标题、副标题、两行说明（CLI 命令 + `Install with the skills CLI`）；无水印、无右上装饰圆。首页标题为「Agent Skills」；单 skill 页标题为中文名、副标题为英文名、命令带 `--skill <slug>`。
+- **OG 图不要无脑重跑后提交**：`generate_og_images.py` 的 PNG 编码不可字节复现，同一版式重跑后像素一致但体积会变（实测某张 37 KB → 47 KB）。只在该 skill 的**名称或安装命令**变化时才需要重新生成；仅改简介/能力文案时不要跑，或跑完后用 `git checkout --` 回滚 PNG。
 - **hreflang**：单 URL + JS 切语言；每页自指 `zh-CN` / `en` / `x-default`。
 - **canonical / sitemap**：canonical 指自身；`sitemap.xml` 的 `lastmod` 用各 skill 的 `updated`。
 - **GA**：`analytics.js` 记 `page_view` 与 `language_change`。
@@ -100,14 +101,28 @@ victor42-skills/
 
 1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）
 2. 在 `data.json` 追加或更新条目（数组顺序 = 门户顺序；刷新 `updated`）
-3. （可选）从 `skills/` 打 zip 并上传 R2，例如：
+3. 目录页 `index.html` 的静态预渲染块（卡片 `skill-summary` + ItemList JSON-LD 的 `description`）同步该条目的 `summary`，两份文案必须一致
+4. （可选）从 `skills/` 打 zip 并上传 R2，例如：
    ```bash
    zip -r handoff.zip handoff -x '*/.DS_Store' -x '*/__pycache__/*' -x '*.pyc'
    wrangler r2 object put cloud/skills/handoff.zip --file=handoff.zip --content-type=application/zip --remote
    ```
-4. `python3 scripts/generate_og_images.py`
-5. `python3 scripts/generate_site.py`
-6. 推送后 Cloudflare Pages 发布门户；已装用户可用 `npx skills update`
+5. `python3 scripts/generate_og_images.py`
+6. `python3 scripts/generate_site.py`
+7. 推送后 Cloudflare Pages 发布门户；已装用户可用 `npx skills update`
+
+### 4.1 file-image-toolkit 的内部同步
+
+`skills/file-image-toolkit/toolkit/` 是 `routine` 同名工具集的手工裁剪脱敏副本：只保留文件 / 图像 / 视频三域脚本，`utils/` 按目标脚本集的依赖闭包裁剪，`utils/path.py` 去掉个人路径（个人 Windows 用户名改为从环境变量推导）。
+
+**routine 侧更新后需手工重新同步**，替换脚本与 utils，再按上面的裁剪边界重新裁剪、脱敏。
+
+**同步基线：** routine `2e6743e`（2026-10-15）。
+
+**本副本有意领先 routine 的两处改动，重新同步时不要被覆盖回去：**
+
+1. `utils/basic.py` → `convert_format()` 的视频转GIF分支用调色板优化一步法（`palettegen`/`paletteuse`，fps=15、宽 800px），routine 仍是 `-c:v gif` + 480px
+2. `utils/basic.py` → `convert_format()` 开头检测 `ffmpeg` 是否可用，缺失时抛出带安装指引的 `RuntimeError`，避免暴露 `Errno 2`
 
 ## 5. 与小玩意关系
 

@@ -1,15 +1,12 @@
 """
 File: video.py
-Project: routine
-Created: 2025-09-23 11:02:19
+Project: toolkit
 Author: Victor Cheng
 Email: hi@victor42.work
-Description: 
+Description: FFmpeg 命令构建与执行
 """
 
-import os
 import subprocess
-from pathlib import Path
 from typing import List
 
 
@@ -125,4 +122,3 @@ def execute_ffmpeg_command(command: List[str]):
         raise RuntimeError(f"视频生成失败: {e.stderr}")
     except FileNotFoundError:
         raise RuntimeError("未找到FFmpeg，请确保已安装FFmpeg并添加到系统路径")
-
