@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Use when transitioning a multi-turn task to another AI agent tool — handoff, 交接, 换 Agent, 切换 Claude/GPT/Cursor. Triggers only on explicit user request to create a handoff package. Use when the user says "做个交接", "给我一个 handoff", "我要换 Agent 了", or otherwise indicates they want to pass the current task state to a different agent tool.
+description: Use when transitioning a multi-turn task to another AI agent tool — handoff, 交接, 换 Agent, 切换 Claude/GPT/Cursor. Triggers on explicit user request to create a handoff package ("做个交接", "给我一个 handoff", "我要换 Agent 了"), and on finishing work that came from a handoff package, where the receiving agent deletes it once every task it names is done.
 ---
 
 # Handoff
@@ -10,6 +10,8 @@ description: Use when transitioning a multi-turn task to another AI agent tool �
 Create a minimal, temporary handoff package that lets another AI agent continue a multi-turn task without losing context.
 
 **Core principle: the handoff package answers one question — "what does the next agent need to keep going?"** Everything else is noise.
+
+The package lives in a directory the user chooses (see *Directory location and naming*). When every task named in the package is done, the **receiving agent deletes that directory**. Nothing about a handoff is meant to survive.
 
 ## When to Use
 
@@ -21,7 +23,7 @@ Create a minimal, temporary handoff package that lets another AI agent continue 
 - The user just wants to save notes for themselves (tell them to use a notebook)
 - No actual tool switch is happening
 
-**Explicit request always wins.** If the user explicitly asks for a handoff on an already-completed task, proceed — the package serves as a final state summary. Note in the `Goal` section that the task is complete.
+**Explicit request always wins.** If the user explicitly asks for a handoff on an already-completed task, proceed — the package serves as a final state summary. Note in the `Goal` section that the task is complete. The receiving agent still deletes the directory after absorbing it.
 
 ## What to Produce
 
@@ -109,7 +111,7 @@ Receiving agent: <未指定 / 用户指定的工具>
 <写给接手 Agent 的关键注意事项。语气直接，像给同事留便签。>
 
 ## Cleanup
-用户手动删除本目录。
+交接包内全部任务完成后，接手 Agent 删除本目录。
 ```
 
 ### Writing principles
@@ -120,7 +122,7 @@ Receiving agent: <未指定 / 用户指定的工具>
 
 **State the implicit.** The highest-value content in Context and Handoff Notes is the stuff that ISN'T in the code: design decisions and their rationale, traps, conventions, "don't touch X because Y".
 
-**No section is mandatory if empty.** If there is nothing to say in Context, write `<无>` rather than padding. An empty Cleanup section never happens — it always says the same thing.
+**No section is mandatory if empty.** If there is nothing to say in Context, write `<无>` rather than padding. Cleanup is never empty — it always states that the receiving agent deletes the directory when the package's tasks are all done.
 
 ## What NOT to Do
 
@@ -130,7 +132,7 @@ These are the failure modes observed in testing. Avoid them:
 
 2. **Do not copy or snapshot source files.** Reference paths only. The time window between handoff and the next agent picking up is short; source files will not change.
 
-3. **Do not write operating instructions for the receiving agent.** notes.md is a state snapshot, not a tutorial. The next agent knows how to do its job — it just doesn't know the state of THIS task.
+3. **Do not write operating instructions for the receiving agent.** notes.md is a state snapshot, not a tutorial. The next agent knows how to do its job — it just doesn't know the state of THIS task. The Cleanup section only records the delete duty already defined by this skill.
 
 4. **Do not add a date to the directory name.** The directory is temporary and will be deleted. Dating implies archival; this is not an archive.
 
@@ -138,20 +140,21 @@ These are the failure modes observed in testing. Avoid them:
 
 6. **Do not treat this as session memory or identity persistence.** This is task-state transfer, nothing more. Do not write about "who you are" or general preferences — that belongs in agent memory, not here.
 
+7. **Do not leave a finished package behind.** When the package's tasks are all done, the receiving agent deletes the directory.
+
 ## Lifecycle
 
-This skill only creates the handoff package. It does not:
+1. Creating agent writes `<chosen-path>/handoff-<主题>/` with notes.md
+2. Receiving agent reads notes.md, finishes the named work
+3. Receiving agent deletes the whole directory, then briefly tells the user it was removed
 
-- Delete it (user does this manually when the receiving agent is done)
-- Track it (no index, no registry)
-- Link it to previous or future handoffs (each is independent)
-- Archive it when complete (user just deletes the directory)
+**Done means:** Goal satisfied and every 待办 item closed (or explicitly dropped with user agreement). Do not delete mid-flight.
 
-If the receiving agent later needs to hand off again, the user triggers this skill fresh — a brand new `handoff-<主题>/` is created, with no reference to the previous one.
+No index, no registry, no archive — each handoff is independent. If another handoff is needed later, the user triggers this skill fresh — a brand new `handoff-<主题>/` is created, with no reference to the previous one.
 
 ## Execution Checklist
 
-When triggered:
+### Creating a package
 
 1. Confirm theme name with user (ask if not specified)
 2. Ask user where to put the handoff package; detect OS and recommend 2-3 common locations (桌面 / 下载 / 文档); let the user pick or specify a custom path
@@ -160,4 +163,10 @@ When triggered:
 5. If any non-narrative content (scripts, data, logs) genuinely needs a separate file, add it and reference it in notes.md
 6. Tell the user the path and stop
 
-That is the entire job. Five steps. No follow-up actions, no verification loops, no "anything else?"
+### Finishing a package (receiving agent)
+
+1. Confirm Goal and every 待办 item are done (or explicitly dropped with user agreement)
+2. Delete the `handoff-<主题>/` directory
+3. Tell the user the package directory was removed
+
+That is the entire job. No follow-up actions, no verification loops, no "anything else?"
