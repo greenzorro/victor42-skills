@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handoff 交接 - Victor42 · Agent Skills</title>
 
-    <meta name="description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+    <meta name="description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
     <meta name="author" content="Victor42">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://skills.victor42.work/handoff/">
@@ -23,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Handoff 交接 - Victor42 · Agent Skills">
-    <meta property="og:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+    <meta property="og:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
     <meta property="og:url" content="https://skills.victor42.work/handoff/">
     <meta property="og:site_name" content="Victor42 · Agent Skills">
     <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Handoff 交接">
-    <meta name="twitter:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。">
+    <meta name="twitter:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
     <meta name="twitter:image" content="https://skills.victor42.work/assets/og-handoff.png">
 
     <meta name="theme-color" content="#2A9D8F">
@@ -49,7 +49,7 @@
   "@type": "SoftwareApplication",
   "name": "Handoff",
   "alternateName": "Handoff 交接",
-  "description": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs to continue.",
+  "description": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket.",
   "url": "https://skills.victor42.work/handoff/",
   "downloadUrl": "https://cloud.victor42.work/skills/handoff.zip",
   "codeRepository": "https://github.com/greenzorro/victor42-skills",
@@ -61,7 +61,7 @@
     "url": "https://victor42.work/"
   },
   "image": "https://skills.victor42.work/assets/og-handoff.png",
-  "dateModified": "2026-10-23"
+  "dateModified": "2026-10-26"
 }
     </script>
 
@@ -101,8 +101,8 @@
             <div class="detail-emoji" aria-hidden="true">🔀</div>
             <h1 class="detail-title" data-lang="zh">Handoff 交接</h1>
             <h1 class="detail-title" data-lang="en" hidden>Handoff</h1>
-            <p class="detail-summary" data-lang="zh">多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。</p>
-            <p class="detail-summary" data-lang="en" hidden>Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs to continue.</p>
+            <p class="detail-summary" data-lang="zh">多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。</p>
+            <p class="detail-summary" data-lang="en" hidden>Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket.</p>
         </header>
 
         <section class="panel">
@@ -127,18 +127,25 @@
     <section class="capability-block">
       <h3>它做什么</h3>
       <ul>
-        <li>在你换 Cursor / Claude / GPT 等工具时，生成一份临时交接包</li>
+        <li>换 Cursor / Claude / GPT 等工具时，生成一份临时交接包</li>
         <li>核心只回答一个问题：下一棒 Agent 要继续推进，还缺什么？</li>
         <li>默认只写 notes.md；脚本、结构化数据、长日志才单独成文件</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>交接包包含什么</h3>
+      <h3>两种交接通道</h3>
       <ul>
-        <li>Goal：当前要完成什么、完成标准</li>
-        <li>Progress：已完成 / 进行中 / 未开始</li>
-        <li>Next steps：下一棒该立刻做的事</li>
-        <li>关键路径、决策与约束：仅保留继续推进所必需的</li>
+        <li>本地目录（默认）：写成本机 handoff-&lt;主题&gt;/，不依赖网络和凭据</li>
+        <li>对象存储（可选）：放进你自己的 bucket，跨机器、跨工具都能取</li>
+        <li>先探活再选：云端不通会问你要本地方案还是修云端，不静默降级</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>交接包里有什么</h3>
+      <ul>
+        <li>Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes</li>
+        <li>只保留继续推进所必需的路径、决策与约束</li>
+        <li>接手方做完全部待办后删除整个包；够不到位置时由你删除</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -160,12 +167,19 @@
       </ul>
     </section>
     <section class="capability-block">
+      <h3>Two channels</h3>
+      <ul>
+        <li>Local directory (default): a handoff-&lt;theme&gt;/ folder on disk, no network or credentials</li>
+        <li>Object storage (opt-in): your own bucket, readable across machines and tools</li>
+        <li>Probe first: if the cloud path is down it asks whether to go local or fix it — no silent downgrade</li>
+      </ul>
+    </section>
+    <section class="capability-block">
       <h3>What&#x27;s in the package</h3>
       <ul>
-        <li>Goal: what to finish and the success criteria</li>
-        <li>Progress: done / in progress / not started</li>
-        <li>Next steps: what the next agent should do immediately</li>
-        <li>Key paths, decisions, and constraints — only what is required to continue</li>
+        <li>Goal / Context / Current State (done · verified · open) / Handoff Notes</li>
+        <li>Only the paths, decisions and constraints needed to continue</li>
+        <li>The receiving agent deletes the whole package when every task is done; it asks you if it can&#x27;t reach it</li>
       </ul>
     </section>
     <section class="capability-block">

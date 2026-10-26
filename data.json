@@ -26,26 +26,33 @@
         "en": "Handoff"
       },
       "summary": {
-        "zh": "多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息。",
-        "en": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs to continue."
+        "zh": "多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。",
+        "en": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket."
       },
       "capabilities": {
         "zh": [
           {
             "heading": "它做什么",
             "items": [
-              "在你换 Cursor / Claude / GPT 等工具时，生成一份临时交接包",
+              "换 Cursor / Claude / GPT 等工具时，生成一份临时交接包",
               "核心只回答一个问题：下一棒 Agent 要继续推进，还缺什么？",
               "默认只写 notes.md；脚本、结构化数据、长日志才单独成文件"
             ]
           },
           {
-            "heading": "交接包包含什么",
+            "heading": "两种交接通道",
             "items": [
-              "Goal：当前要完成什么、完成标准",
-              "Progress：已完成 / 进行中 / 未开始",
-              "Next steps：下一棒该立刻做的事",
-              "关键路径、决策与约束：仅保留继续推进所必需的"
+              "本地目录（默认）：写成本机 handoff-<主题>/，不依赖网络和凭据",
+              "对象存储（可选）：放进你自己的 bucket，跨机器、跨工具都能取",
+              "先探活再选：云端不通会问你要本地方案还是修云端，不静默降级"
+            ]
+          },
+          {
+            "heading": "交接包里有什么",
+            "items": [
+              "Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes",
+              "只保留继续推进所必需的路径、决策与约束",
+              "接手方做完全部待办后删除整个包；够不到位置时由你删除"
             ]
           },
           {
@@ -66,12 +73,19 @@
             ]
           },
           {
+            "heading": "Two channels",
+            "items": [
+              "Local directory (default): a handoff-<theme>/ folder on disk, no network or credentials",
+              "Object storage (opt-in): your own bucket, readable across machines and tools",
+              "Probe first: if the cloud path is down it asks whether to go local or fix it — no silent downgrade"
+            ]
+          },
+          {
             "heading": "What's in the package",
             "items": [
-              "Goal: what to finish and the success criteria",
-              "Progress: done / in progress / not started",
-              "Next steps: what the next agent should do immediately",
-              "Key paths, decisions, and constraints — only what is required to continue"
+              "Goal / Context / Current State (done · verified · open) / Handoff Notes",
+              "Only the paths, decisions and constraints needed to continue",
+              "The receiving agent deletes the whole package when every task is done; it asks you if it can't reach it"
             ]
           },
           {
@@ -99,7 +113,7 @@
       },
       "zipFile": "handoff.zip",
       "installDir": "handoff",
-      "updated": "2026-10-23"
+      "updated": "2026-10-26"
     },
     {
       "slug": "file-image-toolkit",
