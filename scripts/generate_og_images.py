@@ -11,6 +11,7 @@ Design mirrors site style: primary #2A9D8F full-bleed gradient, left-aligned typ
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -30,27 +31,60 @@ TEXT_BODY = (85, 85, 85)          # #555
 TEXT_MUTED = (127, 140, 141)      # #7f8c8d
 
 
+def _fontconfig_cjk() -> str | None:
+    """Ask fontconfig for a Chinese-capable font (Linux and other fontconfig systems)."""
+    try:
+        result = subprocess.run(
+            ["fc-match", "-f", "%{file}", "sans-serif:lang=zh"],
+            capture_output=True, text=True, timeout=5, check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    candidate = result.stdout.strip()
+    return candidate if candidate and Path(candidate).exists() else None
+
+
 def _font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
-    """Pick a CJK-capable font available on macOS; fall back to default."""
+    """Pick a CJK-capable font across macOS, Linux and Windows; fall back to fontconfig, then default."""
     candidates = [
-        "/System/Library/Fonts/PingFang.ttc",
-        "/System/Library/Fonts/STHeiti Medium.ttc",
-        "/Library/Fonts/Arial Unicode.ttf",
+        ("/System/Library/Fonts/PingFang.ttc", 0),
+        ("/System/Library/Fonts/STHeiti Medium.ttc", 0),
+        ("/System/Library/Fonts/Hiragino Sans GB.ttc", 0),
+        ("/Library/Fonts/Arial Unicode.ttf", 0),
+        ("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", 0),
+        ("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 0),
+        ("/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", 0),
+        ("/usr/share/fonts/truetype/wqy/wqy-microhei.ttc", 0),
+        ("/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf", 0),
+        ("C:/Windows/Fonts/msyh.ttc", 0),
+        ("C:/Windows/Fonts/simhei.ttf", 0),
+        ("C:/Windows/Fonts/simsun.ttc", 0),
     ]
     if bold:
         candidates = [
-            "/System/Library/Fonts/PingFang.ttc",  # ttc includes bold variant
-            "/System/Library/Fonts/STHeiti Medium.ttc",
+            ("/System/Library/Fonts/PingFang.ttc", 1),  # ttc includes the bold variant
+            ("/System/Library/Fonts/STHeiti Medium.ttc", 1),
+            ("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", 0),
+            ("/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc", 0),
+            ("/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", 0),
+            ("C:/Windows/Fonts/msyhbd.ttc", 0),
+            ("C:/Windows/Fonts/simhei.ttf", 0),
         ]
-    for path in candidates:
+    for path, index in candidates:
         if Path(path).exists():
             try:
-                return ImageFont.truetype(path, size, index=1 if bold and path.endswith(".ttc") else 0)
+                return ImageFont.truetype(path, size, index=index)
             except Exception:
                 try:
                     return ImageFont.truetype(path, size)
                 except Exception:
                     continue
+    discovered = _fontconfig_cjk()
+    if discovered:
+        try:
+            return ImageFont.truetype(discovered, size)
+        except Exception:
+            pass
     return ImageFont.load_default()
 
 
