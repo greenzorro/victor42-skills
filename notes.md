@@ -85,7 +85,7 @@ victor42-skills/
 
 ### 3.3 SEO 与 OG 图
 
-- **OG / Twitter 图**：每页 `og:image` + `twitter:image`（`summary_large_image`）。`generate_og_images.py` 输出 `assets/og-image.png` 与 `assets/og-<slug>.png`。版式统一：青绿满幅渐变、左上 brand、大标题、副标题、两行说明（CLI 命令 + `Install with the skills CLI`）；无水印、无右上装饰圆。首页标题为「Agent Skills」；单 skill 页标题为中文名、副标题为英文名、命令带 `--skill <slug>`。
+- **OG / Twitter 图**：每页 `og:image` + `twitter:image`（`summary_large_image`）。`generate_og_images.py` 输出 `assets/og-image.png` 与 `assets/og-<slug>.png`。版式统一：青绿满幅渐变、左上 brand、大标题、副标题、两行说明（CLI 命令 + `Install with the skills CLI`）；无水印、无右上装饰圆。首页标题为「Agent Skills」；单 skill 页标题为中文名、副标题为英文名、命令带 `--skill <slug>`。中文字体解析顺序：用户字体目录里的 Noto Sans CJK SC → 各系统 CJK 字体 → `fc-match` 发现 → PIL 默认；WSL 与 Windows 两侧都已装 Noto Sans CJK SC（Regular / Bold），在这两处生成结果一致。
 - **OG 图不要无脑重跑后提交**：`generate_og_images.py` 的 PNG 编码不可字节复现，同一版式重跑后像素一致但体积会变（实测某张 37 KB → 47 KB）。只在该 skill 的**名称或安装命令**变化时才需要重新生成；仅改简介/能力文案时不要跑，或跑完后用 `git checkout --` 回滚 PNG。
 - **hreflang**：单 URL + JS 切语言；每页自指 `zh-CN` / `en` / `x-default`。
 - **canonical / sitemap**：canonical 指自身；`sitemap.xml` 的 `lastmod` 用各 skill 的 `updated`。
