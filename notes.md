@@ -99,7 +99,7 @@ victor42-skills/
 
 ## 4. 新增 / 更新 skill
 
-1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）
+1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）；handoff 另有同步约定，见 §4.2
 2. 在 `data.json` 追加或更新条目（数组顺序 = 门户顺序；刷新 `updated`）
 3. 目录页 `index.html` 的静态预渲染块（卡片 `skill-summary` + ItemList JSON-LD 的 `description`）同步该条目的 `summary`，两份文案必须一致
 4. （可选）从 `skills/` 打 zip 并上传 R2，例如：
@@ -123,6 +123,35 @@ victor42-skills/
 
 1. `utils/basic.py` → `convert_format()` 的视频转GIF分支用调色板优化一步法（`palettegen`/`paletteuse`，fps=15、宽 800px），routine 仍是 `-c:v gif` + 480px
 2. `utils/basic.py` → `convert_format()` 开头检测 `ffmpeg` 是否可用，缺失时抛出带安装指引的 `RuntimeError`，避免暴露 `Errno 2`
+
+### 4.2 handoff 的私有版 → 公开版同步
+
+`handoff` 的**正向源是本机 Skills 目录里的私有版**（行为以它为准）；仓里 `skills/handoff/` 是脱敏副本。两版的方法论、通道判定、notes.md 模板、禁止项必须一字不差，只有下表 6 项允许不同。
+
+公开版固定由 4 个文件构成：`SKILL.md`、`references/config.md`、`references/r2.md`、`scripts/r2.py`。**`scripts/r2.py` 两版逐字节一致**——改脚本时两边同时替换，不要为公开版单独改代码。
+
+**同步基线（2026-10-26）。以下 6 项差异是有意的，重新同步时不要被覆盖回去：**
+
+| # | 项 | 私有版 | 公开版 |
+|---|----|--------|--------|
+| 1 | `provider` | `cloudflare-r2` | `none`（默认只走本地通道） |
+| 2 | `account_id` / `token` | 真值 | 必须为空 |
+| 3 | `bucket` / `prefix` | `lab` / `handoff/` | `handoff` / `handoff/` |
+| 4 | 暂存目录 | 可提 `PATH_DOWNLOADS/temp` | 只用 `mktemp -d` |
+| 5 | 路径示例 | 保留 WSL / Windows 具体写法 | 写"对方能打开的路径" |
+| 6 | 文档语言 | 中文 `references/` | 英文 `references/` |
+
+**公开版发版流程：**
+
+1. 用 `skill` 的 `skill-genericizer` 跑 `scan_skill.py skills/handoff`；命中逐条人工判定，只接受误报（`Authorization` 头、`file=sys.stderr`、表格分隔线、空 `token =` 等）
+2. `grep -rniE "cfat_|3f847438|\blab\b|artifacts" skills/handoff` 必须为空；产品名（Cursor/Claude/GPT/ChatGPT）也必须为 0——接收方按能力分类（能否在本机跑命令 / 是否有文件系统），不按产品名
+3. 改 `data.json` 的 `updated` 与能力文案；`index.html` 里该条的静态 `summary` 同步（两份文案必须一致）
+4. `python3 scripts/generate_site.py`
+5. 从 `skills/` 打 zip：顶层目录 `handoff/`，排除 `.DS_Store` / `__pycache__` / `*.pyc`。本机没有 `zip` 命令，用 Python `zipfile` 构建（固定时间戳，可复现）
+6. `wrangler r2 object put cloud/skills/handoff.zip --file=<zip> --content-type=application/zip --remote`
+7. 提交推送 → Pages 自动发布；用带随机 query 的 URL 验证页面文案，下载 zip 校验 `sha256` 与本地一致
+
+**发版后自检：** zip 内应恰好 4 个文件；`SKILL.md` 约 18 KB；`references/config.md` 的 `token =` 行尾为空。
 
 ## 5. 与小玩意关系
 
