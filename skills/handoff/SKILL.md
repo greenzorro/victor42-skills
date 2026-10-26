@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Use when handing a multi-turn task to another AI agent tool — handoff, 交接, 换 Agent, switching from one tool to Cursor/Claude/GPT/Codex mid-task, or finishing work that came from a handoff package (cleanup rules).
+description: Use when handing a multi-turn task to another AI agent tool — handoff, 交接, 换 Agent, switching to a different AI tool mid-task, or finishing work that came from a handoff package (cleanup rules).
 ---
 
 # Handoff
@@ -28,7 +28,7 @@ When every task named in the package is done, the **receiving agent deletes it**
 ## When to Use
 
 - User explicitly asks for a handoff / 交接 / 切换 Agent
-- User is about to switch to a different AI tool (Cursor, Claude, GPT, Codex, etc.) to continue the current task
+- User is about to switch to a different AI tool to continue the current task
 - A multi-turn task is mid-flight and needs to survive a tool switch
 - The cloud channel is unreachable (offline, revoked token, receiving tool can't read the bucket) and the package must still happen
 
@@ -62,7 +62,7 @@ curl -s -o /dev/null -w '%{http_code}\n' \
 
 **Step 2 — check the receiver, not just yourself.** Object storage is usually private and has no public URL, so "reachable" needs both ends:
 
-- **Agent on this machine with shell access** (Cursor, Codex, another CLI tool) → it runs the same `scripts/r2.py` with the same credentials → reachable. A same-machine tool is *not* a reason to go local.
+- **Any agent on this machine that can run commands** (a CLI agent, an IDE panel with a terminal, a local assistant) → it runs the same `scripts/r2.py` with the same credentials → reachable. A same-machine tool is *not* a reason to go local.
 - **Browser tool, or another machine without the credentials** → it cannot GET the package, however green the probe here → not reachable.
 
 Cloud counts as reachable only when **both ends** can reach it.
@@ -167,8 +167,8 @@ Use when the cloud probe failed or is disabled, the receiving tool cannot read t
 
 State which case applies — the package is useless if it never reaches the other side:
 
-- **Agent on this machine** (Cursor, another CLI tool) → hand over the absolute path. Done.
-- **Browser tool** (ChatGPT web, a chat UI with no shell) → it cannot read the disk. The user pastes the `notes.md` body into that tool and attaches extra files by hand. The package is built for exactly this: one narrative file that carries everything.
+- **An agent on this machine** (it can open the path and run commands) → hand over the absolute path. Done.
+- **A browser or chat tool** (no shell, no filesystem access) → it cannot read the disk. The user pastes the `notes.md` body into that tool and attaches extra files by hand. The package is built for exactly this: one narrative file that carries everything.
 - **Agent on another machine** → the user moves the directory themselves (on WSL, prefer a path the other side can open, e.g. `/mnt/c/Users/<username>/Desktop`). There is no shared storage to fall back on.
 
 ## Receiving and cleanup (either channel)
