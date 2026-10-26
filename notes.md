@@ -102,11 +102,7 @@ victor42-skills/
 1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）；handoff 另有同步约定，见 §4.2
 2. 在 `data.json` 追加或更新条目（数组顺序 = 门户顺序；刷新 `updated`）
 3. 目录页 `index.html` 的静态预渲染块（卡片 `skill-summary` + ItemList JSON-LD 的 `description`）同步该条目的 `summary`，两份文案必须一致
-4. （可选）从 `skills/` 打 zip 并上传 R2，例如：
-   ```bash
-   zip -r handoff.zip handoff -x '*/.DS_Store' -x '*/__pycache__/*' -x '*.pyc'
-   wrangler r2 object put cloud/skills/handoff.zip --file=handoff.zip --content-type=application/zip --remote
-   ```
+4. （可选）从 `skills/` 打 zip（顶层目录 `<slug>/`，排除 `.DS_Store` / `__pycache__` / `*.pyc`）并上传 `cloud/skills/<slug>.zip`。当环境没有 `zip` 命令时用 Python `zipfile` 构建，命令与校验见 §4.2 第 5–6 步
 5. `python3 scripts/generate_og_images.py`
 6. `python3 scripts/generate_site.py`
 7. 推送后 Cloudflare Pages 发布门户；已装用户可用 `npx skills update`
