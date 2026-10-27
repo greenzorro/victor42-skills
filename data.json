@@ -276,8 +276,8 @@
         "en": "China Travel Data"
       },
       "summary": {
-        "zh": "当你要查航班、火车、天气或地点，它让 AI 给真数据而不是编一个；只给数据，不排行程。",
-        "en": "When you need flights, trains, weather or places, it makes the agent answer from real data instead of guessing — data only, no itinerary."
+        "zh": "当你要查航班、火车、天气或地点，它让 AI 给权威数据，不去网络上随便搜些残缺的过时数据来充数。",
+        "en": "When you need flights, trains, weather or places, it hands the agent authoritative data instead of whatever patchy, outdated scraps a web search turns up."
       },
       "capabilities": {
         "zh": [
