@@ -127,17 +127,10 @@
     <section class="capability-block">
       <h3>它做什么</h3>
       <ul>
-        <li>换到另一个 AI 工具时，生成一份临时交接包</li>
+        <li>换到另一个 AI 工具时，生成一份临时交接包（通常只有一份 notes.md）</li>
         <li>只回答一个问题：下一棒要继续推进，还缺什么</li>
-        <li>通常只有一份 notes.md；脚本、结构化数据、长日志才单独成文件</li>
-      </ul>
-    </section>
-    <section class="capability-block">
-      <h3>两种交接通道</h3>
-      <ul>
-        <li>本地目录：开箱即用，写成本机 handoff-&lt;主题&gt;/，不依赖网络与凭据</li>
-        <li>对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取</li>
-        <li>云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级</li>
+        <li>典型场景：任务做到一半要换工具——目标、改过哪些文件、验证过的命令、下一步与红线，一次交代清楚，不必从头复述</li>
+        <li>脚本、结构化数据、长日志才单独成文件</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -146,6 +139,14 @@
         <li>Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes</li>
         <li>只保留继续推进所必需的路径、决策与约束</li>
         <li>接手方做完全部待办后删掉整个包；够不到位置时由你删</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>两种交接通道</h3>
+      <ul>
+        <li>本地目录：开箱即用，写成本机 handoff-&lt;主题&gt;/，不依赖网络与凭据</li>
+        <li>对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取</li>
+        <li>云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -162,17 +163,10 @@
     <section class="capability-block">
       <h3>What it does</h3>
       <ul>
-        <li>Builds a temporary handoff package when you switch AI tools mid-task</li>
+        <li>Builds a temporary handoff package (usually a single notes.md) when you switch AI tools</li>
         <li>Answers one question: what does the next agent need to keep going</li>
-        <li>Normally a single notes.md; separate files only for scripts, structured data or long logs</li>
-      </ul>
-    </section>
-    <section class="capability-block">
-      <h3>Two channels</h3>
-      <ul>
-        <li>Local directory: works out of the box, writes handoff-&lt;theme&gt;/ on this machine, no network or credentials</li>
-        <li>Object storage: after a one-time bucket, token and config setup, packages cross machines and tools</li>
-        <li>Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade</li>
+        <li>Typical case: a task half done in one tool, picked up in another — goal, files changed, commands verified, next steps and red lines stated once instead of re-explained</li>
+        <li>Scripts, structured data or long logs get separate files</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -181,6 +175,14 @@
         <li>Goal / Context / Current State (done · verified · open) / Handoff Notes</li>
         <li>Only the paths, decisions and constraints needed to continue</li>
         <li>The receiving agent deletes the whole package once every open item is done; you delete it if it can&#x27;t reach the location</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Two channels</h3>
+      <ul>
+        <li>Local directory: works out of the box, writes handoff-&lt;theme&gt;/ on this machine, no network or credentials</li>
+        <li>Object storage: after a one-time bucket, token and config setup, packages cross machines and tools</li>
+        <li>Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade</li>
       </ul>
     </section>
     <section class="capability-block">

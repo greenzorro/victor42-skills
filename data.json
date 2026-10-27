@@ -34,17 +34,10 @@
           {
             "heading": "它做什么",
             "items": [
-              "换到另一个 AI 工具时，生成一份临时交接包",
+              "换到另一个 AI 工具时，生成一份临时交接包（通常只有一份 notes.md）",
               "只回答一个问题：下一棒要继续推进，还缺什么",
-              "通常只有一份 notes.md；脚本、结构化数据、长日志才单独成文件"
-            ]
-          },
-          {
-            "heading": "两种交接通道",
-            "items": [
-              "本地目录：开箱即用，写成本机 handoff-<主题>/，不依赖网络与凭据",
-              "对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取",
-              "云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级"
+              "典型场景：任务做到一半要换工具——目标、改过哪些文件、验证过的命令、下一步与红线，一次交代清楚，不必从头复述",
+              "脚本、结构化数据、长日志才单独成文件"
             ]
           },
           {
@@ -53,6 +46,14 @@
               "Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes",
               "只保留继续推进所必需的路径、决策与约束",
               "接手方做完全部待办后删掉整个包；够不到位置时由你删"
+            ]
+          },
+          {
+            "heading": "两种交接通道",
+            "items": [
+              "本地目录：开箱即用，写成本机 handoff-<主题>/，不依赖网络与凭据",
+              "对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取",
+              "云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级"
             ]
           },
           {
@@ -68,17 +69,10 @@
           {
             "heading": "What it does",
             "items": [
-              "Builds a temporary handoff package when you switch AI tools mid-task",
+              "Builds a temporary handoff package (usually a single notes.md) when you switch AI tools",
               "Answers one question: what does the next agent need to keep going",
-              "Normally a single notes.md; separate files only for scripts, structured data or long logs"
-            ]
-          },
-          {
-            "heading": "Two channels",
-            "items": [
-              "Local directory: works out of the box, writes handoff-<theme>/ on this machine, no network or credentials",
-              "Object storage: after a one-time bucket, token and config setup, packages cross machines and tools",
-              "Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade"
+              "Typical case: a task half done in one tool, picked up in another — goal, files changed, commands verified, next steps and red lines stated once instead of re-explained",
+              "Scripts, structured data or long logs get separate files"
             ]
           },
           {
@@ -87,6 +81,14 @@
               "Goal / Context / Current State (done · verified · open) / Handoff Notes",
               "Only the paths, decisions and constraints needed to continue",
               "The receiving agent deletes the whole package once every open item is done; you delete it if it can't reach the location"
+            ]
+          },
+          {
+            "heading": "Two channels",
+            "items": [
+              "Local directory: works out of the box, writes handoff-<theme>/ on this machine, no network or credentials",
+              "Object storage: after a one-time bucket, token and config setup, packages cross machines and tools",
+              "Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade"
             ]
           },
           {
@@ -234,81 +236,79 @@
         "en": "China Travel Data"
       },
       "summary": {
-        "zh": "国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。",
-        "en": "Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary."
+        "zh": "把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。",
+        "en": "Turns “which flight, which train, what weather, where exactly” into answers. Data from Amap, Variflight, Ctrip and Open-Meteo, with verified query rules that keep the agent from inventing flight numbers. Data and order only, no itinerary."
       },
       "capabilities": {
         "zh": [
           {
-            "heading": "能查到什么",
+            "heading": "能帮你问什么",
             "items": [
-              "航班：班次、中转方案、票价区间",
-              "火车：车次、历时、余票、票价",
-              "天气：未来预报、历史同期",
-              "地点：地址↔坐标、周边地点、驾车/步行/公交路线",
-              "高德与飞常准需要自备 Key，携程与 Open-Meteo 开箱即用"
+              "「明天杭州飞成都还有票吗，最早一班几点」→ 班次、时刻、票价区间",
+              "「周六上海到南京的高铁，下午两点后还有座吗」→ 车次、历时、余票、票价",
+              "「下周三丽江会下雨吗」「去年十月大理什么天气」→ 未来预报、历史同期",
+              "「西湖到灵隐寺多远，开车要多久」→ 坐标、周边地点、驾车/步行/公交路线"
             ]
           },
           {
-            "heading": "能少踩的坑",
+            "heading": "数据从哪来",
             "items": [
-              "景点坐标要按地名检索，地址解析只能到城市与门牌级",
-              "查航班用机场三字码，查中转与票价用城市三字码",
-              "航班列表不按时刻排序，「最早/最晚」要自己排",
-              "报错提示不可全信：它让你补的那个请求头，服务端根本不读"
+              "高德：地址与坐标、周边地点、路线、天气、地图",
+              "飞常准：航班计划、中转方案、票价",
+              "携程：车次、历时、余票、票价",
+              "Open-Meteo：天气预报、历史天气",
+              "高德与飞常准需要自备 Key（高德控制台申请，飞常准的申请指引随包附带）；携程与 Open-Meteo 开箱即用"
             ]
           },
           {
-            "heading": "规划地基",
+            "heading": "它不做什么",
             "items": [
-              "游览与度假两套公式，决定整份计划的重心",
-              "两条规划顺序：先锁不可逆的交通与天数，再定可改的景点与餐厅",
-              "只到模式与顺序，不给景点筛选与小时级日程"
-            ]
-          },
-          {
-            "heading": "边界",
-            "items": [
+              "不排行程：给数据与规划顺序，不给景点筛选与小时级日程",
               "不抓大众点评 / 小红书：无公开 API，风控严格",
-              "不共享 Key、不绕过验证码",
-              "数据可以给全，结论由人下"
+              "不给结论：数据可以给全，取舍由人定"
+            ]
+          },
+          {
+            "heading": "为什么答案靠得住",
+            "items": [
+              "四类数据都附实测校验：景点坐标必须按地名检索，航班与中转要用不同的三字码，航班列表要自行按时刻排序，报错提示可能指向一个服务端根本不读的请求头",
+              "这些规则写在 skill 本体里，Agent 每次调用都照此执行"
             ]
           }
         ],
         "en": [
           {
-            "heading": "What you can look up",
+            "heading": "What you can ask",
             "items": [
-              "Flights: schedules, transfer options, fare ranges",
-              "Trains: services, duration, availability, fares",
-              "Weather: forecast, same period in past years",
-              "Places: address ↔ coordinates, nearby places, driving/walking/transit routes",
-              "Amap and Variflight need your own key; Ctrip and Open-Meteo work as-is"
+              "“Any seats on tomorrow's Hangzhou–Chengdu flight, and when is the first one?” → schedules, times, fare ranges",
+              "“Shanghai–Nanjing high-speed trains on Saturday after 2pm — any seats?” → services, duration, availability, fares",
+              "“Will it rain in Lijiang next Wednesday?” “What was Dali like last October?” → forecast, same period in past years",
+              "“How far is Lingyin Temple from West Lake, and how long by car?” → coordinates, nearby places, driving/walking/transit routes"
             ]
           },
           {
-            "heading": "Pitfalls it saves you from",
+            "heading": "Where the data comes from",
             "items": [
-              "Attraction coordinates need a place-name search; address parsing stops at city and door level",
-              "Look up flights by airport code, transfers and fares by city code",
-              "Flight lists are not time-sorted — sort them before answering first or last",
-              "Error messages are not gospel: the header they tell you to add is never read by the server"
+              "Amap: addresses and coordinates, nearby places, routes, weather, map tiles",
+              "Variflight: flight schedules, transfers, fares",
+              "Ctrip: services, duration, availability, fares",
+              "Open-Meteo: forecast, historical weather",
+              "Amap and Variflight need your own key (Amap console; a Variflight application guide ships with the skill); Ctrip and Open-Meteo work as-is"
             ]
           },
           {
-            "heading": "Planning basis",
+            "heading": "What it doesn't do",
             "items": [
-              "Two formulas — sightseeing vs vacation — that set the whole plan's centre of gravity",
-              "Two planning orders: lock irreversible transport and days first, then moveable attractions and meals",
-              "Modes and order only; no attraction shortlisting, no hour-level schedule"
-            ]
-          },
-          {
-            "heading": "Boundaries",
-            "items": [
+              "No itinerary: data and planning order only — no attraction shortlisting, no hour-level schedule",
               "No scraping Dianping / Xiaohongshu: no public API, strict anti-bot",
-              "No key sharing, no captcha bypass",
-              "Data can be complete; the conclusion stays with the human"
+              "No verdicts: data can be complete, the trade-offs stay with you"
+            ]
+          },
+          {
+            "heading": "Why the answers hold up",
+            "items": [
+              "All four sources ship verified rules: attraction coordinates need a place-name search, flights and transfers use different three-letter codes, flight lists must be sorted by time, and error text can point at a header the server never reads",
+              "Those rules live in the skill itself, so the agent follows them on every call"
             ]
           }
         ]

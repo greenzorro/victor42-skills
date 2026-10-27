@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>国内旅行数据源 - Victor42 · Agent Skills</title>
 
-    <meta name="description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="description" content="把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。">
     <meta name="author" content="Victor42">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://skills.victor42.work/china-travel-data/">
@@ -23,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="国内旅行数据源 - Victor42 · Agent Skills">
-    <meta property="og:description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta property="og:description" content="把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。">
     <meta property="og:url" content="https://skills.victor42.work/china-travel-data/">
     <meta property="og:site_name" content="Victor42 · Agent Skills">
     <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="国内旅行数据源">
-    <meta name="twitter:description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="twitter:description" content="把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。">
     <meta name="twitter:image" content="https://skills.victor42.work/assets/og-china-travel-data.png">
 
     <meta name="theme-color" content="#2A9D8F">
@@ -49,7 +49,7 @@
   "@type": "SoftwareApplication",
   "name": "China Travel Data",
   "alternateName": "国内旅行数据源",
-  "description": "Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary.",
+  "description": "Turns “which flight, which train, what weather, where exactly” into answers. Data from Amap, Variflight, Ctrip and Open-Meteo, with verified query rules that keep the agent from inventing flight numbers. Data and order only, no itinerary.",
   "url": "https://skills.victor42.work/china-travel-data/",
   "downloadUrl": "https://cloud.victor42.work/skills/china-travel-data.zip",
   "codeRepository": "https://github.com/greenzorro/victor42-skills",
@@ -101,8 +101,8 @@
             <div class="detail-emoji" aria-hidden="true">🗺️</div>
             <h1 class="detail-title" data-lang="zh">国内旅行数据源</h1>
             <h1 class="detail-title" data-lang="en" hidden>China Travel Data</h1>
-            <p class="detail-summary" data-lang="zh">国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。</p>
-            <p class="detail-summary" data-lang="en" hidden>Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary.</p>
+            <p class="detail-summary" data-lang="zh">把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。</p>
+            <p class="detail-summary" data-lang="en" hidden>Turns “which flight, which train, what weather, where exactly” into answers. Data from Amap, Variflight, Ctrip and Open-Meteo, with verified query rules that keep the agent from inventing flight numbers. Data and order only, no itinerary.</p>
         </header>
 
         <section class="panel">
@@ -129,76 +129,74 @@
         <section class="panel capabilities-panel" data-lang="zh">
             <h2>能力</h2>
     <section class="capability-block">
-      <h3>能查到什么</h3>
+      <h3>能帮你问什么</h3>
       <ul>
-        <li>航班：班次、中转方案、票价区间</li>
-        <li>火车：车次、历时、余票、票价</li>
-        <li>天气：未来预报、历史同期</li>
-        <li>地点：地址↔坐标、周边地点、驾车/步行/公交路线</li>
-        <li>高德与飞常准需要自备 Key，携程与 Open-Meteo 开箱即用</li>
+        <li>「明天杭州飞成都还有票吗，最早一班几点」→ 班次、时刻、票价区间</li>
+        <li>「周六上海到南京的高铁，下午两点后还有座吗」→ 车次、历时、余票、票价</li>
+        <li>「下周三丽江会下雨吗」「去年十月大理什么天气」→ 未来预报、历史同期</li>
+        <li>「西湖到灵隐寺多远，开车要多久」→ 坐标、周边地点、驾车/步行/公交路线</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>能少踩的坑</h3>
+      <h3>数据从哪来</h3>
       <ul>
-        <li>景点坐标要按地名检索，地址解析只能到城市与门牌级</li>
-        <li>查航班用机场三字码，查中转与票价用城市三字码</li>
-        <li>航班列表不按时刻排序，「最早/最晚」要自己排</li>
-        <li>报错提示不可全信：它让你补的那个请求头，服务端根本不读</li>
+        <li>高德：地址与坐标、周边地点、路线、天气、地图</li>
+        <li>飞常准：航班计划、中转方案、票价</li>
+        <li>携程：车次、历时、余票、票价</li>
+        <li>Open-Meteo：天气预报、历史天气</li>
+        <li>高德与飞常准需要自备 Key（高德控制台申请，飞常准的申请指引随包附带）；携程与 Open-Meteo 开箱即用</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>规划地基</h3>
+      <h3>它不做什么</h3>
       <ul>
-        <li>游览与度假两套公式，决定整份计划的重心</li>
-        <li>两条规划顺序：先锁不可逆的交通与天数，再定可改的景点与餐厅</li>
-        <li>只到模式与顺序，不给景点筛选与小时级日程</li>
-      </ul>
-    </section>
-    <section class="capability-block">
-      <h3>边界</h3>
-      <ul>
+        <li>不排行程：给数据与规划顺序，不给景点筛选与小时级日程</li>
         <li>不抓大众点评 / 小红书：无公开 API，风控严格</li>
-        <li>不共享 Key、不绕过验证码</li>
-        <li>数据可以给全，结论由人下</li>
+        <li>不给结论：数据可以给全，取舍由人定</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>为什么答案靠得住</h3>
+      <ul>
+        <li>四类数据都附实测校验：景点坐标必须按地名检索，航班与中转要用不同的三字码，航班列表要自行按时刻排序，报错提示可能指向一个服务端根本不读的请求头</li>
+        <li>这些规则写在 skill 本体里，Agent 每次调用都照此执行</li>
       </ul>
     </section>
         </section>
         <section class="panel capabilities-panel" data-lang="en" hidden>
             <h2>Capabilities</h2>
     <section class="capability-block">
-      <h3>What you can look up</h3>
+      <h3>What you can ask</h3>
       <ul>
-        <li>Flights: schedules, transfer options, fare ranges</li>
-        <li>Trains: services, duration, availability, fares</li>
-        <li>Weather: forecast, same period in past years</li>
-        <li>Places: address ↔ coordinates, nearby places, driving/walking/transit routes</li>
-        <li>Amap and Variflight need your own key; Ctrip and Open-Meteo work as-is</li>
+        <li>“Any seats on tomorrow&#x27;s Hangzhou–Chengdu flight, and when is the first one?” → schedules, times, fare ranges</li>
+        <li>“Shanghai–Nanjing high-speed trains on Saturday after 2pm — any seats?” → services, duration, availability, fares</li>
+        <li>“Will it rain in Lijiang next Wednesday?” “What was Dali like last October?” → forecast, same period in past years</li>
+        <li>“How far is Lingyin Temple from West Lake, and how long by car?” → coordinates, nearby places, driving/walking/transit routes</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Pitfalls it saves you from</h3>
+      <h3>Where the data comes from</h3>
       <ul>
-        <li>Attraction coordinates need a place-name search; address parsing stops at city and door level</li>
-        <li>Look up flights by airport code, transfers and fares by city code</li>
-        <li>Flight lists are not time-sorted — sort them before answering first or last</li>
-        <li>Error messages are not gospel: the header they tell you to add is never read by the server</li>
+        <li>Amap: addresses and coordinates, nearby places, routes, weather, map tiles</li>
+        <li>Variflight: flight schedules, transfers, fares</li>
+        <li>Ctrip: services, duration, availability, fares</li>
+        <li>Open-Meteo: forecast, historical weather</li>
+        <li>Amap and Variflight need your own key (Amap console; a Variflight application guide ships with the skill); Ctrip and Open-Meteo work as-is</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Planning basis</h3>
+      <h3>What it doesn&#x27;t do</h3>
       <ul>
-        <li>Two formulas — sightseeing vs vacation — that set the whole plan&#x27;s centre of gravity</li>
-        <li>Two planning orders: lock irreversible transport and days first, then moveable attractions and meals</li>
-        <li>Modes and order only; no attraction shortlisting, no hour-level schedule</li>
-      </ul>
-    </section>
-    <section class="capability-block">
-      <h3>Boundaries</h3>
-      <ul>
+        <li>No itinerary: data and planning order only — no attraction shortlisting, no hour-level schedule</li>
         <li>No scraping Dianping / Xiaohongshu: no public API, strict anti-bot</li>
-        <li>No key sharing, no captcha bypass</li>
-        <li>Data can be complete; the conclusion stays with the human</li>
+        <li>No verdicts: data can be complete, the trade-offs stay with you</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Why the answers hold up</h3>
+      <ul>
+        <li>All four sources ship verified rules: attraction coordinates need a place-name search, flights and transfers use different three-letter codes, flight lists must be sorted by time, and error text can point at a header the server never reads</li>
+        <li>Those rules live in the skill itself, so the agent follows them on every call</li>
       </ul>
     </section>
         </section>
