@@ -495,9 +495,13 @@
           {
             "heading": "对话长什么样",
             "items": [
-              "你说：明知指标失真，还是得配合表演",
-              "侧边框架原位长出一层：已确认现象 / 机制 / 跨层边 / 待验证假设",
-              "它只回一两句：「最磨人的可能不是多做几步，而是还得把怀疑藏起来。你更累的是无效动作，还是被迫假装认同？」",
+              "你说：「冰箱里的菜总在坏，扔的时候还挺内疚」",
+              "侧边框架原位长出四层——",
+              "已确认现象：菜是周末一次买齐的，坏掉的多是叶菜",
+              "机制假设：采购按周、消耗按天，单位错配最先崩在最不耐放的菜上",
+              "跨层边：下班时间 → 一周做几次饭 → 一次买多少",
+              "待验证：那几天没做饭，是没时间，还是没心情",
+              "它只回一两句：「坏的多是叶菜，说明问题在采购节奏，不在记性。这周有几天是明确没时间做饭的？」",
               "侧边那份文档你看得见：原生侧边栏、你指定的本地 Markdown，或云端一个未公开列出的 Gist"
             ]
           },
@@ -531,9 +535,13 @@
           {
             "heading": "What a session looks like",
             "items": [
-              "You say: I know the metric is broken, and I still have to play along",
-              "The side surface expands that node in place: confirmed phenomenon / mechanism / cross-layer edge / open hypothesis",
-              "It replies in one or two sentences: “The exhausting part may not be the extra steps but having to hide the doubt. Which wears you down more — the wasted work, or the forced agreement?”",
+              "You say: “Vegetables keep going bad in my fridge, and binning them feels awful.”",
+              "The side surface expands that node in place —",
+              "Confirmed: groceries are bought once a week, and the waste is mostly leafy greens",
+              "Mechanism hypothesis: shopping runs weekly, eating runs daily — the mismatch breaks first on whatever perishes fastest",
+              "Cross-layer edge: commute hours → how often you cook → how much you buy at once",
+              "Open question: on the days you didn't cook, was it no time or no appetite for it",
+              "It replies in one or two sentences: “It's mostly leafy greens, so this is buying rhythm, not memory. How many days this week did you genuinely have no time to cook?”",
               "You can watch that document: a native side panel, a local Markdown file you name, or one unlisted Gist in the cloud"
             ]
           },
