@@ -71,6 +71,19 @@ victor42-skills/
 - 卡片链到 `./{slug}/`；顺序即 `data.json` 中 `skills` 数组顺序
 - 壳层 UI 文案在 `shared.js` 的 `UI_TEXT`；内容文案在 `data.json`
 - `index.html` 内含目录内容的静态预渲染（简介、卡片网格、完整 ItemList JSON-LD），供无 JS 环境与搜索引擎抓取；JS 加载 `data.json` 后以相同结构重绘。增删 skill 或改文案时，`data.json` 与 `index.html` 的静态块需同步更新
+- **手工镜像会静默失效**：`ItemList` 由五个对象拼成一段 JSON，缺一个逗号或多一个尾逗号，浏览器与爬虫都会整块丢弃且不报错（页面一切正常，结构化数据消失）。动过条目就校验一次：
+
+```bash
+python3 -c '
+import json,re,glob
+fs=["index.html"]+sorted(glob.glob("*/index.html"))
+n=0
+for f in fs:
+    for b in re.findall(r"<script type=\"application/ld\+json\"[^>]*>(.*?)</script>", open(f,encoding="utf-8").read(), re.S):
+        json.loads(b); n+=1
+print("json-ld ok:", n, "blocks /", len(fs), "pages")
+'
+```
 
 ### 3.2 落地页（脚本生成）
 
@@ -106,10 +119,10 @@ victor42-skills/
    - 流程型（handoff、china-travel-data）：什么场景下我会用到它 → 给真实问句或场景
    - 工具型（file-image-toolkit）：我这堆活儿它能干吗、要不要学命令 → 给「你说一句」的例子
    - 产出型（poem-six-lens）：它交付什么、跟直接问 AI 差在哪 → 给交付物结构与一段真实节选
-   - 方法型（cognition-shaper）：这到底是干嘛的 → 给一段真实对话片段
+   - 方法型（cognition-shaper）：这到底是干嘛的 → 给一段对话片段：读者的一句话、框架长出的骨架、它回的那一句追问
 
    五页不共用一套块名与块数。照搬结构会让页面迁就模板，而不是读者。
-2. **示例优先于清单。** 能写成「你说 … → 得到 …」的，不要写成名词列表；一个真实片段抵十句形容词。示例只用 skill 本体里已有的真实内容，不创作素材。
+2. **示例优先于清单。** 能写成「你说 … → 得到 …」的，不要写成名词列表；一个具体片段抵十句形容词。示例可以是新写的情境，但必须与 skill 的实际行为一致、事实可核查；能直接引用本体里已有的素材更好。选取标准是「读者真的会带着这件事来找它」（学一个陌生领域、一堆待处理的文件、一篇想读懂的诗），不要用抽象的组织现象代替具体情境。
 3. **可信度单独成块，不用「坑」当标题。** 同一批事实，主语写成「它凭什么准」（校验规则、来源分级、不覆盖原文件），而不是「这工具哪里不对」。细节留在 skill 本体，门户一句引用。
 4. **期待管理前置。**「它不做什么」写在安装指令之前，不当页脚注释。
 5. **术语下沉，收益上浮。** 出现即分母的机制词（调用契约、错误分层、双表面、Living Surface）在门户正文换成结果语言；内部术语可留作括注。
@@ -121,7 +134,7 @@ victor42-skills/
 
 1. 将通用化后的内容写入 `skills/<slug>/`（保持干净目录，无打包噪音文件）；handoff 另有同步约定，见 §4.2
 2. 在 `data.json` 追加或更新条目（文案按 §3.5 写，中英同改；数组顺序 = 门户顺序，展示位即数组下标，不按 `updated` 排序；新增默认追加末尾，要换位就移动该对象。skill 内容发版时刷新 `updated`，它只喂 `sitemap.xml` 的 `lastmod` 与 JSON-LD 的 `dateModified`，只改门户文案不必动）
-3. 目录页 `index.html` 的静态预渲染块同步该条目：卡片（emoji / 名称 / `skill-summary`）与 ItemList JSON-LD 的 `description`，都与 `data.json` 同源同文
+3. 目录页 `index.html` 的静态预渲染块同步该条目：卡片（emoji / 名称 / `skill-summary`）与 ItemList JSON-LD 的 `description`，都与 `data.json` 同源同文；改完按 §3.1 的命令校验一次 JSON-LD
 4. （可选）从 `skills/` 打 zip（顶层目录 `<slug>/`，排除 `.DS_Store` / `__pycache__` / `*.pyc`）并上传 `cloud/skills/<slug>.zip`。当环境没有 `zip` 命令时用 Python `zipfile` 构建，命令与校验见 §4.2 第 5–6 步
 5. `python3 scripts/generate_og_images.py`（仅当该 skill 的名称或安装命令变化时；判据见 §3.3）
 6. `python3 scripts/generate_site.py`
