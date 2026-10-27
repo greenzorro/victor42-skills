@@ -26,8 +26,8 @@
         "en": "Handoff"
       },
       "summary": {
-        "zh": "多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。",
-        "en": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk by default, in your own bucket once you connect one."
+        "zh": "当你做到一半要换 AI 工具，它把进度、决策与下一步交接给下一棒。",
+        "en": "When a task is half done and you switch AI tools, it hands the progress, decisions and next steps to the next agent."
       },
       "capabilities": {
         "zh": [
@@ -127,79 +127,119 @@
         "en": "File-Image Toolkit"
       },
       "summary": {
-        "zh": "CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、公众号文章视频下载、文件夹扁平化等批量文件操作。",
-        "en": "CLI toolkit for format conversion, resize, dedup, GIF compose, audio/video convert, WeChat article video download, and bulk file operations."
+        "zh": "当你有一堆图片、视频或文件夹要批量处理，说一句话，它替你跑完命令。",
+        "en": "When a pile of images, videos or nested folders needs batch work, say it in one line and it runs the commands for you."
       },
       "capabilities": {
         "zh": [
           {
+            "heading": "你说一句，它干活",
+            "items": [
+              "「把这些 png 转成 webp」→ 整个文件夹批量转，同名文件自动加序号",
+              "「把这张图缩到 800px」→ 等比缩放，不裁掉内容",
+              "「这几张图合成 GIF」→ 多帧合成，也能把 GIF 拆回帧序列",
+              "「从视频里提取音频」→ mp4 直接出 mp3",
+              "「把嵌套文件夹里的文件都提取出来」→ 压平到一层，文件名不丢",
+              "不用自己写命令：装好后用自然语言说，Agent 去调脚本"
+            ]
+          },
+          {
             "heading": "图片",
             "items": [
-              "格式互转：jpg / png / webp / avif / gif / bmp / tiff",
-              "Resize：指定宽高，裁剪或填充",
-              "缩放：设定最大边长，保持比例",
+              "格式互转：jpg / jpeg / png / webp / avif / gif / bmp / tiff 任意互转",
+              "按尺寸改：指定宽高，裁剪或填充",
+              "按边长缩放：设定最大边长，保持比例",
               "裁头像：自动检测人脸，输出圆形或方形",
-              "去重：感知哈希识别相似图",
-              "GIF：多帧合成 / GIF 拆成帧序列"
+              "去重：感知哈希找相似图，副本移入单独目录，保留最清晰那张",
+              "GIF：多帧合成，或拆成帧序列"
             ]
           },
           {
             "heading": "音视频",
             "items": [
               "音频互转：mp3 / wav / flac / aac / ogg / m4a / opus",
-              "视频互转：mp4 / avi / mov / mkv / webm 等",
-              "从视频提取音轨",
-              "多张图片合成视频，支持交叉淡入淡出"
+              "视频互转：mp4 / avi / mov / mkv / webm 等，可转 GIF",
+              "提取音轨：从视频里取出音频",
+              "图片合成视频：多张图拼接，支持交叉淡入淡出"
             ]
           },
           {
             "heading": "下载",
             "items": [
-              "下载微信公众号文章内嵌视频，按视频标题命名，可选最高清或全部清晰度"
+              "公众号文章内嵌视频：按视频标题命名，可选最高清或全部清晰度"
             ]
           },
           {
             "heading": "文件管理",
             "items": [
-              "嵌套文件夹一键扁平化",
+              "嵌套文件夹压平到一层",
               "按 CSV 批量重命名",
-              "支持单文件与整文件夹批量处理"
+              "单文件与整文件夹都支持"
+            ]
+          },
+          {
+            "heading": "动手前会发生什么",
+            "items": [
+              "首次运行自动检查 Python 3.8+ 与依赖包，缺了帮你装",
+              "只有音视频的活才需要 FFmpeg（4.3+），纯图片处理不需要",
+              "批量转换、压平、重命名可以先看一份计划（dry-run）再执行",
+              "同名文件自动加序号，不覆盖原文件"
             ]
           }
         ],
         "en": [
           {
+            "heading": "Say it, it runs it",
+            "items": [
+              "“Turn these pngs into webp” → whole-folder batch, same-name files get numbered",
+              "“Scale this image to 800px” → proportional, nothing cropped",
+              "“Turn these images into a GIF” → multi-frame compose, or split a GIF back into frames",
+              "“Pull the audio out of this video” → mp4 in, mp3 out",
+              "“Flatten this nested folder” → one level, no filenames lost",
+              "No commands to write: install it, speak plainly, the agent calls the scripts"
+            ]
+          },
+          {
             "heading": "Images",
             "items": [
-              "Convert among jpg / png / webp / avif / gif / bmp / tiff",
-              "Resize with crop or pad modes",
-              "Scale by max edge while keeping aspect ratio",
-              "Avatar crop with face detection (circle or square)",
-              "Dedup via perceptual hash",
-              "Compose GIF from frames / explode GIF to frames"
+              "Convert between jpg / jpeg / png / webp / avif / gif / bmp / tiff",
+              "Resize by exact width and height, crop or pad",
+              "Scale by longest edge, keeping the aspect ratio",
+              "Avatar crop: face detection, round or square output",
+              "Dedupe: perceptual hash finds near-duplicates, moves copies to a separate folder and keeps the sharpest one",
+              "GIF: compose frames into a GIF, or split one back into frames"
             ]
           },
           {
-            "heading": "Audio & video",
+            "heading": "Audio and video",
             "items": [
-              "Convert audio: mp3 / wav / flac / aac / ogg / m4a / opus",
-              "Convert video: mp4 / avi / mov / mkv / webm, and more",
-              "Extract audio tracks from video",
-              "Images → video with optional crossfade"
+              "Convert mp3 / wav / flac / aac / ogg / m4a / opus",
+              "Convert mp4 / avi / mov / mkv / webm and more; video to GIF",
+              "Extract the audio track from a video",
+              "Build a video from stills, with cross-fades"
             ]
           },
           {
-            "heading": "Download",
+            "heading": "Downloads",
             "items": [
-              "Download videos embedded in WeChat articles, named by video title, best-quality or all resolutions"
+              "Videos embedded in WeChat articles: named after the video title, highest quality only or every quality"
             ]
           },
           {
-            "heading": "Files",
+            "heading": "File management",
             "items": [
-              "Flatten nested folders in one pass",
-              "Batch rename from CSV",
-              "Works on single files or whole folders"
+              "Flatten a nested folder into one level",
+              "Batch rename from a CSV",
+              "Single files or whole folders"
+            ]
+          },
+          {
+            "heading": "What happens before it touches your files",
+            "items": [
+              "First run checks Python 3.8+ and the dependency packages, installing what's missing",
+              "FFmpeg (4.3+) is only needed for audio and video work; image-only tasks don't need it",
+              "Batch convert, flatten and rename can run a dry-run plan first",
+              "Same-name files get numbered; originals are never overwritten"
             ]
           }
         ]
@@ -236,8 +276,8 @@
         "en": "China Travel Data"
       },
       "summary": {
-        "zh": "把「查航班、查火车、查天气、找地点」变成能直接回答的问题。数据来自高德、飞常准、携程与 Open-Meteo，附已校验过的查询规则，避免 Agent 编出假航班号。只给数据与顺序，不排行程。",
-        "en": "Turns “which flight, which train, what weather, where exactly” into answers. Data from Amap, Variflight, Ctrip and Open-Meteo, with verified query rules that keep the agent from inventing flight numbers. Data and order only, no itinerary."
+        "zh": "当你要查航班、火车、天气或地点，它让 AI 给真数据而不是编一个；只给数据，不排行程。",
+        "en": "When you need flights, trains, weather or places, it makes the agent answer from real data instead of guessing — data only, no itinerary."
       },
       "capabilities": {
         "zh": [
@@ -343,63 +383,79 @@
         "en": "Poem Six-Lens"
       },
       "summary": {
-        "zh": "古典诗词深度解读方法：从时代、作者、地理、文学性、传统、接受史六个维度立体读一首诗。",
-        "en": "In-depth classical Chinese poetry interpretation from six lenses: era, author, geography, craft, tradition, and reception history."
+        "zh": "当你想真正读懂一首古诗，它按六个维度写一篇有出处的完整解读。",
+        "en": "When you want to actually understand a classical Chinese poem, it writes one full reading along six lenses, with sources."
       },
       "capabilities": {
         "zh": [
           {
-            "heading": "六维读法",
+            "heading": "读出来是什么样",
             "items": [
-              "【世】时代背景：这首诗何以在此刻写成",
-              "【人】作者生平：诗人的处境与意图",
-              "【地】地理：地名、空间与意象如何落地",
-              "【统】文学传统：它继承或改写了什么",
-              "【受】接受史：后人如何读它、为什么传下来",
-              "【文】作品本体：技艺与结构——它为何是艺术"
+              "交付物是一份完整文档：原文 → 六维解读 → 六合收敛 → 收敛时间线（表格 + 交汇反应 + 系年注）",
+              "例：杜牧《过华清宫》的【世】——「写盛唐是为了诊断晚唐：距安史之乱七十年，宦官掌神策军、藩镇形同独立。诗的政治锋芒就在这古今同构里。」",
+              "不是一行翻译，也不是把现成赏析换个说法"
             ]
           },
           {
-            "heading": "产出形态",
+            "heading": "六个维度各做什么",
             "items": [
-              "出版级深度解读，而非一行翻译或浅层赏析",
-              "先写六合草稿，再收敛创作前时间线，最后合成可读文本",
-              "服务对象：有好奇心、无专业文学素养的深度读者"
+              "【世】时代：这首诗何以在此刻写成",
+              "【人】作者：什么处境与身份让它成为必然",
+              "【地】地理：地名与空间如何落地成意象",
+              "【统】传统：它继承或改写了什么",
+              "【受】接受史：后人怎么读它，为什么传下来",
+              "【文】本体：技艺与结构——它为何是艺术"
             ]
           },
           {
-            "heading": "适用与否",
+            "heading": "它靠什么保证不出错",
             "items": [
-              "适用：古典诗歌历史名篇（作者、系年、接受史有据可查）",
-              "不适用：简单翻译、现代自由诗、作者不可考或信息极度稀薄的篇目"
+              "色温先对齐学界主流读法：自己的解读与有据主流相悖时，改的是解读，不是硬拗",
+              "生卒、系年、字号、官职这类主张要定位到一手史料；查不到就写成假说，有多说就列多说",
+              "平仄、韵部、体裁按平水韵核查，不靠猜"
+            ]
+          },
+          {
+            "heading": "什么时候不用",
+            "items": [
+              "现代自由诗、只是想要一句翻译、作者不可考或资料极稀的篇目",
+              "想要一段短评或金句，而不是一篇完整解读"
             ]
           }
         ],
         "en": [
           {
-            "heading": "Six lenses",
+            "heading": "What a reading looks like",
             "items": [
-              "Era: why this poem was written in this moment",
-              "Author: the poet's situation and intent",
-              "Geography: places, space, and how imagery lands",
-              "Tradition: what it inherits or rewrites",
-              "Reception: how later readers shaped its afterlife",
-              "Craft: structure and technique — why it is art"
+              "One complete document: the poem → six-lens reading → convergence → a convergence timeline (table, cross-currents, dating notes)",
+              "For Du Mu's *Passing Huaqing Palace*, the era lens reads the High Tang scene as a diagnosis of the late Tang — seventy years after An Lushan, eunuchs holding the palace army, warlords running their own provinces; the political edge sits in that mirroring",
+              "Not a line-by-line translation, and not an existing essay reworded"
             ]
           },
           {
-            "heading": "What you get",
+            "heading": "What each lens does",
             "items": [
-              "Publication-grade interpretation, not a one-line gloss",
-              "Draft across six lenses → converge pre-composition timeline → readable synthesis",
-              "For curious deep readers without specialist literary training"
+              "Era — why this poem could only be written at this moment",
+              "Author — which circumstances and identity made it inevitable",
+              "Geography — how place names and space become imagery",
+              "Tradition — what it inherits or rewrites",
+              "Reception — how later readers took it, and why it survived",
+              "Craft — technique and structure: why it is art"
             ]
           },
           {
-            "heading": "Fit",
+            "heading": "Why it holds up",
             "items": [
-              "Best for well-documented classical poems",
-              "Not for simple translation, modern free verse, or barely attested texts"
+              "Emotional temperature is checked against the scholarly mainstream first; if the reading conflicts with a documented consensus, the reading changes, not the consensus",
+              "Dates, ages, courtesy names and offices must be traced to a primary source; without one the claim is written as a hypothesis, and competing accounts are listed",
+              "Tonal patterns, rhyme categories and form are checked against the Pingshui rhyme tables, not guessed"
+            ]
+          },
+          {
+            "heading": "When not to use it",
+            "items": [
+              "Modern free verse, a plain translation, or a poem whose author and dating are unknown or thinly documented",
+              "You want a short verdict or a quotable line, not a full reading"
             ]
           }
         ]
@@ -431,59 +487,79 @@
         "en": "Cognition Shaper"
       },
       "summary": {
-        "zh": "用短促的苏格拉底对话推动思考，同时在侧边维护一份持续生长、无损展开的认知框架。",
-        "en": "Build a living cognitive model beside concise Socratic dialogue, expanding ideas in place without losing confirmed detail."
+        "zh": "当你想不透一件事，它短问短答，同时把你的理解长成一份框架。",
+        "en": "When a question won't come clear, it asks one short question at a time while your understanding grows into one structured document."
       },
       "capabilities": {
         "zh": [
           {
-            "heading": "双表面共建",
+            "heading": "对话长什么样",
             "items": [
-              "聊天保持短促、具体，每轮最多推进一个因果问题",
-              "Living Surface 承载完整模型，随对话原位展开而不是记录流水账",
-              "适配原生侧边文档、本地 Markdown 与云端远程文档三类环境"
+              "你说：明知指标失真，还是得配合表演",
+              "侧边框架原位长出一层：已确认现象 / 机制 / 跨层边 / 待验证假设",
+              "它只回一两句：「最磨人的可能不是多做几步，而是还得把怀疑藏起来。你更累的是无效动作，还是被迫假装认同？」",
+              "侧边那份文档你看得见：原生侧边栏、你指定的本地 Markdown，或云端一个未公开列出的 Gist"
             ]
           },
           {
-            "heading": "认知方法",
+            "heading": "什么时候值得开",
             "items": [
-              "先锁定使用者、目标、场景与现实约束，再构建框架",
-              "从微观现象切入，向下寻找第一性原理底座并标记跨层因果",
-              "保留可证伪假设、反例、具体案例与所有已确认细节"
+              "一件事反复想不透，需要被一层层问下去",
+              "要跟 AI 多轮共建一个理解，而不是问一句拿一个答案",
+              "想把过程中的假设、反例、已确认细节留下来",
+              "只有你明确要求时才启动，普通提问不会变成大工程"
             ]
           },
           {
-            "heading": "适用与边界",
+            "heading": "它跟普通聊天差在哪",
             "items": [
-              "适用：明确要求认知塑形或多轮共建持续生长的认知模型",
-              "不适用：普通解释、一次性分析、翻译或内容发布",
-              "云端默认使用 secret Gist；它仅未公开列出，并非私密存储，失败时回退为聊天全文"
+              "聊天保持短促：每轮最多推进一个因果问题，不甩一大段综述",
+              "侧边文档原位展开：不写流水账，已确认的细节与未定的猜测分开放，不丢",
+              "从具体现象切入，向下追到第一性原理，并标出跨层的因果"
+            ]
+          },
+          {
+            "heading": "边界与隐私",
+            "items": [
+              "不用于一次性解释、翻译或内容发布",
+              "云端走 secret Gist：未公开列出，但并不等于加密；涉及敏感内容它会先问你",
+              "本地模式只写你指定的那个文件，不自己挑路径"
             ]
           }
         ],
         "en": [
           {
-            "heading": "Two coordinated surfaces",
+            "heading": "What a session looks like",
             "items": [
-              "Keeps chat concise and concrete, advancing at most one causal question per turn",
-              "Maintains the full model in a Living Surface that expands in place instead of becoming a transcript",
-              "Adapts to native side documents, local Markdown, and remote cloud documents"
+              "You say: I know the metric is broken, and I still have to play along",
+              "The side surface expands that node in place: confirmed phenomenon / mechanism / cross-layer edge / open hypothesis",
+              "It replies in one or two sentences: “The exhausting part may not be the extra steps but having to hide the doubt. Which wears you down more — the wasted work, or the forced agreement?”",
+              "You can watch that document: a native side panel, a local Markdown file you name, or one unlisted Gist in the cloud"
             ]
           },
           {
-            "heading": "Cognitive method",
+            "heading": "When it earns its place",
             "items": [
-              "Locks the user, goal, scene, and real constraints before building the framework",
-              "Enters through a micro-phenomenon, then finds first-principles bedrock and cross-layer causality",
-              "Preserves falsifiable hypotheses, counterexamples, concrete cases, and every confirmed detail"
+              "A question keeps resisting you and needs to be asked down, layer by layer",
+              "You want to co-build an understanding over many turns, not collect one-shot answers",
+              "You want the hypotheses, counterexamples and confirmed details to survive the conversation",
+              "It only starts when you ask for it; an ordinary question won't turn into this"
             ]
           },
           {
-            "heading": "Fit and boundaries",
+            "heading": "How it differs from ordinary chat",
             "items": [
-              "Use for explicit Cognition Shaper requests or multi-turn co-building of a living cognitive model",
-              "Not for ordinary explanations, one-shot analysis, translation, or publishing",
-              "Cloud mode defaults to a secret Gist; it is unlisted, not private, with full-document chat fallback"
+              "Chat stays short: at most one causal question per turn, no wall of summary",
+              "The side document is rewritten in place: never a changelog, and confirmed detail or open uncertainty is never dropped",
+              "It enters through a concrete phenomenon, digs down to first principles, and marks causal edges that cross layers"
+            ]
+          },
+          {
+            "heading": "Boundaries and privacy",
+            "items": [
+              "Not for one-off explanations, translation or publishing",
+              "The cloud path uses a secret Gist: unlisted, which is not the same as encrypted — it asks first before publishing anything sensitive",
+              "Local mode writes only the file you name, and never picks a path itself"
             ]
           }
         ]

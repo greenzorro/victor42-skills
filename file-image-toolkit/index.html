@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文件图像工具包 - Victor42 · Agent Skills</title>
 
-    <meta name="description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、公众号文章视频下载、文件夹扁平化等批量文件操作。">
+    <meta name="description" content="当你有一堆图片、视频或文件夹要批量处理，说一句话，它替你跑完命令。">
     <meta name="author" content="Victor42">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://skills.victor42.work/file-image-toolkit/">
@@ -23,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="文件图像工具包 - Victor42 · Agent Skills">
-    <meta property="og:description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、公众号文章视频下载、文件夹扁平化等批量文件操作。">
+    <meta property="og:description" content="当你有一堆图片、视频或文件夹要批量处理，说一句话，它替你跑完命令。">
     <meta property="og:url" content="https://skills.victor42.work/file-image-toolkit/">
     <meta property="og:site_name" content="Victor42 · Agent Skills">
     <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="文件图像工具包">
-    <meta name="twitter:description" content="CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、公众号文章视频下载、文件夹扁平化等批量文件操作。">
+    <meta name="twitter:description" content="当你有一堆图片、视频或文件夹要批量处理，说一句话，它替你跑完命令。">
     <meta name="twitter:image" content="https://skills.victor42.work/assets/og-file-image-toolkit.png">
 
     <meta name="theme-color" content="#2A9D8F">
@@ -49,7 +49,7 @@
   "@type": "SoftwareApplication",
   "name": "File-Image Toolkit",
   "alternateName": "文件图像工具包",
-  "description": "CLI toolkit for format conversion, resize, dedup, GIF compose, audio/video convert, WeChat article video download, and bulk file operations.",
+  "description": "When a pile of images, videos or nested folders needs batch work, say it in one line and it runs the commands for you.",
   "url": "https://skills.victor42.work/file-image-toolkit/",
   "downloadUrl": "https://cloud.victor42.work/skills/file-image-toolkit.zip",
   "codeRepository": "https://github.com/greenzorro/victor42-skills",
@@ -101,8 +101,8 @@
             <div class="detail-emoji" aria-hidden="true">🖼️</div>
             <h1 class="detail-title" data-lang="zh">文件图像工具包</h1>
             <h1 class="detail-title" data-lang="en" hidden>File-Image Toolkit</h1>
-            <p class="detail-summary" data-lang="zh">CLI 工具集：图片格式转换、缩放、去重、GIF 合成、音视频转换、公众号文章视频下载、文件夹扁平化等批量文件操作。</p>
-            <p class="detail-summary" data-lang="en" hidden>CLI toolkit for format conversion, resize, dedup, GIF compose, audio/video convert, WeChat article video download, and bulk file operations.</p>
+            <p class="detail-summary" data-lang="zh">当你有一堆图片、视频或文件夹要批量处理，说一句话，它替你跑完命令。</p>
+            <p class="detail-summary" data-lang="en" hidden>When a pile of images, videos or nested folders needs batch work, say it in one line and it runs the commands for you.</p>
         </header>
 
         <section class="panel">
@@ -131,74 +131,114 @@
         <section class="panel capabilities-panel" data-lang="zh">
             <h2>能力</h2>
     <section class="capability-block">
+      <h3>你说一句，它干活</h3>
+      <ul>
+        <li>「把这些 png 转成 webp」→ 整个文件夹批量转，同名文件自动加序号</li>
+        <li>「把这张图缩到 800px」→ 等比缩放，不裁掉内容</li>
+        <li>「这几张图合成 GIF」→ 多帧合成，也能把 GIF 拆回帧序列</li>
+        <li>「从视频里提取音频」→ mp4 直接出 mp3</li>
+        <li>「把嵌套文件夹里的文件都提取出来」→ 压平到一层，文件名不丢</li>
+        <li>不用自己写命令：装好后用自然语言说，Agent 去调脚本</li>
+      </ul>
+    </section>
+    <section class="capability-block">
       <h3>图片</h3>
       <ul>
-        <li>格式互转：jpg / png / webp / avif / gif / bmp / tiff</li>
-        <li>Resize：指定宽高，裁剪或填充</li>
-        <li>缩放：设定最大边长，保持比例</li>
+        <li>格式互转：jpg / jpeg / png / webp / avif / gif / bmp / tiff 任意互转</li>
+        <li>按尺寸改：指定宽高，裁剪或填充</li>
+        <li>按边长缩放：设定最大边长，保持比例</li>
         <li>裁头像：自动检测人脸，输出圆形或方形</li>
-        <li>去重：感知哈希识别相似图</li>
-        <li>GIF：多帧合成 / GIF 拆成帧序列</li>
+        <li>去重：感知哈希找相似图，副本移入单独目录，保留最清晰那张</li>
+        <li>GIF：多帧合成，或拆成帧序列</li>
       </ul>
     </section>
     <section class="capability-block">
       <h3>音视频</h3>
       <ul>
         <li>音频互转：mp3 / wav / flac / aac / ogg / m4a / opus</li>
-        <li>视频互转：mp4 / avi / mov / mkv / webm 等</li>
-        <li>从视频提取音轨</li>
-        <li>多张图片合成视频，支持交叉淡入淡出</li>
+        <li>视频互转：mp4 / avi / mov / mkv / webm 等，可转 GIF</li>
+        <li>提取音轨：从视频里取出音频</li>
+        <li>图片合成视频：多张图拼接，支持交叉淡入淡出</li>
       </ul>
     </section>
     <section class="capability-block">
       <h3>下载</h3>
       <ul>
-        <li>下载微信公众号文章内嵌视频，按视频标题命名，可选最高清或全部清晰度</li>
+        <li>公众号文章内嵌视频：按视频标题命名，可选最高清或全部清晰度</li>
       </ul>
     </section>
     <section class="capability-block">
       <h3>文件管理</h3>
       <ul>
-        <li>嵌套文件夹一键扁平化</li>
+        <li>嵌套文件夹压平到一层</li>
         <li>按 CSV 批量重命名</li>
-        <li>支持单文件与整文件夹批量处理</li>
+        <li>单文件与整文件夹都支持</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>动手前会发生什么</h3>
+      <ul>
+        <li>首次运行自动检查 Python 3.8+ 与依赖包，缺了帮你装</li>
+        <li>只有音视频的活才需要 FFmpeg（4.3+），纯图片处理不需要</li>
+        <li>批量转换、压平、重命名可以先看一份计划（dry-run）再执行</li>
+        <li>同名文件自动加序号，不覆盖原文件</li>
       </ul>
     </section>
         </section>
         <section class="panel capabilities-panel" data-lang="en" hidden>
             <h2>Capabilities</h2>
     <section class="capability-block">
+      <h3>Say it, it runs it</h3>
+      <ul>
+        <li>“Turn these pngs into webp” → whole-folder batch, same-name files get numbered</li>
+        <li>“Scale this image to 800px” → proportional, nothing cropped</li>
+        <li>“Turn these images into a GIF” → multi-frame compose, or split a GIF back into frames</li>
+        <li>“Pull the audio out of this video” → mp4 in, mp3 out</li>
+        <li>“Flatten this nested folder” → one level, no filenames lost</li>
+        <li>No commands to write: install it, speak plainly, the agent calls the scripts</li>
+      </ul>
+    </section>
+    <section class="capability-block">
       <h3>Images</h3>
       <ul>
-        <li>Convert among jpg / png / webp / avif / gif / bmp / tiff</li>
-        <li>Resize with crop or pad modes</li>
-        <li>Scale by max edge while keeping aspect ratio</li>
-        <li>Avatar crop with face detection (circle or square)</li>
-        <li>Dedup via perceptual hash</li>
-        <li>Compose GIF from frames / explode GIF to frames</li>
+        <li>Convert between jpg / jpeg / png / webp / avif / gif / bmp / tiff</li>
+        <li>Resize by exact width and height, crop or pad</li>
+        <li>Scale by longest edge, keeping the aspect ratio</li>
+        <li>Avatar crop: face detection, round or square output</li>
+        <li>Dedupe: perceptual hash finds near-duplicates, moves copies to a separate folder and keeps the sharpest one</li>
+        <li>GIF: compose frames into a GIF, or split one back into frames</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Audio &amp; video</h3>
+      <h3>Audio and video</h3>
       <ul>
-        <li>Convert audio: mp3 / wav / flac / aac / ogg / m4a / opus</li>
-        <li>Convert video: mp4 / avi / mov / mkv / webm, and more</li>
-        <li>Extract audio tracks from video</li>
-        <li>Images → video with optional crossfade</li>
+        <li>Convert mp3 / wav / flac / aac / ogg / m4a / opus</li>
+        <li>Convert mp4 / avi / mov / mkv / webm and more; video to GIF</li>
+        <li>Extract the audio track from a video</li>
+        <li>Build a video from stills, with cross-fades</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Download</h3>
+      <h3>Downloads</h3>
       <ul>
-        <li>Download videos embedded in WeChat articles, named by video title, best-quality or all resolutions</li>
+        <li>Videos embedded in WeChat articles: named after the video title, highest quality only or every quality</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Files</h3>
+      <h3>File management</h3>
       <ul>
-        <li>Flatten nested folders in one pass</li>
-        <li>Batch rename from CSV</li>
-        <li>Works on single files or whole folders</li>
+        <li>Flatten a nested folder into one level</li>
+        <li>Batch rename from a CSV</li>
+        <li>Single files or whole folders</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>What happens before it touches your files</h3>
+      <ul>
+        <li>First run checks Python 3.8+ and the dependency packages, installing what&#x27;s missing</li>
+        <li>FFmpeg (4.3+) is only needed for audio and video work; image-only tasks don&#x27;t need it</li>
+        <li>Batch convert, flatten and rename can run a dry-run plan first</li>
+        <li>Same-name files get numbered; originals are never overwritten</li>
       </ul>
     </section>
         </section>
