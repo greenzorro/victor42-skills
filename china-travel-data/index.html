@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>国内旅行数据源 - Victor42 · Agent Skills</title>
 
-    <meta name="description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
     <meta name="author" content="Victor42">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://skills.victor42.work/china-travel-data/">
@@ -23,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="国内旅行数据源 - Victor42 · Agent Skills">
-    <meta property="og:description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta property="og:description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
     <meta property="og:url" content="https://skills.victor42.work/china-travel-data/">
     <meta property="og:site_name" content="Victor42 · Agent Skills">
     <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="国内旅行数据源">
-    <meta name="twitter:description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="twitter:description" content="国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
     <meta name="twitter:image" content="https://skills.victor42.work/assets/og-china-travel-data.png">
 
     <meta name="theme-color" content="#2A9D8F">
@@ -49,7 +49,7 @@
   "@type": "SoftwareApplication",
   "name": "China Travel Data",
   "alternateName": "国内旅行数据源",
-  "description": "Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary.",
+  "description": "Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary.",
   "url": "https://skills.victor42.work/china-travel-data/",
   "downloadUrl": "https://cloud.victor42.work/skills/china-travel-data.zip",
   "codeRepository": "https://github.com/greenzorro/victor42-skills",
@@ -101,8 +101,8 @@
             <div class="detail-emoji" aria-hidden="true">🗺️</div>
             <h1 class="detail-title" data-lang="zh">国内旅行数据源</h1>
             <h1 class="detail-title" data-lang="en" hidden>China Travel Data</h1>
-            <p class="detail-summary" data-lang="zh">四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。</p>
-            <p class="detail-summary" data-lang="en" hidden>Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary.</p>
+            <p class="detail-summary" data-lang="zh">国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。</p>
+            <p class="detail-summary" data-lang="en" hidden>Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary.</p>
         </header>
 
         <section class="panel">
@@ -129,21 +129,22 @@
         <section class="panel capabilities-panel" data-lang="zh">
             <h2>能力</h2>
     <section class="capability-block">
-      <h3>四个数据源</h3>
+      <h3>能查到什么</h3>
       <ul>
-        <li>高德 Web 服务：地址↔坐标、POI 检索、驾车/步行/公交路线、天气、地图瓦片</li>
-        <li>飞常准：计划航班、中转方案、机票价格，需 Key</li>
-        <li>携程 SSR：车次、历时、余票、票价，无需 Key</li>
-        <li>Open-Meteo：天气预报、城市地理编码、历史天气，无需 Key</li>
+        <li>航班：班次、中转方案、票价区间</li>
+        <li>火车：车次、历时、余票、票价</li>
+        <li>天气：未来预报、历史同期</li>
+        <li>地点：地址↔坐标、周边地点、驾车/步行/公交路线</li>
+        <li>高德与飞常准需要自备 Key，携程与 Open-Meteo 开箱即用</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>写进文档的坑</h3>
+      <h3>能少踩的坑</h3>
       <ul>
-        <li>地理编码只到城市/门牌级，景点坐标必须走 POI 检索</li>
-        <li>飞常准：航班用机场三字码，中转与价格用城市三字码</li>
-        <li>航班列表不按时刻排序，问「最早/末班」要自己排</li>
-        <li>401 报错会让你去加一个服务端根本不读的请求头</li>
+        <li>景点坐标要按地名检索，地址解析只能到城市与门牌级</li>
+        <li>查航班用机场三字码，查中转与票价用城市三字码</li>
+        <li>航班列表不按时刻排序，「最早/最晚」要自己排</li>
+        <li>报错提示不可全信：它让你补的那个请求头，服务端根本不读</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -166,21 +167,22 @@
         <section class="panel capabilities-panel" data-lang="en" hidden>
             <h2>Capabilities</h2>
     <section class="capability-block">
-      <h3>Four sources</h3>
+      <h3>What you can look up</h3>
       <ul>
-        <li>Amap: geocoding, POI search, driving/walking/transit routes, weather, map tiles</li>
-        <li>Variflight: schedules, transfers, fares — needs a key</li>
-        <li>Ctrip SSR: trains, duration, availability, fares — no key</li>
-        <li>Open-Meteo: forecast, city geocoding, historical weather — no key</li>
+        <li>Flights: schedules, transfer options, fare ranges</li>
+        <li>Trains: services, duration, availability, fares</li>
+        <li>Weather: forecast, same period in past years</li>
+        <li>Places: address ↔ coordinates, nearby places, driving/walking/transit routes</li>
+        <li>Amap and Variflight need your own key; Ctrip and Open-Meteo work as-is</li>
       </ul>
     </section>
     <section class="capability-block">
-      <h3>Pitfalls written down</h3>
+      <h3>Pitfalls it saves you from</h3>
       <ul>
-        <li>Geocoding stops at city/door level; POI coordinates need place/text</li>
-        <li>Variflight: airport codes for flights, city codes for transfers and fares</li>
-        <li>Flight lists are not time-sorted — sort before answering first/last</li>
-        <li>The 401 message points at a header the API never reads</li>
+        <li>Attraction coordinates need a place-name search; address parsing stops at city and door level</li>
+        <li>Look up flights by airport code, transfers and fares by city code</li>
+        <li>Flight lists are not time-sorted — sort them before answering first or last</li>
+        <li>Error messages are not gospel: the header they tell you to add is never read by the server</li>
       </ul>
     </section>
     <section class="capability-block">

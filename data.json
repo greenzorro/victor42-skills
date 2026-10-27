@@ -26,8 +26,8 @@
         "en": "Handoff"
       },
       "summary": {
-        "zh": "多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。",
-        "en": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket."
+        "zh": "多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。",
+        "en": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk by default, in your own bucket once you connect one."
       },
       "capabilities": {
         "zh": [
@@ -35,16 +35,16 @@
             "heading": "它做什么",
             "items": [
               "换到另一个 AI 工具时，生成一份临时交接包",
-              "核心只回答一个问题：下一棒 Agent 要继续推进，还缺什么？",
-              "默认只写 notes.md；脚本、结构化数据、长日志才单独成文件"
+              "只回答一个问题：下一棒要继续推进，还缺什么",
+              "通常只有一份 notes.md；脚本、结构化数据、长日志才单独成文件"
             ]
           },
           {
             "heading": "两种交接通道",
             "items": [
-              "本地目录（默认）：写成本机 handoff-<主题>/，不依赖网络和凭据",
-              "对象存储（可选）：放进你自己的 bucket，跨机器、跨工具都能取",
-              "先探活再选：云端不通会问你要本地方案还是修云端，不静默降级"
+              "本地目录：开箱即用，写成本机 handoff-<主题>/，不依赖网络与凭据",
+              "对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取",
+              "云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级"
             ]
           },
           {
@@ -52,14 +52,15 @@
             "items": [
               "Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes",
               "只保留继续推进所必需的路径、决策与约束",
-              "接手方做完全部待办后删除整个包；够不到位置时由你删除"
+              "接手方做完全部待办后删掉整个包；够不到位置时由你删"
             ]
           },
           {
             "heading": "何时触发",
             "items": [
               "你明确说「交接」「handoff」「换 Agent」「我要换工具继续」",
-              "多轮任务中途要换工具，又不想丢上下文"
+              "多轮任务中途要换工具，又不想丢上下文",
+              "你接手别人的交接包：按包内待办推进，做完负责删包"
             ]
           }
         ],
@@ -68,16 +69,16 @@
             "heading": "What it does",
             "items": [
               "Builds a temporary handoff package when you switch AI tools mid-task",
-              "Answers one question: what does the next agent need to keep going?",
-              "Defaults to notes.md only; scripts, structured data, and long logs get separate files"
+              "Answers one question: what does the next agent need to keep going",
+              "Normally a single notes.md; separate files only for scripts, structured data or long logs"
             ]
           },
           {
             "heading": "Two channels",
             "items": [
-              "Local directory (default): a handoff-<theme>/ folder on disk, no network or credentials",
-              "Object storage (opt-in): your own bucket, readable across machines and tools",
-              "Probe first: if the cloud path is down it asks whether to go local or fix it — no silent downgrade"
+              "Local directory: works out of the box, writes handoff-<theme>/ on this machine, no network or credentials",
+              "Object storage: after a one-time bucket, token and config setup, packages cross machines and tools",
+              "Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade"
             ]
           },
           {
@@ -85,14 +86,15 @@
             "items": [
               "Goal / Context / Current State (done · verified · open) / Handoff Notes",
               "Only the paths, decisions and constraints needed to continue",
-              "The receiving agent deletes the whole package when every task is done; it asks you if it can't reach it"
+              "The receiving agent deletes the whole package once every open item is done; you delete it if it can't reach the location"
             ]
           },
           {
             "heading": "When it triggers",
             "items": [
               "You explicitly ask for a handoff / agent switch / tool transfer",
-              "A multi-turn task needs to survive switching AI tools"
+              "A multi-turn task needs to survive switching AI tools",
+              "You receive someone's handoff package: work its open items, then delete it"
             ]
           }
         ]
@@ -232,27 +234,28 @@
         "en": "China Travel Data"
       },
       "summary": {
-        "zh": "四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。",
-        "en": "Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary."
+        "zh": "国内出行的四类数据源：航班、火车、天气、地点（高德、飞常准、携程、Open-Meteo）。写明参数格式与会让人拿到错答案的坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。",
+        "en": "Four classes of China travel data — flights, trains, weather, places (Amap, Variflight, Ctrip, Open-Meteo) — with the parameter formats and the pitfalls that quietly produce wrong answers, plus two travel modes and the planning order. Data and order only, no itinerary."
       },
       "capabilities": {
         "zh": [
           {
-            "heading": "四个数据源",
+            "heading": "能查到什么",
             "items": [
-              "高德 Web 服务：地址↔坐标、POI 检索、驾车/步行/公交路线、天气、地图瓦片",
-              "飞常准：计划航班、中转方案、机票价格，需 Key",
-              "携程 SSR：车次、历时、余票、票价，无需 Key",
-              "Open-Meteo：天气预报、城市地理编码、历史天气，无需 Key"
+              "航班：班次、中转方案、票价区间",
+              "火车：车次、历时、余票、票价",
+              "天气：未来预报、历史同期",
+              "地点：地址↔坐标、周边地点、驾车/步行/公交路线",
+              "高德与飞常准需要自备 Key，携程与 Open-Meteo 开箱即用"
             ]
           },
           {
-            "heading": "写进文档的坑",
+            "heading": "能少踩的坑",
             "items": [
-              "地理编码只到城市/门牌级，景点坐标必须走 POI 检索",
-              "飞常准：航班用机场三字码，中转与价格用城市三字码",
-              "航班列表不按时刻排序，问「最早/末班」要自己排",
-              "401 报错会让你去加一个服务端根本不读的请求头"
+              "景点坐标要按地名检索，地址解析只能到城市与门牌级",
+              "查航班用机场三字码，查中转与票价用城市三字码",
+              "航班列表不按时刻排序，「最早/最晚」要自己排",
+              "报错提示不可全信：它让你补的那个请求头，服务端根本不读"
             ]
           },
           {
@@ -274,21 +277,22 @@
         ],
         "en": [
           {
-            "heading": "Four sources",
+            "heading": "What you can look up",
             "items": [
-              "Amap: geocoding, POI search, driving/walking/transit routes, weather, map tiles",
-              "Variflight: schedules, transfers, fares — needs a key",
-              "Ctrip SSR: trains, duration, availability, fares — no key",
-              "Open-Meteo: forecast, city geocoding, historical weather — no key"
+              "Flights: schedules, transfer options, fare ranges",
+              "Trains: services, duration, availability, fares",
+              "Weather: forecast, same period in past years",
+              "Places: address ↔ coordinates, nearby places, driving/walking/transit routes",
+              "Amap and Variflight need your own key; Ctrip and Open-Meteo work as-is"
             ]
           },
           {
-            "heading": "Pitfalls written down",
+            "heading": "Pitfalls it saves you from",
             "items": [
-              "Geocoding stops at city/door level; POI coordinates need place/text",
-              "Variflight: airport codes for flights, city codes for transfers and fares",
-              "Flight lists are not time-sorted — sort before answering first/last",
-              "The 401 message points at a header the API never reads"
+              "Attraction coordinates need a place-name search; address parsing stops at city and door level",
+              "Look up flights by airport code, transfers and fares by city code",
+              "Flight lists are not time-sorted — sort them before answering first or last",
+              "Error messages are not gospel: the header they tell you to add is never read by the server"
             ]
           },
           {

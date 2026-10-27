@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handoff 交接 - Victor42 · Agent Skills</title>
 
-    <meta name="description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
+    <meta name="description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。">
     <meta name="author" content="Victor42">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://skills.victor42.work/handoff/">
@@ -23,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Handoff 交接 - Victor42 · Agent Skills">
-    <meta property="og:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
+    <meta property="og:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。">
     <meta property="og:url" content="https://skills.victor42.work/handoff/">
     <meta property="og:site_name" content="Victor42 · Agent Skills">
     <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Handoff 交接">
-    <meta name="twitter:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。">
+    <meta name="twitter:description" content="多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。">
     <meta name="twitter:image" content="https://skills.victor42.work/assets/og-handoff.png">
 
     <meta name="theme-color" content="#2A9D8F">
@@ -49,7 +49,7 @@
   "@type": "SoftwareApplication",
   "name": "Handoff",
   "alternateName": "Handoff 交接",
-  "description": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket.",
+  "description": "Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk by default, in your own bucket once you connect one.",
   "url": "https://skills.victor42.work/handoff/",
   "downloadUrl": "https://cloud.victor42.work/skills/handoff.zip",
   "codeRepository": "https://github.com/greenzorro/victor42-skills",
@@ -101,8 +101,8 @@
             <div class="detail-emoji" aria-hidden="true">🔀</div>
             <h1 class="detail-title" data-lang="zh">Handoff 交接</h1>
             <h1 class="detail-title" data-lang="en" hidden>Handoff</h1>
-            <p class="detail-summary" data-lang="zh">多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息，可落在本机目录，也可走你自己的对象存储。</p>
-            <p class="detail-summary" data-lang="en" hidden>Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk or in your own object bucket.</p>
+            <p class="detail-summary" data-lang="zh">多轮任务跨 Agent 工具切换时的上下文交接包。只保留下一棒 Agent 继续推进所需的最小信息；开箱写成本机目录，接上对象存储后可跨机器取。</p>
+            <p class="detail-summary" data-lang="en" hidden>Minimal context packages for switching AI tools mid-task. Keeps only what the next agent needs — on disk by default, in your own bucket once you connect one.</p>
         </header>
 
         <section class="panel">
@@ -128,16 +128,16 @@
       <h3>它做什么</h3>
       <ul>
         <li>换到另一个 AI 工具时，生成一份临时交接包</li>
-        <li>核心只回答一个问题：下一棒 Agent 要继续推进，还缺什么？</li>
-        <li>默认只写 notes.md；脚本、结构化数据、长日志才单独成文件</li>
+        <li>只回答一个问题：下一棒要继续推进，还缺什么</li>
+        <li>通常只有一份 notes.md；脚本、结构化数据、长日志才单独成文件</li>
       </ul>
     </section>
     <section class="capability-block">
       <h3>两种交接通道</h3>
       <ul>
-        <li>本地目录（默认）：写成本机 handoff-&lt;主题&gt;/，不依赖网络和凭据</li>
-        <li>对象存储（可选）：放进你自己的 bucket，跨机器、跨工具都能取</li>
-        <li>先探活再选：云端不通会问你要本地方案还是修云端，不静默降级</li>
+        <li>本地目录：开箱即用，写成本机 handoff-&lt;主题&gt;/，不依赖网络与凭据</li>
+        <li>对象存储：一次性配好桶、token 与 config 之后，跨机器、跨工具都能取</li>
+        <li>云端没配置就不问、直接本地；配置了但不通才问你选本地还是修云端，不静默降级</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -145,7 +145,7 @@
       <ul>
         <li>Goal / Context / Current State（已完成 · 已验证 · 待办）/ Handoff Notes</li>
         <li>只保留继续推进所必需的路径、决策与约束</li>
-        <li>接手方做完全部待办后删除整个包；够不到位置时由你删除</li>
+        <li>接手方做完全部待办后删掉整个包；够不到位置时由你删</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -153,6 +153,7 @@
       <ul>
         <li>你明确说「交接」「handoff」「换 Agent」「我要换工具继续」</li>
         <li>多轮任务中途要换工具，又不想丢上下文</li>
+        <li>你接手别人的交接包：按包内待办推进，做完负责删包</li>
       </ul>
     </section>
         </section>
@@ -162,16 +163,16 @@
       <h3>What it does</h3>
       <ul>
         <li>Builds a temporary handoff package when you switch AI tools mid-task</li>
-        <li>Answers one question: what does the next agent need to keep going?</li>
-        <li>Defaults to notes.md only; scripts, structured data, and long logs get separate files</li>
+        <li>Answers one question: what does the next agent need to keep going</li>
+        <li>Normally a single notes.md; separate files only for scripts, structured data or long logs</li>
       </ul>
     </section>
     <section class="capability-block">
       <h3>Two channels</h3>
       <ul>
-        <li>Local directory (default): a handoff-&lt;theme&gt;/ folder on disk, no network or credentials</li>
-        <li>Object storage (opt-in): your own bucket, readable across machines and tools</li>
-        <li>Probe first: if the cloud path is down it asks whether to go local or fix it — no silent downgrade</li>
+        <li>Local directory: works out of the box, writes handoff-&lt;theme&gt;/ on this machine, no network or credentials</li>
+        <li>Object storage: after a one-time bucket, token and config setup, packages cross machines and tools</li>
+        <li>Unconfigured cloud never asks and goes local; only a configured-but-unreachable cloud asks local-or-fix — no silent downgrade</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -179,7 +180,7 @@
       <ul>
         <li>Goal / Context / Current State (done · verified · open) / Handoff Notes</li>
         <li>Only the paths, decisions and constraints needed to continue</li>
-        <li>The receiving agent deletes the whole package when every task is done; it asks you if it can&#x27;t reach it</li>
+        <li>The receiving agent deletes the whole package once every open item is done; you delete it if it can&#x27;t reach the location</li>
       </ul>
     </section>
     <section class="capability-block">
@@ -187,6 +188,7 @@
       <ul>
         <li>You explicitly ask for a handoff / agent switch / tool transfer</li>
         <li>A multi-turn task needs to survive switching AI tools</li>
+        <li>You receive someone&#x27;s handoff package: work its open items, then delete it</li>
       </ul>
     </section>
         </section>
