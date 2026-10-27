@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国内旅行数据源 - Victor42 · Agent Skills</title>
+
+    <meta name="description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="author" content="Victor42">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://skills.victor42.work/china-travel-data/">
+
+    <link rel="alternate" hreflang="zh-CN" href="https://skills.victor42.work/china-travel-data/">
+    <link rel="alternate" hreflang="en" href="https://skills.victor42.work/china-travel-data/">
+    <link rel="alternate" hreflang="x-default" href="https://skills.victor42.work/china-travel-data/">
+
+    <meta name="skill:slug" content="china-travel-data">
+    <meta name="skill:cli-install" content="npx skills add greenzorro/victor42-skills --skill china-travel-data -g">
+    <meta name="skill:download-url" content="https://cloud.victor42.work/skills/china-travel-data.zip">
+    <meta name="skill:install-dir" content="china-travel-data">
+
+    <link rel="alternate" type="application/zip" href="https://cloud.victor42.work/skills/china-travel-data.zip" title="China Travel Data skill package">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="国内旅行数据源 - Victor42 · Agent Skills">
+    <meta property="og:description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta property="og:url" content="https://skills.victor42.work/china-travel-data/">
+    <meta property="og:site_name" content="Victor42 · Agent Skills">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="https://skills.victor42.work/assets/og-china-travel-data.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="国内旅行数据源 skill cover">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="国内旅行数据源">
+    <meta name="twitter:description" content="四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。">
+    <meta name="twitter:image" content="https://skills.victor42.work/assets/og-china-travel-data.png">
+
+    <meta name="theme-color" content="#2A9D8F">
+    <link rel="icon" type="image/x-icon" href="https://victor42.work/assets/images/favicon.ico">
+
+    <script src="../assets/analytics.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "China Travel Data",
+  "alternateName": "国内旅行数据源",
+  "description": "Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary.",
+  "url": "https://skills.victor42.work/china-travel-data/",
+  "downloadUrl": "https://cloud.victor42.work/skills/china-travel-data.zip",
+  "codeRepository": "https://github.com/greenzorro/victor42-skills",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform (AI agent runtime)",
+  "author": {
+    "@type": "Person",
+    "name": "Victor42",
+    "url": "https://victor42.work/"
+  },
+  "image": "https://skills.victor42.work/assets/og-china-travel-data.png",
+  "dateModified": "2026-10-27"
+}
+    </script>
+
+    <link rel="stylesheet" href="../assets/style.css?v=20260811">
+
+    <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        if (urlTheme === 'dark' || urlTheme === 'light') {
+            localStorage.setItem('theme', urlTheme);
+        }
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+
+    <script type="application/json" id="site-data">{"origin": "https://skills.victor42.work", "cdnBase": "https://cloud.victor42.work/skills", "parentSite": "https://victor42.work/", "parentLabel": {"zh": "小玩意", "en": "Gadgets"}, "github": "https://github.com/greenzorro/victor42-skills"}</script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换深色模式" type="button">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+    </button>
+
+    <button class="lang-toggle" id="lang-toggle" aria-label="切换语言" type="button">
+        <span class="lang-icon" aria-hidden="true">🌐</span>
+        <span class="lang-text">EN</span>
+    </button>
+
+    <div class="container">
+        <header class="skill-detail-header">
+            <a class="back-link" href="../">← Victor42 · Agent Skills</a>
+            <div class="detail-emoji" aria-hidden="true">🧭</div>
+            <h1 class="detail-title" data-lang="zh">国内旅行数据源</h1>
+            <h1 class="detail-title" data-lang="en" hidden>China Travel Data</h1>
+            <p class="detail-summary" data-lang="zh">四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。</p>
+            <p class="detail-summary" data-lang="en" hidden>Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary.</p>
+        </header>
+
+        <section class="panel">
+            <h2 data-lang="zh">触发词</h2>
+            <h2 data-lang="en" hidden>Triggers</h2>
+            <ul class="tag-list" data-lang="zh">
+    <li>查航班</li>
+    <li>查火车票</li>
+    <li>查天气</li>
+    <li>景点坐标</li>
+    <li>驾车距离</li>
+    <li>旅行数据源</li>
+            </ul>
+            <ul class="tag-list" data-lang="en" hidden>
+    <li>flight schedule</li>
+    <li>train tickets</li>
+    <li>weather forecast</li>
+    <li>POI coordinates</li>
+    <li>driving route</li>
+    <li>china travel data</li>
+            </ul>
+        </section>
+
+        <section class="panel capabilities-panel" data-lang="zh">
+            <h2>能力</h2>
+    <section class="capability-block">
+      <h3>四个数据源</h3>
+      <ul>
+        <li>高德 Web 服务：地址↔坐标、POI 检索、驾车/步行/公交路线、天气、地图瓦片</li>
+        <li>飞常准：计划航班、中转方案、机票价格，需 Key</li>
+        <li>携程 SSR：车次、历时、余票、票价，无需 Key</li>
+        <li>Open-Meteo：天气预报、城市地理编码、历史天气，无需 Key</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>写进文档的坑</h3>
+      <ul>
+        <li>地理编码只到城市/门牌级，景点坐标必须走 POI 检索</li>
+        <li>飞常准：航班用机场三字码，中转与价格用城市三字码</li>
+        <li>航班列表不按时刻排序，问「最早/末班」要自己排</li>
+        <li>401 报错会让你去加一个服务端根本不读的请求头</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>规划地基</h3>
+      <ul>
+        <li>游览与度假两套公式，决定整份计划的重心</li>
+        <li>两条规划顺序：先锁不可逆的交通与天数，再定可改的景点与餐厅</li>
+        <li>只到模式与顺序，不给景点筛选与小时级日程</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>边界</h3>
+      <ul>
+        <li>不抓大众点评 / 小红书：无公开 API，风控严格</li>
+        <li>不共享 Key、不绕过验证码</li>
+        <li>数据可以给全，结论由人下</li>
+      </ul>
+    </section>
+        </section>
+        <section class="panel capabilities-panel" data-lang="en" hidden>
+            <h2>Capabilities</h2>
+    <section class="capability-block">
+      <h3>Four sources</h3>
+      <ul>
+        <li>Amap: geocoding, POI search, driving/walking/transit routes, weather, map tiles</li>
+        <li>Variflight: schedules, transfers, fares — needs a key</li>
+        <li>Ctrip SSR: trains, duration, availability, fares — no key</li>
+        <li>Open-Meteo: forecast, city geocoding, historical weather — no key</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Pitfalls written down</h3>
+      <ul>
+        <li>Geocoding stops at city/door level; POI coordinates need place/text</li>
+        <li>Variflight: airport codes for flights, city codes for transfers and fares</li>
+        <li>Flight lists are not time-sorted — sort before answering first/last</li>
+        <li>The 401 message points at a header the API never reads</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Planning basis</h3>
+      <ul>
+        <li>Two formulas — sightseeing vs vacation — that set the whole plan&#x27;s centre of gravity</li>
+        <li>Two planning orders: lock irreversible transport and days first, then moveable attractions and meals</li>
+        <li>Modes and order only; no attraction shortlisting, no hour-level schedule</li>
+      </ul>
+    </section>
+    <section class="capability-block">
+      <h3>Boundaries</h3>
+      <ul>
+        <li>No scraping Dianping / Xiaohongshu: no public API, strict anti-bot</li>
+        <li>No key sharing, no captcha bypass</li>
+        <li>Data can be complete; the conclusion stays with the human</li>
+      </ul>
+    </section>
+        </section>
+
+        <section class="panel install-block">
+            <h2 id="install-title">给 AI 的安装指令</h2>
+            <p class="copy-hint">
+                <button type="button" class="copy-link" id="copy-btn">
+                    <span data-lang="zh">复制安装指令</span>
+                    <span data-lang="en" hidden>Copy the install prompt</span>
+                </button>
+                <span data-lang="zh">发给 AI。</span>
+                <span data-lang="en" hidden> and send it to your AI.</span>
+            </p>
+            <div id="install-zh" data-lang="zh">
+                <pre>请帮我安装 Victor42 的 国内旅行数据源 skill：
+1. 在终端运行：npx skills add greenzorro/victor42-skills --skill china-travel-data -g
+2. 若没有 Node，可改为下载 https://cloud.victor42.work/skills/china-travel-data.zip，解压到当前环境的 skills 目录（文件夹名 china-travel-data），确认其中存在 SKILL.md
+3. 完成后告诉我</pre>
+            </div>
+            <div id="install-en" data-lang="en" hidden>
+                <pre>Please install Victor42&#x27;s China Travel Data skill:
+1. Run in your terminal: npx skills add greenzorro/victor42-skills --skill china-travel-data -g
+2. If you don&#x27;t have Node, download https://cloud.victor42.work/skills/china-travel-data.zip, extract into your agent&#x27;s skills directory as china-travel-data, and confirm SKILL.md exists
+3. Tell me when it&#x27;s done</pre>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p id="footer-text"></p>
+        </footer>
+    </div>
+
+    <script src="../assets/shared.js?v=20260811"></script>
+    <script src="../assets/skill.js?v=20260811"></script>
+</body>
+</html>
