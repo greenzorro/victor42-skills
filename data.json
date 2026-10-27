@@ -495,19 +495,20 @@
           {
             "heading": "对话长什么样",
             "items": [
-              "你说：「冰箱里的菜总在坏，扔的时候还挺内疚」",
-              "侧边框架原位长出四层——",
-              "已确认现象：菜是周末一次买齐的，坏掉的多是叶菜",
-              "机制假设：采购按周、消耗按天，单位错配最先崩在最不耐放的菜上",
-              "跨层边：下班时间 → 一周做几次饭 → 一次买多少",
-              "待验证：那几天没做饭，是没时间，还是没心情",
-              "它只回一两句：「坏的多是叶菜，说明问题在采购节奏，不在记性。这周有几天是明确没时间做饭的？」",
+              "你说：「看到新闻说芯片出口又被限制，显卡跟着涨价，想搞懂这条链」",
+              "侧边框架原位长出骨架——",
+              "物理底座：先进制程要用极紫外光刻，光源、镜片、光刻胶的供应商就那么几家",
+              "产业层：设计 → 代工 → 封装 → 渠道，每一段的产能与库存周期都不一样",
+              "制度层：出口管制清单按算力密度划线，不按产品名",
+              "待验证：这轮涨价是产能不够，还是渠道惜售？看新旧卡是否同涨、交期是否同步拉长",
+              "它只回一两句：「新卡和旧卡是一起涨，还是只有新卡涨？只有新卡涨指向产能与清单，全都涨更像渠道在囤。」",
               "侧边那份文档你看得见：原生侧边栏、你指定的本地 Markdown，或云端一个未公开列出的 Gist"
             ]
           },
           {
             "heading": "什么时候值得开",
             "items": [
+              "要弄懂一个陌生领域或一件新事物，而不是查一条事实",
               "一件事反复想不透，需要被一层层问下去",
               "要跟 AI 多轮共建一个理解，而不是问一句拿一个答案",
               "想把过程中的假设、反例、已确认细节留下来",
@@ -535,19 +536,20 @@
           {
             "heading": "What a session looks like",
             "items": [
-              "You say: “Vegetables keep going bad in my fridge, and binning them feels awful.”",
-              "The side surface expands that node in place —",
-              "Confirmed: groceries are bought once a week, and the waste is mostly leafy greens",
-              "Mechanism hypothesis: shopping runs weekly, eating runs daily — the mismatch breaks first on whatever perishes fastest",
-              "Cross-layer edge: commute hours → how often you cook → how much you buy at once",
-              "Open question: on the days you didn't cook, was it no time or no appetite for it",
-              "It replies in one or two sentences: “It's mostly leafy greens, so this is buying rhythm, not memory. How many days this week did you genuinely have no time to cook?”",
+              "You say: “A headline says chip exports are restricted again and GPU prices are climbing — I want to understand the chain.”",
+              "The side surface grows its skeleton in place —",
+              "Physics: leading-edge nodes need EUV lithography, and the light sources, mirrors and photoresists come from a handful of suppliers",
+              "Industry: design → foundry → packaging → channel, each stage on its own capacity and inventory cycle",
+              "Rules: export lists draw the line by compute density, not by product name",
+              "Open question: is this rise capacity or channel hoarding? Compare whether old and new cards move together, and whether lead times stretch in step",
+              "It replies in one or two sentences: “Are old and new cards rising together, or only the new ones? Only the new ones point at capacity and the lists; everything rising looks more like hoarding.”",
               "You can watch that document: a native side panel, a local Markdown file you name, or one unlisted Gist in the cloud"
             ]
           },
           {
             "heading": "When it earns its place",
             "items": [
+              "You need to understand an unfamiliar field or a new thing, not look up one fact",
               "A question keeps resisting you and needs to be asked down, layer by layer",
               "You want to co-build an understanding over many turns, not collect one-shot answers",
               "You want the hypotheses, counterexamples and confirmed details to survive the conversation",
