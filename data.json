@@ -225,6 +225,113 @@
       "updated": "2026-10-16"
     },
     {
+      "slug": "china-travel-data",
+      "emoji": "🧭",
+      "name": {
+        "zh": "国内旅行数据源",
+        "en": "China Travel Data"
+      },
+      "summary": {
+        "zh": "四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。",
+        "en": "Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary."
+      },
+      "capabilities": {
+        "zh": [
+          {
+            "heading": "四个数据源",
+            "items": [
+              "高德 Web 服务：地址↔坐标、POI 检索、驾车/步行/公交路线、天气、地图瓦片",
+              "飞常准：计划航班、中转方案、机票价格，需 Key",
+              "携程 SSR：车次、历时、余票、票价，无需 Key",
+              "Open-Meteo：天气预报、城市地理编码、历史天气，无需 Key"
+            ]
+          },
+          {
+            "heading": "写进文档的坑",
+            "items": [
+              "地理编码只到城市/门牌级，景点坐标必须走 POI 检索",
+              "飞常准：航班用机场三字码，中转与价格用城市三字码",
+              "航班列表不按时刻排序，问「最早/末班」要自己排",
+              "401 报错会让你去加一个服务端根本不读的请求头"
+            ]
+          },
+          {
+            "heading": "规划地基",
+            "items": [
+              "游览与度假两套公式，决定整份计划的重心",
+              "两条规划顺序：先锁不可逆的交通与天数，再定可改的景点与餐厅",
+              "只到模式与顺序，不给景点筛选与小时级日程"
+            ]
+          },
+          {
+            "heading": "边界",
+            "items": [
+              "不抓大众点评 / 小红书：无公开 API，风控严格",
+              "不共享 Key、不绕过验证码",
+              "数据可以给全，结论由人下"
+            ]
+          }
+        ],
+        "en": [
+          {
+            "heading": "Four sources",
+            "items": [
+              "Amap: geocoding, POI search, driving/walking/transit routes, weather, map tiles",
+              "Variflight: schedules, transfers, fares — needs a key",
+              "Ctrip SSR: trains, duration, availability, fares — no key",
+              "Open-Meteo: forecast, city geocoding, historical weather — no key"
+            ]
+          },
+          {
+            "heading": "Pitfalls written down",
+            "items": [
+              "Geocoding stops at city/door level; POI coordinates need place/text",
+              "Variflight: airport codes for flights, city codes for transfers and fares",
+              "Flight lists are not time-sorted — sort before answering first/last",
+              "The 401 message points at a header the API never reads"
+            ]
+          },
+          {
+            "heading": "Planning basis",
+            "items": [
+              "Two formulas — sightseeing vs vacation — that set the whole plan's centre of gravity",
+              "Two planning orders: lock irreversible transport and days first, then moveable attractions and meals",
+              "Modes and order only; no attraction shortlisting, no hour-level schedule"
+            ]
+          },
+          {
+            "heading": "Boundaries",
+            "items": [
+              "No scraping Dianping / Xiaohongshu: no public API, strict anti-bot",
+              "No key sharing, no captcha bypass",
+              "Data can be complete; the conclusion stays with the human"
+            ]
+          }
+        ]
+      },
+      "triggers": {
+        "zh": [
+          "查航班",
+          "查火车票",
+          "查天气",
+          "景点坐标",
+          "驾车距离",
+          "旅行数据源"
+        ],
+        "en": [
+          "flight schedule",
+          "train tickets",
+          "weather forecast",
+          "POI coordinates",
+          "driving route",
+          "china travel data"
+        ]
+      },
+      "zipFile": "china-travel-data.zip",
+      "installDir": "china-travel-data",
+      "updated": "2026-10-27"
+    },
+    {
       "slug": "poem-six-lens",
       "emoji": "📜",
       "name": {
@@ -394,113 +501,6 @@
       "zipFile": "cognition-shaper.zip",
       "installDir": "cognition-shaper",
       "updated": "2026-08-18"
-    },
-    {
-      "slug": "china-travel-data",
-      "emoji": "🧭",
-      "name": {
-        "zh": "国内旅行数据源",
-        "en": "China Travel Data"
-      },
-      "summary": {
-        "zh": "四个国内旅行数据源的调用契约：高德、飞常准、携程火车、Open-Meteo。含编码规则、错误分层与实测坑，另附旅行的两种模式与规划顺序。只给数据与顺序，不排行程。",
-        "en": "Call contracts for four China travel data sources — Amap, Variflight, Ctrip trains, Open-Meteo — with code formats, error layers and verified pitfalls, plus two travel modes and the planning order. Data and order only, no itinerary."
-      },
-      "capabilities": {
-        "zh": [
-          {
-            "heading": "四个数据源",
-            "items": [
-              "高德 Web 服务：地址↔坐标、POI 检索、驾车/步行/公交路线、天气、地图瓦片",
-              "飞常准：计划航班、中转方案、机票价格，需 Key",
-              "携程 SSR：车次、历时、余票、票价，无需 Key",
-              "Open-Meteo：天气预报、城市地理编码、历史天气，无需 Key"
-            ]
-          },
-          {
-            "heading": "写进文档的坑",
-            "items": [
-              "地理编码只到城市/门牌级，景点坐标必须走 POI 检索",
-              "飞常准：航班用机场三字码，中转与价格用城市三字码",
-              "航班列表不按时刻排序，问「最早/末班」要自己排",
-              "401 报错会让你去加一个服务端根本不读的请求头"
-            ]
-          },
-          {
-            "heading": "规划地基",
-            "items": [
-              "游览与度假两套公式，决定整份计划的重心",
-              "两条规划顺序：先锁不可逆的交通与天数，再定可改的景点与餐厅",
-              "只到模式与顺序，不给景点筛选与小时级日程"
-            ]
-          },
-          {
-            "heading": "边界",
-            "items": [
-              "不抓大众点评 / 小红书：无公开 API，风控严格",
-              "不共享 Key、不绕过验证码",
-              "数据可以给全，结论由人下"
-            ]
-          }
-        ],
-        "en": [
-          {
-            "heading": "Four sources",
-            "items": [
-              "Amap: geocoding, POI search, driving/walking/transit routes, weather, map tiles",
-              "Variflight: schedules, transfers, fares — needs a key",
-              "Ctrip SSR: trains, duration, availability, fares — no key",
-              "Open-Meteo: forecast, city geocoding, historical weather — no key"
-            ]
-          },
-          {
-            "heading": "Pitfalls written down",
-            "items": [
-              "Geocoding stops at city/door level; POI coordinates need place/text",
-              "Variflight: airport codes for flights, city codes for transfers and fares",
-              "Flight lists are not time-sorted — sort before answering first/last",
-              "The 401 message points at a header the API never reads"
-            ]
-          },
-          {
-            "heading": "Planning basis",
-            "items": [
-              "Two formulas — sightseeing vs vacation — that set the whole plan's centre of gravity",
-              "Two planning orders: lock irreversible transport and days first, then moveable attractions and meals",
-              "Modes and order only; no attraction shortlisting, no hour-level schedule"
-            ]
-          },
-          {
-            "heading": "Boundaries",
-            "items": [
-              "No scraping Dianping / Xiaohongshu: no public API, strict anti-bot",
-              "No key sharing, no captcha bypass",
-              "Data can be complete; the conclusion stays with the human"
-            ]
-          }
-        ]
-      },
-      "triggers": {
-        "zh": [
-          "查航班",
-          "查火车票",
-          "查天气",
-          "景点坐标",
-          "驾车距离",
-          "旅行数据源"
-        ],
-        "en": [
-          "flight schedule",
-          "train tickets",
-          "weather forecast",
-          "POI coordinates",
-          "driving route",
-          "china travel data"
-        ]
-      },
-      "zipFile": "china-travel-data.zip",
-      "installDir": "china-travel-data",
-      "updated": "2026-10-27"
     }
   ]
 }
