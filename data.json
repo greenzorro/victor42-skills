@@ -276,8 +276,8 @@
         "en": "China Travel Data"
       },
       "summary": {
-        "zh": "当你要查航班、火车、天气或地点，它让 AI 给权威数据，不去网络上随便搜些残缺的过时数据来充数。",
-        "en": "When you need flights, trains, weather or places, it hands the agent authoritative data instead of whatever patchy, outdated scraps a web search turns up."
+        "zh": "当你要查航班、火车、大巴、景区门票或天气，它让 AI 给权威数据，不去网络上随便搜些残缺的过时数据来充数。",
+        "en": "When you need flights, trains, coaches, scenic-area tickets or weather, it hands the agent authoritative data instead of whatever patchy, outdated scraps a web search turns up."
       },
       "capabilities": {
         "zh": [
@@ -287,7 +287,9 @@
               "「明天杭州飞成都还有票吗，最早一班几点」→ 班次、时刻、票价区间",
               "「周六上海到南京的高铁，下午两点后还有座吗」→ 车次、历时、余票、票价",
               "「下周三丽江会下雨吗」「去年十月大理什么天气」→ 未来预报、历史同期",
-              "「西湖到灵隐寺多远，开车要多久」→ 坐标、周边地点、驾车/步行/公交路线"
+              "「西湖到灵隐寺多远，开车要多久」→ 坐标、周边地点、驾车/步行/公交路线",
+              "「明天昆明到大理还有大巴吗，几点发车」→ 班次、时刻、历时、票价、余票",
+              "「某景区门票多少钱，几点开门」→ 门票价、开放时间、建议游玩时长"
             ]
           },
           {
@@ -297,7 +299,8 @@
               "飞常准：航班计划、中转方案、票价",
               "携程：车次、历时、余票、票价",
               "Open-Meteo：天气预报、历史天气",
-              "高德与飞常准需要自备 Key（高德控制台申请，飞常准的申请指引随包附带）；携程与 Open-Meteo 开箱即用"
+              "同程：长途客运班次、景区门票与开放时间、低价机票探索",
+              "高德、飞常准、同程需要自备 Key（高德控制台申请；飞常准与同程的申领指引随包附带）；携程与 Open-Meteo 开箱即用"
             ]
           },
           {
@@ -305,13 +308,14 @@
             "items": [
               "不排行程：给数据与规划顺序，不给景点筛选与小时级日程",
               "不抓大众点评 / 小红书：无公开 API，风控严格",
-              "不给结论：数据可以给全，取舍由人定"
+              "不给结论：数据可以给全，取舍由人定",
+              "不调一键生成完整行程的打包接口：那会把该由你下的判断替你做完"
             ]
           },
           {
             "heading": "为什么答案靠得住",
             "items": [
-              "四类数据都附实测校验：景点坐标必须按地名检索，航班与中转要用不同的三字码，航班列表要自行按时刻排序，报错提示可能指向一个服务端根本不读的请求头",
+              "每个源都附实测校验：景点坐标必须按地名检索，航班与中转要用不同的三字码，航班列表要自行按时刻排序，报错提示可能指向一个服务端根本不读的请求头，客运接口的响应要连判两层状态码",
               "这些规则写在 skill 本体里，Agent 每次调用都照此执行"
             ]
           }
@@ -323,7 +327,9 @@
               "“Any seats on tomorrow's Hangzhou–Chengdu flight, and when is the first one?” → schedules, times, fare ranges",
               "“Shanghai–Nanjing high-speed trains on Saturday after 2pm — any seats?” → services, duration, availability, fares",
               "“Will it rain in Lijiang next Wednesday?” “What was Dali like last October?” → forecast, same period in past years",
-              "“How far is Lingyin Temple from West Lake, and how long by car?” → coordinates, nearby places, driving/walking/transit routes"
+              "“How far is Lingyin Temple from West Lake, and how long by car?” → coordinates, nearby places, driving/walking/transit routes",
+              "“Any coaches from Kunming to Dali tomorrow, and when do they leave?” → services, times, duration, fares, seats left",
+              "“How much is the ticket for a scenic area, and what time does it open?” → ticket price, opening hours, suggested visit length"
             ]
           },
           {
@@ -333,7 +339,8 @@
               "Variflight: flight schedules, transfers, fares",
               "Ctrip: services, duration, availability, fares",
               "Open-Meteo: forecast, historical weather",
-              "Amap and Variflight need your own key (Amap console; a Variflight application guide ships with the skill); Ctrip and Open-Meteo work as-is"
+              "Tongcheng: coach services, scenic-area tickets and opening hours, low-fare destination discovery",
+              "Amap, Variflight and Tongcheng need your own key (Amap console; application guides for the other two ship with the skill); Ctrip and Open-Meteo work as-is"
             ]
           },
           {
@@ -341,13 +348,14 @@
             "items": [
               "No itinerary: data and planning order only — no attraction shortlisting, no hour-level schedule",
               "No scraping Dianping / Xiaohongshu: no public API, strict anti-bot",
-              "No verdicts: data can be complete, the trade-offs stay with you"
+              "No verdicts: data can be complete, the trade-offs stay with you",
+              "No one-shot itinerary endpoints: those make the judgment calls that belong to you"
             ]
           },
           {
             "heading": "Why the answers hold up",
             "items": [
-              "All four sources ship verified rules: attraction coordinates need a place-name search, flights and transfers use different three-letter codes, flight lists must be sorted by time, and error text can point at a header the server never reads",
+              "Every source ships verified rules: attraction coordinates need a place-name search, flights and transfers use different three-letter codes, flight lists must be sorted by time, error text can point at a header the server never reads, and the coach API returns two nested status codes",
               "Those rules live in the skill itself, so the agent follows them on every call"
             ]
           }
@@ -358,6 +366,10 @@
           "查航班",
           "查火车票",
           "查天气",
+          "查大巴",
+          "长途汽车",
+          "景区门票",
+          "开放时间",
           "景点坐标",
           "驾车距离",
           "旅行数据源"
@@ -366,6 +378,10 @@
           "flight schedule",
           "train tickets",
           "weather forecast",
+          "coach schedule",
+          "bus tickets",
+          "scenic tickets",
+          "opening hours",
           "POI coordinates",
           "driving route",
           "china travel data"
@@ -373,7 +389,7 @@
       },
       "zipFile": "china-travel-data.zip",
       "installDir": "china-travel-data",
-      "updated": "2026-10-27"
+      "updated": "2026-11-14"
     },
     {
       "slug": "poem-six-lens",
