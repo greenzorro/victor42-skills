@@ -299,7 +299,7 @@
               "飞常准：航班计划、中转方案、票价",
               "携程：车次、历时、余票、票价",
               "Open-Meteo：天气预报、历史天气",
-              "同程：长途客运班次、景区门票与开放时间、低价机票探索",
+              "同程：长途客运班次、景区门票与开放时间、低价机票探索（非全量精选）",
               "高德、飞常准、同程需要自备 Key（高德控制台申请；飞常准与同程的申领指引随包附带）；携程与 Open-Meteo 开箱即用"
             ]
           },
@@ -316,6 +316,7 @@
             "heading": "为什么答案靠得住",
             "items": [
               "每个源都附实测校验：景点坐标必须按地名检索，航班与中转要用不同的三字码，航班列表要自行按时刻排序，报错提示可能指向一个服务端根本不读的请求头，客运接口的响应要连判两层状态码",
+              "同程的机票列表是精选推荐，会漏掉部分支线直飞；它的「无直飞」不能当航线不存在的证据",
               "这些规则写在 skill 本体里，Agent 每次调用都照此执行"
             ]
           }
@@ -339,7 +340,7 @@
               "Variflight: flight schedules, transfers, fares",
               "Ctrip: services, duration, availability, fares",
               "Open-Meteo: forecast, historical weather",
-              "Tongcheng: coach services, scenic-area tickets and opening hours, low-fare destination discovery",
+              "Tongcheng: coach services, scenic-area tickets and opening hours, low-fare destination discovery (curated, not exhaustive)",
               "Amap, Variflight and Tongcheng need your own key (Amap console; application guides for the other two ship with the skill); Ctrip and Open-Meteo work as-is"
             ]
           },
@@ -356,6 +357,7 @@
             "heading": "Why the answers hold up",
             "items": [
               "Every source ships verified rules: attraction coordinates need a place-name search, flights and transfers use different three-letter codes, flight lists must be sorted by time, error text can point at a header the server never reads, and the coach API returns two nested status codes",
+              "Tongcheng flight lists are curated and miss some regional direct routes, so its no-direct-flight answer is not proof a route does not exist",
               "Those rules live in the skill itself, so the agent follows them on every call"
             ]
           }
@@ -389,7 +391,7 @@
       },
       "zipFile": "china-travel-data.zip",
       "installDir": "china-travel-data",
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     {
       "slug": "poem-six-lens",

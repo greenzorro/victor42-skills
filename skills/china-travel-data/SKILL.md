@@ -27,7 +27,7 @@ description: Use when an agent needs live China travel data — geocoding, POI s
 | 飞常准 | 计划航班、航班号查询、中转方案、机票价格 | `X-VARIFLIGHT-KEY` 头 | `references/variflight.md` |
 | 携程 SSR | 车次、时刻、历时、余票、票价 | 无 | `references/ctrip-train.md` |
 | Open-Meteo | 天气预报、城市地理编码、历史天气、空气质量 | 无 | `references/open-meteo.md` |
-| 同程程心 | 长途客运班次与票价、景区门票与开放时间、低价目的地探索、酒旅初筛 | `Authorization: Bearer` + body `version` | `references/tongcheng.md` |
+| 同程程心 | 长途客运班次与票价、景区门票与开放时间、低价目的地探索（非全量）、酒旅初筛 | `Authorization: Bearer` + body `version` | `references/tongcheng.md` |
 
 另有两条：`references/planning-basis.md`（两种旅行模式、规划顺序、三条判断）、`references/variflight-key-provisioning.md`（额度耗尽后自助开通 Key）。
 
@@ -44,7 +44,7 @@ description: Use when an agent needs live China travel data — geocoding, POI s
 - 要高铁票 → 携程车次列表（飞常准 `trainStanTicket` 可作备选）
 - 要长途客运班次 → 同程 `/busResource`（国内唯一结构化公路客运接口）
 - 要景区门票价、开放时间、建议游玩时长 → 同程 `/sceneryResource`；当日是否临时闭园或限流，另向官方渠道确认
-- 只知道出发地、想找便宜去处 → 同程 `/flightResource` 只传 `departure` 加 `lowPrice: true`；拿到目的地后再回飞常准查时刻
+- 只知道出发地、想找便宜去处 → 同程 `/flightResource` 只传 `departure` 加 `lowPrice: true`；拿到目的地后再回飞常准查时刻。这列表是精选推荐而非全量，**不能拿它的「无直飞」或 0 条结果判定航线不存在**，也不能据此淘汰目的地
 - 要某地某几天的天气 → Open-Meteo：先 `geocoding-api` 拿坐标，再 `forecast`
 - 要把坐标画成可交互地图 → 高德瓦片（不吃配额），配你自己的前端
 
